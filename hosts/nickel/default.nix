@@ -251,9 +251,15 @@
 
   services.immich = {
     enable = true;
-    openFirewall = true;
     host = "0.0.0.0";
     port = 2283;
+  };
+
+  services.immich-public-proxy = {
+    enable = true;
+    openFirewall = true;
+    port = 2284;
+    immichUrl = "http://127.0.0.1:${toString config.services.immich.port}";
   };
 
   users.users.joonas.extraGroups = [

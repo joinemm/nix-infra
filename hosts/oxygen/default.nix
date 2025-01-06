@@ -300,6 +300,13 @@ in
         };
       } // ssl;
 
+      "photos.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://100.64.0.7:2284";
+          proxyWebsockets = true;
+        };
+      } // ssl;
+
       "dav.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:5232";
