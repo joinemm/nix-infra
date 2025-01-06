@@ -5,7 +5,7 @@ keys:
     - &cobalt age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
     - &carbon age1nw5jrnx75p2j5s3e6vx08gu8e24vm4w8llzyn7jt6qskzvkwu3zqlju3ad
     - &oxygen age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
-    - &hydrogen age1lckuq0rws9n3kw4yt4gx8c57jk9nfc86pypclapjgnxn89k5ce2qfygchg
+    - &misobot age1570r58zv42c0nhn8ngasysdlqexk9qgm50zzy6fgsvc3udpt05yskq4feu
     - &nickel age1kg6sf8x9vwu8nw3fx38z5swpy04k5mnt0nqm2t0wgqt6qjqpjd4qdmmhvk
 
 creation_rules:
@@ -21,12 +21,12 @@ creation_rules:
         - *joonas
         age:
         - *cobalt
-  - path_regex: hosts/hydrogen/secrets.yaml$
+  - path_regex: hosts/misobot/secrets.yaml$
     key_groups:
       - pgp:
         - *joonas
         age:
-        - *hydrogen
+        - *misobot
   - path_regex: hosts/carbon/secrets.yaml$
     key_groups:
       - pgp:

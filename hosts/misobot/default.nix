@@ -6,9 +6,6 @@
   config,
   ...
 }:
-let
-  domain = "monitoring.misobot.xyz";
-in
 {
   imports = lib.flatten [
     (with self.profiles; [
@@ -23,10 +20,11 @@ in
     ../../disko/hetzner-osdisk.nix
   ];
 
-  disko.devices.disk.sda.device = "/dev/disk/by-path/pci-0000:00:04.0-scsi-0:0:0:0";
+  disko.devices.disk.sda.device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_56638307";
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  networking.hostName = "hydrogen";
+  networking.hostName = "misobot-prod";
+  system.stateVersion = "24.11";
 
   environment.systemPackages = with pkgs; [ busybox ];
 
@@ -35,7 +33,7 @@ in
 
     settings = {
       server = {
-        http_port = 3000;
+        http_port = 3300;
         http_addr = "127.0.0.1";
       };
 
@@ -58,32 +56,28 @@ in
 
   services.prometheus = {
     enable = true;
-
     port = 9090;
     listenAddress = "0.0.0.0";
     webExternalUrl = "/prometheus/";
     checkConfig = true;
-
     globalConfig.scrape_interval = "15s";
 
     scrapeConfigs = [
       {
-        job_name = "miso";
+        job_name = "services";
         static_configs = [
           {
             targets = [
-              "api.misobot.xyz"
-              "api.misobot.xyz:9100"
+              "127.0.0.1:3000"
             ];
           }
         ];
       }
       {
-        job_name = "servers";
+        job_name = "hardware";
         static_configs = [
           {
             targets = [
-              "65.21.249.145:9100"
               "127.0.0.1:9100"
             ];
           }
@@ -92,8 +86,15 @@ in
     ];
   };
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
+
+  users.users.joonas.extraGroups = [ "docker" ];
+
   services.nginx.virtualHosts = {
-    "${domain}" = {
+    "monitoring.misobot.xyz" = {
       enableACME = true;
       forceSSL = true;
       locations."/prometheus/" = {
@@ -105,7 +106,25 @@ in
         proxyWebsockets = true;
       };
     };
-  };
 
-  system.stateVersion = "23.11";
+    "api.misobot.xyz" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3000"; # port mapped in docker-compose
+        # CORS
+        extraConfig = ''
+          add_header Access-Control-Allow-Origin "*";
+        '';
+      };
+    };
+
+    "url.misobot.xyz" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8080"; # port mapped in docker-compose
+      };
+    };
+  };
 }

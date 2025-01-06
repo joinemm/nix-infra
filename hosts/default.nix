@@ -34,9 +34,9 @@ in
       inherit specialArgs;
       modules = [ ./oxygen ];
     };
-    hydrogen = lib.nixosSystem {
+    misobot = lib.nixosSystem {
       inherit specialArgs;
-      modules = [ ./hydrogen ];
+      modules = [ ./misobot ];
     };
     zinc = lib.nixosSystem {
       inherit specialArgs;

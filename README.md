@@ -12,7 +12,7 @@ Shell scripts are built from the flake at <https://github.com/joinemm/bin>
 
 - `cobalt` - Desktop workstation/gaming pc
 - `carbon` - Thinkpad X1 Carbon gen11 (work laptop)
-- `hydrogen` - Hetzner box running grafana and prometheus for monitoring
+- `misobot` - Hetzner box running Miso Bot's production deployment
 - `oxygen` - Hetzner box acting as syncthing node and hosting web services
 - `zinc` - Raspberry Pi 4B, mainly used as a DNS server
 - `nickel` - Aoostar WTR PRO, my NAS and home server

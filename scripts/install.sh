@@ -22,6 +22,14 @@ for arg in "$@"; do
     esac
 done
 
+if [[ -z "$FLAKE" || -z "$HOST" ]]; then
+    echo "FLAKE and HOST not given!"
+    echo ""
+    echo "Usage:"
+    echo "  node-install .#flakeattr user@hostname [--secrets /path/to/yaml] [-v]"
+    exit 1
+fi
+
 echo "FLAKE      = $FLAKE"
 echo "HOST       = $HOST"
 echo "SECRETS    = $SECRETS"

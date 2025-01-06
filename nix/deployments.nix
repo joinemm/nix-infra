@@ -10,11 +10,11 @@ let
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.oxygen;
       };
     };
-    hydrogen = {
-      hostname = "65.108.222.239";
+    misobot = {
+      hostname = "5.161.235.21";
       profiles.system = {
         user = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.hydrogen;
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.misobot;
       };
     };
     nickel = {
