@@ -84,7 +84,7 @@ in
       gst_all_1.gst-vaapi
     ]
     ++ [
-      inputs.nix-gaming.packages.${pkgs.system}.wine-ge
+      inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
       game-wrapper
     ];
 }

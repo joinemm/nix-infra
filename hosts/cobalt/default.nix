@@ -13,7 +13,8 @@
     ])
     (with self.nixosModules; [
       desktop
-      virtualization
+      # https://github.com/NixOS/nixpkgs/pull/370304
+      # virtualization
       zfs
       airvpn
     ])

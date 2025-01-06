@@ -7,36 +7,40 @@
     profiles."default".isDefault = true;
   };
 
-  accounts.email.maildirBasePath = "mail";
+  accounts.email =
+    let
+      migadu = {
+        imap = {
+          host = "imap.migadu.com";
+          port = 993;
+        };
+        smtp = {
+          host = "smtp.migadu.com";
+          port = 465;
+        };
 
-  accounts.email.accounts = {
-    "mail@joinemm.dev" = {
-      primary = true;
-      thunderbird.enable = true;
-      realName = "Joinemm";
-      address = "mail@joinemm.dev";
-      userName = "mail@joinemm.dev";
-      signature.text = "Joinemm";
-
-      imap = {
-        host = "imap.migadu.com";
-        port = 993;
       };
-      smtp = {
-        host = "smtp.migadu.com";
-        port = 465;
-        tls.useStartTls = true;
+    in
+    {
+      maildirBasePath = "mail";
+      accounts = {
+
+        "joonas@rautiola.co" = {
+          realName = "Joonas Rautiola";
+          address = "joonas@rautiola.co";
+          userName = "joonas@rautiola.co";
+          signature.text = "Joonas";
+          thunderbird.enable = true;
+          primary = true;
+        } // migadu;
+
+        "mail@joinemm.dev" = {
+          realName = "Joinemm";
+          address = "mail@joinemm.dev";
+          userName = "mail@joinemm.dev";
+          signature.text = "Joinemm";
+          thunderbird.enable = true;
+        } // migadu;
       };
     };
-  };
-
-  accounts.calendar.accounts = {
-    "personal" = {
-      remote = {
-        type = "caldav";
-        url = "https://dav.joinemm.dev";
-        userName = "joonas";
-      };
-    };
-  };
 }

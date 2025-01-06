@@ -39,7 +39,7 @@
           power_cap: 220.0
           performance_level: auto
           max_core_clock: 2000
-          max_memory_clock: 900
-          max_voltage: 1100
+          max_memory_clock: 850
+          max_voltage: 1110
     '';
 }

@@ -27,10 +27,6 @@
           outputHash = "sha256-K+VHyBOZPWL5OhhcrqdUb2ieTICfS6kyBIC1L+AbMR0=";
         });
 
-        # Stop crashing when settings are read-only
-        # https://github.com/Vencord/Vesktop/issues/220
-        patches = (prev.patches or [ ]) ++ [ ./readonlyFix.patch ];
-
         # Patch the desktop file to use discord icon
         desktopItems = [
           (pkgs.makeDesktopItem {

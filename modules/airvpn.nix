@@ -6,6 +6,7 @@
   };
 
   networking.wg-quick.interfaces."airvpn" = {
+    autostart = false;
     address = [
       "10.138.209.189/32"
       "fd7d:76ee:e68f:a993:36:bd75:6ac8:7c65/128"
