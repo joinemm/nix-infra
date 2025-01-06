@@ -73,6 +73,9 @@
             "x-scheme-handler/magnet" = [ "transmission-magnet.desktop" ];
             "x-scheme-handler/prusaslicer" = [ "PrusaSlicerURLProtocol.desktop" ];
             "x-scheme-handler/nxm" = [ "modorganizer2-nxm-handler.desktop" ];
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [
+              "libreoffice-writer.desktop"
+            ];
           };
       in
       {

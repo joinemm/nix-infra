@@ -54,6 +54,7 @@
     krita
     kepubify
     vlc
+    libreoffice
 
     # cli apps
     glow # render markdown on the cli
