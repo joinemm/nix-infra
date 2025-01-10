@@ -276,6 +276,26 @@
     "dotnet-sdk-wrapped-6.0.428"
   ];
 
+  # rebrand jellyfin web client assets
+  nixpkgs.overlays = [
+    (_: prev: {
+      jellyfin-web =
+        let
+          assets = ./assets;
+          dest = "$out/share/jellyfin-web";
+        in
+        prev.jellyfin-web.overrideAttrs {
+          postInstall = ''
+            cp -f ${assets}/banner.png ${dest}/assets/img/banner-light.png
+            cp -f ${assets}/banner.png ${dest}/assets/img/banner-dark.png
+            cp -f ${assets}/icon.png ${dest}/assets/img/icon-transparent.png
+            cp -f ${assets}/icon.png ${dest}/favicon.png
+            cp -f ${assets}/favicon.ico ${dest}/favicon.ico
+          '';
+        };
+    })
+  ];
+
   # The *arr suite
   nixarr = {
     enable = true;
@@ -555,5 +575,6 @@
     intel-gpu-tools
     qbittorrent-nox
     recyclarr
+    lm_sensors
   ];
 }
