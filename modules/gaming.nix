@@ -49,6 +49,18 @@ in
 
     gamemode.enable = true;
     gamescope.enable = true;
+    # gamescope 3.16 is broken in X11
+    # https://github.com/ValveSoftware/gamescope/issues/1696#issuecomment-2571688418
+    gamescope.package = pkgs.gamescope.overrideAttrs (_: rec {
+      version = "3.15.15";
+      src = pkgs.fetchFromGitHub {
+        owner = "ValveSoftware";
+        repo = "gamescope";
+        rev = "refs/tags/${version}";
+        fetchSubmodules = true;
+        hash = "sha256-FiPSGzfA3YH9TED8E5hpfpd+IQGthvwsxAFXZuqVZ4Q=";
+      };
+    });
 
     # for minecraft
     java.enable = true;
