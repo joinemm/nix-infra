@@ -62,7 +62,7 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
     [ -- launch a terminal
       (mod, xK_Return) ~> spawn term,
       -- lock screen
-      (mod, xK_l) ~> spawn "xautolock -locknow",
+      (mod, xK_l) ~> spawn "xset s activate",
       -- launch browser
       (mod, xK_w) ~> spawn "$BROWSER",
       -- Color picker
