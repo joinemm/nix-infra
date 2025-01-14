@@ -23,13 +23,13 @@
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
-    ./disk-config.nix
     ./arr.nix
+    ./disk-config.nix
+    ./gatus.nix
     ./home-assistant.nix
+    ./homepage.nix
     ./nfs.nix
     ./nginx.nix
-    ./homepage.nix
-    ./gatus.nix
   ];
 
   networking.hostName = "nickel";
@@ -87,7 +87,10 @@
     settings.web.listen.port = 5500;
   };
 
-  services.immich.enable = true;
+  services.immich = {
+    enable = true;
+    host = "127.0.0.1";
+  };
 
   users.users."${user.name}".extraGroups = [ "immich" ];
 
