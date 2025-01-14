@@ -10,10 +10,10 @@
         FastConnectable = true;
       };
     };
-
-    # remember the bluetooth device profile when reconnecting
-    pulseaudio.extraConfig = ''
-      load-module module-card-restore restore_bluetooth_profile=true
-    '';
   };
+
+  # remember the bluetooth device profile when reconnecting
+  services.pulseaudio.extraConfig = ''
+    load-module module-card-restore restore_bluetooth_profile=true
+  '';
 }
