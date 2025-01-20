@@ -17,7 +17,6 @@
     };
   };
 
-  environment.etc."ppp/options".text = "ipcp-accept-remote";
   systemd.services.openfortivpn-office = {
     description = "Office VPN";
     after = [ "network.target" ];
