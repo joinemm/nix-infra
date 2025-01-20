@@ -73,6 +73,7 @@ in
         yubikey
         dev
         home
+        gc
       ];
     };
   };

@@ -25,6 +25,12 @@
     fzf.enable = true;
   };
 
+  nix.gc = {
+    automatic = true;
+    frequency = "weekly";
+    options = "--delete-older-than 14d";
+  };
+
   home.packages = with pkgs; [
     # development
     python3
