@@ -176,7 +176,6 @@ in
         base_domain = "tail.net";
         magic_dns = true;
         nameservers.global = [ "100.64.0.3" ];
-        use_username_in_magic_dns = false;
       };
       unix_socket_permission = "0770";
       disable_check_updates = true;
@@ -293,9 +292,18 @@ in
 
       "hetzner.joinemm.dev" = mkRedirect "https://hetzner.cloud/?ref=JkprBlQwg9Kp";
 
-      "jellyfin.joinemm.dev" = {
+      "stream.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://100.64.0.7:8096";
+          proxyWebsockets = true;
+        };
+      } // ssl;
+
+      "jellyfin.joinemm.dev" = mkRedirect "https://stream.joinemm.dev" // ssl;
+
+      "request.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://100.64.0.7:5055";
           proxyWebsockets = true;
         };
       } // ssl;

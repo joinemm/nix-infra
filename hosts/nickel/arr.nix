@@ -88,6 +88,7 @@
     radarr.enable = true; # 7878
     sonarr.enable = true; # 8989
     bazarr.enable = true; # 6767
+    jellyseerr.enable = true; # 5055
   };
 
   users.groups = {
