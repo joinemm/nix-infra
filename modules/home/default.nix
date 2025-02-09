@@ -34,7 +34,6 @@ let
         ./rofi.nix
         ./ssh-personal.nix
         ./ssh-work.nix
-        ./starship.nix
         ./wezterm.nix
         ./xdg.nix
         ./xinitrc.nix
@@ -65,6 +64,8 @@ in
         (lib.attrValues homeModules)
       ];
     };
+    useGlobalPkgs = true;
+    useUserPackages = true;
   };
 
   networking.firewall = rec {

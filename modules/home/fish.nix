@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   programs.fish = {
     enable = true;
@@ -27,18 +28,39 @@
 
     shellInit = # fish
       ''
-        set fish_greeting
-
         # Start X at login
         if status is-login
             if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
                 exec startx -- -keeptty
             end
         end
+      '';
 
-        function starship_transient_rprompt_func
-          starship module time
+    interactiveShellInit = # fish
+      ''
+        if not set -q fish_configured
+          set -U fish_greeting
+          tide configure --auto \
+            --style=Lean \
+            --prompt_colors='16 colors' \
+            --show_time=No \
+            --lean_prompt_height='Two lines' \
+            --show_time='24-hour format' \
+            --prompt_connection=Dotted \
+            --prompt_spacing=Compact \
+            --icons='Few icons' \
+            --transient=Yes
+
+          tide reload
+          set -U fish_configured
         end
       '';
+
+    plugins = [
+      {
+        name = "tide";
+        src = pkgs.fishPlugins.tide.src;
+      }
+    ];
   };
 }
