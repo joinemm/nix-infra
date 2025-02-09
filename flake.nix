@@ -57,6 +57,7 @@
       url = "github:joinemm/bin";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
       };
     };
 
@@ -64,8 +65,7 @@
       url = "github:fufexan/nix-gaming";
       inputs = {
         flake-parts.follows = "flake-parts";
-        # left out on purpose to avoid rebuilding wine-ge
-        # nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs";
       };
     };
 
@@ -112,6 +112,7 @@
       url = "github:kaylorben/nixcord";
       inputs = {
         flake-compat.follows = "";
+        treefmt-nix.follows = "";
         nixpkgs.follows = "nixpkgs";
       };
     };
@@ -120,6 +121,7 @@
       url = "github:rasmus-kirk/nixarr";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        website-builder.follows = "";
       };
     };
   };
