@@ -17,6 +17,7 @@
       nginx
     ])
     inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
     ../../disko/hetzner-osdisk.nix
   ];
 
@@ -26,7 +27,14 @@
   networking.hostName = "misobot-prod";
   system.stateVersion = "24.11";
 
-  environment.systemPackages = with pkgs; [ busybox ];
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      # github oauth app credentials
+      github_client_id.owner = "grafana";
+      github_client_secret.owner = "grafana";
+    };
+  };
 
   services.grafana = {
     enable = true;
@@ -35,6 +43,9 @@
       server = {
         http_port = 3300;
         http_addr = "127.0.0.1";
+        domain = "monitoring.misobot.xyz";
+        enforce_domain = true;
+        root_url = "https://%(domain)s/";
       };
 
       # disable telemetry
@@ -42,6 +53,18 @@
         reporting_enabled = false;
         feedback_links_enabled = false;
       };
+
+      # github OIDC
+      "auth.github" = {
+        enabled = true;
+        client_id = "$__file{${config.sops.secrets.github_client_id.path}}";
+        client_secret = "$__file{${config.sops.secrets.github_client_secret.path}}";
+        allowed_organizations = [ "miso-bot" ];
+        allow_assign_grafana_admin = true;
+        role_attribute_path = "login == joinemm && 'GrafanaAdmin'";
+      };
+
+      auth.disable_login_form = true;
     };
 
     provision.datasources.settings.datasources = [
@@ -92,6 +115,8 @@
   };
 
   users.users.joonas.extraGroups = [ "docker" ];
+
+  environment.systemPackages = with pkgs; [ busybox ];
 
   services.nginx.virtualHosts = {
     "monitoring.misobot.xyz" = {
