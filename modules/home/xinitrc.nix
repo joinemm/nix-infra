@@ -9,7 +9,7 @@
     enable = true;
     initExtra = # bash
       ''
-        [[ -f ~/.fehbg ]] && ~/.fehbg
+        [[ -f ~/.wallpaper ]] && ${pkgs.feh}/bin/feh --bg-fill --no-fehbg ~/.wallpaper
         xset s 900 900
         xset r rate 250 30
         export LS_COLORS="$(${pkgs.vivid}/bin/vivid generate dracula)"
