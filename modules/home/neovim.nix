@@ -12,6 +12,8 @@
     viAlias = true;
     vimAlias = true;
 
+    nixpkgs.config.allowUnfree = true;
+
     extraPackages = with pkgs; [
       glslls
       nixfmt-rfc-style
