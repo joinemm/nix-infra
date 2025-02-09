@@ -2,7 +2,6 @@
 {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
-  nixpkgs.config.allowUnfree = true;
   systemd.user.startServices = "sd-switch";
 
   imports = [ inputs.nix-index-database.hmModules.nix-index ];
@@ -30,6 +29,8 @@
     frequency = "weekly";
     options = "--delete-older-than 14d";
   };
+
+  services.udiskie.enable = true;
 
   home.packages = with pkgs; [
     # development

@@ -38,4 +38,6 @@
   services.gnome.gnome-keyring.enable = true;
 
   programs.dconf.enable = true;
+
+  services.udisks2.enable = true;
 }
