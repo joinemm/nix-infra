@@ -106,11 +106,29 @@
     group = "media";
   };
 
+  networking.firewall = {
+    allowedTCPPorts = [ 9999 ];
+    allowedUDPPorts = [ 9999 ];
+  };
+
+  systemd.services."rclone-webdav" = {
+    after = [ "network.target" ];
+    unitConfig = {
+      RequiresMountsFor = "/data";
+    };
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = 5;
+      ExecStart = "${lib.getExe pkgs.rclone} serve webdav /data/share/ --addr 0.0.0.0:9999";
+    };
+  };
+
   # init home-manager
   home-manager.users.${user.name}.home.stateVersion = config.system.stateVersion;
 
   environment.systemPackages = with pkgs; [
     mergerfs
     lm_sensors
+    rclone
   ];
 }
