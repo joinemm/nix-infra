@@ -64,6 +64,7 @@ in
     in
     {
       enable = true;
+      package = pkgs.your_spotify.overrideAttrs { dontCheckForBrokenSymlinks = true; };
       settings = {
         PORT = 8081;
         SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
