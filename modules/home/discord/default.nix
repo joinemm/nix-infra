@@ -19,13 +19,15 @@
         src = pkgs.fetchFromGitHub {
           owner = "PolisanTheEasyNick";
           repo = "Vesktop";
-          rev = "1416750634643ae42c01cd76b081f48e3b5f1126";
-          hash = "sha256-VTnlVdgpY/ZmpboEMb5Wp0SbMJ+2KyDLrJSpUhaIfPA=";
+          rev = "b727a1cf8c2086cf4987455aa9c631dbceb8fb78";
+          hash = "sha256-LLJQwRM/tUAtu0v1Zo2MGNtAPEXapb40iPIooVX++Pc=";
         };
 
         pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
-          outputHash = "sha256-K+VHyBOZPWL5OhhcrqdUb2ieTICfS6kyBIC1L+AbMR0=";
+          outputHash = "sha256-qVQbuXwZa1Lq8bHx5C3SmOV3EUbsQ3j9GrUWDwJafcE=";
         });
+
+        patches = prev.patches ++ [ ./readonly-fix.patch ];
 
         # Patch the desktop file to use discord icon
         desktopItems = [

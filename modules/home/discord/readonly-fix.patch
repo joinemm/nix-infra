@@ -1,0 +1,13 @@
+diff --git a/src/main/utils/vencordLoader.ts b/src/main/utils/vencordLoader.ts
+index 85b6112..ca55ff7 100644
+--- a/src/main/utils/vencordLoader.ts
++++ b/src/main/utils/vencordLoader.ts
+@@ -72,5 +72,7 @@ export async function ensureVencordFiles() {
+ 
+     mkdirSync(VENCORD_FILES_DIR, { recursive: true });
+ 
+-    await Promise.all([downloadVencordFiles(), writeFile(join(VENCORD_FILES_DIR, "package.json"), "{}")]);
++    try {
++      await Promise.all([downloadVencordFiles(), writeFile(join(VENCORD_FILES_DIR, "package.json"), "{}")]);
++    } catch {}
+ }
