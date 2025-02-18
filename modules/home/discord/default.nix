@@ -87,7 +87,7 @@
   # https://github.com/KaylorBen/nixcord/issues/18
   xdg.configFile."vesktop/settings.json".text = builtins.toJSON {
     minimizeToTray = "on";
-    discordBranch = "canary";
+    discordBranch = "stable";
     arRPC = "on";
     splashColor = "rgb(196, 201, 212)";
     splashBackground = "rgb(22, 24, 29)";
