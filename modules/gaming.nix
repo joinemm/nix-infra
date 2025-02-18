@@ -26,7 +26,6 @@ let
       --force-grab-cursor \
       -- \
       env LD_PRELOAD=$LD_PRELOAD_SAVED \
-      obs-gamecapture \
       "$@"
   '';
 in
@@ -44,7 +43,7 @@ in
     steam = {
       enable = true;
       platformOptimizations.enable = true;
-      extraCompatPackages = with pkgs; [ proton-ge-bin ];
+      extraCompatPackages = [ inputs.nix-gaming.packages.${pkgs.system}.wine-tkg ];
     };
 
     gamemode.enable = true;
@@ -96,7 +95,6 @@ in
       gst_all_1.gst-vaapi
     ]
     ++ [
-      inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
       game-wrapper
     ];
 }
