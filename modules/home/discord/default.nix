@@ -68,17 +68,26 @@
     };
 
     config.useQuickCss = true;
-    quickCss = ''
-      @import url('https://refact0r.github.io/midnight-discord/midnight.css');
+    quickCss = # css
+      ''
+        @import url('https://refact0r.github.io/midnight-discord/midnight.css');
 
-      :root {
-        --font: 'ggsans';
-        --text-2: hsl(220, 30%, 80%); /* headings and important text */
-        --text-3: hsl(220, 15%, 80%); /* normal text */
-        --text-4: hsl(220, 15%, 50%); /* icon buttons and channels */
-        --text-5: hsl(220, 15%, 25%); /* muted channels/chats and timestamps */
-      }
-    '';
+        :root {
+          --font: 'ggsans';
+          --text-2: hsl(220, 30%, 80%); /* headings and important text */
+          --text-3: hsl(220, 15%, 80%); /* normal text */
+          --text-4: hsl(220, 15%, 50%); /* icon buttons and channels */
+          --text-5: hsl(220, 15%, 25%); /* muted channels/chats and timestamps */
+        }
+
+        button[aria-label="Send a gift"] {
+          display: none;
+        }
+
+        button[aria-label="Add Emoji Confetti"] {
+          display: none;
+        }
+      '';
   };
 
   # Replace ugly vencord tray icon with default discord icon
