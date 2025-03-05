@@ -43,7 +43,7 @@ in
     steam = {
       enable = true;
       platformOptimizations.enable = true;
-      extraCompatPackages = [ inputs.nix-gaming.packages.${pkgs.system}.wine-tkg ];
+      extraCompatPackages = [ pkgs.proton-ge-bin ];
     };
 
     gamemode.enable = true;
@@ -93,6 +93,7 @@ in
       gst_all_1.gstreamer
       gst_all_1.gst-libav
       gst_all_1.gst-vaapi
+      inputs.nix-gaming.packages.${pkgs.system}.wine-ge
     ]
     ++ [
       game-wrapper
