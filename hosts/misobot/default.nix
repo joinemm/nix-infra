@@ -4,8 +4,15 @@
   self,
   pkgs,
   config,
+  user,
   ...
 }:
+let
+  ports = {
+    api = 3000;
+    shlink = 8080;
+  };
+in
 {
   imports = lib.flatten [
     (with self.profiles; [
@@ -33,6 +40,7 @@
       # github oauth app credentials
       github_client_id.owner = "grafana";
       github_client_secret.owner = "grafana";
+      gatus_env.owner = "gatus";
     };
   };
 
@@ -91,7 +99,7 @@
         static_configs = [
           {
             targets = [
-              "127.0.0.1:3000"
+              "127.0.0.1:${toString ports.api}"
             ];
           }
         ];
@@ -101,7 +109,7 @@
         static_configs = [
           {
             targets = [
-              "127.0.0.1:9100"
+              "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
             ];
           }
         ];
@@ -109,47 +117,129 @@
     ];
   };
 
+  users.groups.gatus = { };
+  users.users.gatus = {
+    isSystemUser = true;
+    group = "gatus";
+  };
+  services.gatus = {
+    enable = true;
+    environmentFile = config.sops.secrets.gatus_env.path;
+    settings = {
+      web.port = 4000;
+      connectivity.checker = {
+        target = "1.1.1.1:53";
+        interval = "60s";
+      };
+      ui = {
+        title = "Status | Miso Bot";
+        description = "Status of Miso Bot services";
+        header = "Miso Bot services";
+        logo = "https://cdn.discordapp.com/avatars/500385855072894982/6364f6344f1c0eba50c6f699634407ca.webp?size=512";
+        buttons = [
+          {
+            name = "Check Discord API status by clicking here";
+            link = "https://discordstatus.com";
+          }
+        ];
+      };
+      endpoints = [
+        {
+          name = "Internal API";
+          url = "http://127.0.0.1:${toString ports.api}/ping";
+          conditions = [
+            "[STATUS] == 200"
+            "[RESPONSE_TIME] < 100"
+          ];
+          alerts = [
+            {
+              type = "discord";
+              send-on-resolved = true;
+            }
+          ];
+        }
+        {
+          name = "External API";
+          url = "https://api.misobot.xyz/ping";
+          conditions = [
+            "[STATUS] == 200"
+            "[RESPONSE_TIME] < 500"
+          ];
+          alerts = [
+            {
+              type = "discord";
+              send-on-resolved = true;
+            }
+          ];
+        }
+        {
+          name = "misobot.xyz";
+          url = "https://misobot.xyz";
+          conditions = [
+            "[STATUS] == 200"
+            "[RESPONSE_TIME] < 500"
+          ];
+          alerts = [
+            {
+              type = "discord";
+              send-on-resolved = true;
+            }
+          ];
+        }
+      ];
+      alerting.discord = {
+        webhook-url = "\${DISCORD_WEBHOOK_URL}";
+      };
+    };
+  };
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
   };
 
-  users.users.joonas.extraGroups = [ "docker" ];
+  users.users.${user.name}.extraGroups = [ "docker" ];
 
   environment.systemPackages = with pkgs; [ busybox ];
 
-  services.nginx.virtualHosts = {
-    "monitoring.misobot.xyz" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/prometheus/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.prometheus.port}";
+  services.nginx.virtualHosts =
+    let
+      ssl = {
+        enableACME = true;
+        forceSSL = true;
+      };
+    in
+    {
+      "monitoring.misobot.xyz" = ssl // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
+          proxyWebsockets = true;
+        };
+
+        locations."/prometheus/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.prometheus.port}";
+        };
       };
 
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
-        proxyWebsockets = true;
+      "api.misobot.xyz" = ssl // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString ports.api}";
+          extraConfig = ''
+            add_header Access-Control-Allow-Origin "*";
+          '';
+        };
       };
-    };
 
-    "api.misobot.xyz" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3000"; # port mapped in docker-compose
-        # CORS
-        extraConfig = ''
-          add_header Access-Control-Allow-Origin "*";
-        '';
+      "url.misobot.xyz" = ssl // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString ports.shlink}";
+        };
       };
-    };
 
-    "url.misobot.xyz" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8080"; # port mapped in docker-compose
+      "status.misobot.xyz" = ssl // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.gatus.settings.web.port}";
+        };
       };
     };
-  };
 }
