@@ -361,6 +361,7 @@
           ruff.enable = true;
           gopls.enable = true;
           zls.enable = true;
+          astro.enable = true;
         };
       };
     };
