@@ -149,7 +149,6 @@ in
           url = "http://127.0.0.1:${toString ports.api}/ping";
           conditions = [
             "[STATUS] == 200"
-            "[RESPONSE_TIME] < 100"
           ];
           alerts = [
             {
@@ -163,7 +162,6 @@ in
           url = "https://api.misobot.xyz/ping";
           conditions = [
             "[STATUS] == 200"
-            "[RESPONSE_TIME] < 500"
           ];
           alerts = [
             {
@@ -177,7 +175,6 @@ in
           url = "https://misobot.xyz";
           conditions = [
             "[STATUS] == 200"
-            "[RESPONSE_TIME] < 500"
           ];
           alerts = [
             {
