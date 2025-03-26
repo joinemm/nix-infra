@@ -113,5 +113,9 @@
       usbutils
       dig
     ];
+
+    variables = {
+      DO_NOT_TRACK = 1;
+    };
   };
 }
