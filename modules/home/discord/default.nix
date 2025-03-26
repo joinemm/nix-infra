@@ -70,16 +70,6 @@
     config.useQuickCss = true;
     quickCss = # css
       ''
-        @import url('https://refact0r.github.io/midnight-discord/midnight.css');
-
-        :root {
-          --font: 'ggsans';
-          --text-2: hsl(220, 30%, 80%); /* headings and important text */
-          --text-3: hsl(220, 15%, 80%); /* normal text */
-          --text-4: hsl(220, 15%, 50%); /* icon buttons and channels */
-          --text-5: hsl(220, 15%, 25%); /* muted channels/chats and timestamps */
-        }
-
         button[aria-label="Send a gift"] {
           display: none;
         }
@@ -87,10 +77,27 @@
         button[aria-label="Add Emoji Confetti"] {
           display: none;
         }
+
+        .visual-refresh .channelAppLauncher_e6e74f {
+          display: none;
+        }
+
+        .buttons__74017 .lottieIcon__5eb9b {
+          width: 26px !important;
+          height: 26px !important;
+        }
+
+        .spriteContainer__04eed {
+          --custom-emoji-sprite-size: 26px !important;
+        }
+
+        .visual-refresh .panels_c48ade {
+          bottom: 20px;
+        }
       '';
   };
 
-  # Replace ugly vencord tray icon with default discord icon
+  # Replace vencord tray icon with the default discord icon
   xdg.configFile."vesktop/TrayIcons/icon_custom.png".source = ./tray-icon.png;
 
   # https://github.com/KaylorBen/nixcord/issues/18
