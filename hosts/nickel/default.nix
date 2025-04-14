@@ -131,4 +131,10 @@
     lm_sensors
     rclone
   ];
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+    autoPrune.enable = true;
+  };
 }
