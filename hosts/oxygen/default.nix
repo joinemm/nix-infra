@@ -201,6 +201,31 @@ in
         filesystem_folder = "/var/lib/radicale/collections";
       };
     };
+    rights = {
+      root = {
+        user = ".+";
+        collection = "";
+        permissions = "R";
+      };
+
+      principal = {
+        user = ".+";
+        collection = "{user}";
+        permissions = "RW";
+      };
+
+      calendars = {
+        user = ".+";
+        collection = "{user}/[^/]+";
+        permissions = "rw";
+      };
+
+      public = {
+        user = ".*";
+        collection = "public/[^/]+";
+        permissions = "r";
+      };
+    };
   };
 
   services.nginx.virtualHosts =
