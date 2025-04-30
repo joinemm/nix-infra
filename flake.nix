@@ -1,6 +1,5 @@
 {
-  description = "The strength of an empire is in its cities, 
-                 for they are the pillars that uphold its greatness.";
+  description = "Joinemm's Nix Flake";
 
   nixConfig = {
     extra-substituters = [
@@ -15,6 +14,9 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # for vesktop with pnpm-9
+    nixpkgs-old.url = "github:NixOS/nixpkgs/c88d1114ed1344d10e21597a8f15d656fda6663a";
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -39,12 +41,6 @@
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
         nuschtosSearch.follows = "";
-        devshell.follows = "";
-        flake-compat.follows = "";
-        git-hooks.follows = "";
-        home-manager.follows = "";
-        nix-darwin.follows = "";
-        treefmt-nix.follows = "";
       };
     };
 

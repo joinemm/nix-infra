@@ -3,8 +3,11 @@
   inputs,
   ...
 }:
+let
+  oldPkgs = import inputs.nixpkgs-old { inherit (pkgs) system; };
+in
 {
-  imports = [ inputs.nixcord.homeManagerModules.nixcord ];
+  imports = [ inputs.nixcord.homeModules.nixcord ];
 
   programs.nixcord = {
     enable = true;
@@ -15,16 +18,16 @@
 
       # Use vencord fork with customizable tray icon
       # https://github.com/Vencord/Vesktop/pull/517
-      package = pkgs.vesktop.overrideAttrs (prev: {
+      package = oldPkgs.vesktop.overrideAttrs (prev: {
         src = pkgs.fetchFromGitHub {
           owner = "PolisanTheEasyNick";
           repo = "Vesktop";
-          rev = "b727a1cf8c2086cf4987455aa9c631dbceb8fb78";
-          hash = "sha256-LLJQwRM/tUAtu0v1Zo2MGNtAPEXapb40iPIooVX++Pc=";
+          rev = "d15387257ce0c88ec848c8415f44b460d5590f9a";
+          hash = "sha256-JowtPaz2kLjfv8ETgrrjiwn44T2WVPucrR1OoXV/cME=";
         };
 
         pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
-          outputHash = "sha256-qVQbuXwZa1Lq8bHx5C3SmOV3EUbsQ3j9GrUWDwJafcE=";
+          outputHash = "sha256-CHAA3RldLe1jte/701ckNELeiA4O1y2X3uMOhhuv7cc=";
         });
 
         patches = prev.patches ++ [ ./readonly-fix.patch ];

@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_11;
-    zfs.package = pkgs.zfsUnstable;
+    kernelPackages = pkgs.linuxPackages_6_13;
+    zfs.package = pkgs.zfs_unstable;
   };
 
   # zfs doesn't support Hibernation

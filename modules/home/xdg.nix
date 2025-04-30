@@ -44,7 +44,7 @@
           let
             file-manager = "pcmanfm.desktop";
             editor = "nvim.desktop";
-            browser = "zen.desktop";
+            browser = "zen-beta.desktop";
             video-player = "mpv.desktop";
             image-viewer = "imv-dir.desktop";
           in
