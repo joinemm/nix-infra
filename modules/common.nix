@@ -59,7 +59,8 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+    registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
+    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
 
     package = pkgs.nixVersions.latest;
 
