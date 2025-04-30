@@ -7,11 +7,9 @@
 let
   # Usage in steam launch options: game-wrapper %command%
   game-wrapper = pkgs.writeShellScriptBin "game-wrapper" ''
-    export OBS_VKCAPTURE=1
-
     # Force the use of RADV driver. gamescope refuses to start without this (at least on my system).
-    export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
-    export VK_ICD_FILENAMES="/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json"
+    # export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
+    # export VK_ICD_FILENAMES="/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json"
 
     # save LD_PRELOAD value.
     # It is set to empty for gamescope, but reset back to it's original value for the game process.
@@ -34,11 +32,6 @@ in
     inputs.nix-gaming.nixosModules.platformOptimizations
   ];
 
-  boot.kernelParams = [
-    # may improve performance in some badly optimised games
-    "split_lock_detect=off"
-  ];
-
   programs = {
     steam = {
       enable = true;
@@ -46,20 +39,27 @@ in
       extraCompatPackages = [ pkgs.proton-ge-bin ];
     };
 
-    gamemode.enable = true;
-    gamescope.enable = true;
-    # gamescope 3.16 is broken in X11
-    # https://github.com/ValveSoftware/gamescope/issues/1696#issuecomment-2571688418
-    gamescope.package = pkgs.gamescope.overrideAttrs (_: rec {
-      version = "3.15.15";
-      src = pkgs.fetchFromGitHub {
-        owner = "ValveSoftware";
-        repo = "gamescope";
-        rev = "refs/tags/${version}";
-        fetchSubmodules = true;
-        hash = "sha256-FiPSGzfA3YH9TED8E5hpfpd+IQGthvwsxAFXZuqVZ4Q=";
+    gamemode = {
+      enable = true;
+      enableRenice = true;
+      settings = {
+        general = {
+          reaper_freq = 5;
+          desiredgov = "performance";
+          renice = 10;
+          ioprio = 0;
+          inhibit_screensaver = 0;
+          disable_splitlock = 1;
+        };
+        gpu = {
+          apply_gpu_optimisations = "accept-responsibility";
+          gpu_device = 1;
+          amd_performance_level = "high";
+        };
       };
-    });
+    };
+
+    gamescope.enable = true;
 
     # for minecraft
     java.enable = true;
