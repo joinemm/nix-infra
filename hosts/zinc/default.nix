@@ -20,10 +20,13 @@
     (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
     ./sdcard.nix
     ./rpi-exporter.nix
-    ./unifi.nix
     ./blocky.nix
     ./monitoring.nix
   ];
+
+  nixpkgs.hostPlatform = "aarch64-linux";
+  networking.hostName = "zinc";
+  system.stateVersion = "24.05";
 
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
 
@@ -36,8 +39,6 @@
       filter = "*rpi-4-*.dtb";
     };
   };
-
-  # networking.networkmanager.enable = true;
 
   # postgresql is running on unix socket at /run/postgresql
   # only local connections are allowed
@@ -73,9 +74,6 @@
     useRoutingFeatures = "server";
   };
 
-  nixpkgs.hostPlatform = "aarch64-linux";
-  networking.hostName = "zinc";
-  system.stateVersion = "24.05";
   console.enable = false;
 
   users.users.${user.name}.extraGroups = [

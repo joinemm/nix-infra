@@ -30,6 +30,7 @@
     ./homepage.nix
     ./nfs.nix
     ./nginx.nix
+    ./unifi.nix
   ];
 
   networking.hostName = "nickel";
@@ -121,6 +122,13 @@
       RestartSec = 5;
       ExecStart = "${lib.getExe pkgs.rclone} serve webdav /data/share/ --addr 0.0.0.0:9999";
     };
+  };
+
+  services.unifi = {
+    enable = true;
+    unifiPackage = pkgs.unifi8;
+    mongodbPackage = pkgs.mongodb-6_0;
+    openFirewall = true;
   };
 
   # init home-manager

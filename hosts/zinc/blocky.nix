@@ -40,7 +40,7 @@
       customDNS = {
         mapping = {
           # access point pings this domain
-          unifi = "192.168.1.3";
+          unifi = "192.168.1.4";
 
           # home network
           "router.lan" = "192.168.1.1";
@@ -92,7 +92,6 @@
           default = [
             "ads"
             "security"
-            "porn"
           ];
         };
 
@@ -102,7 +101,6 @@
             "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/tif.medium.txt"
             "https://blocklistproject.github.io/Lists/smart-tv.txt"
           ];
-          porn = [ "https://blocklistproject.github.io/Lists/porn.txt" ];
         };
 
         allowlists = {

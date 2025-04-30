@@ -75,6 +75,12 @@
           proxyWebsockets = true;
         };
       };
+      "unifi.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "https://localhost:8443";
+          proxyWebsockets = true;
+        };
+      };
       "audio.${labDomain}" = labCert // {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";
