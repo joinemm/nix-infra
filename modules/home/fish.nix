@@ -56,11 +56,15 @@
         end
       '';
 
-    plugins = [
-      {
-        name = "tide";
-        inherit (pkgs.fishPlugins.tide) src;
-      }
-    ];
+    plugins =
+      map
+        (name: {
+          inherit name;
+          inherit (pkgs.fishPlugins.${name}) src;
+        })
+        [
+          "tide"
+          "bass"
+        ];
   };
 }
