@@ -30,7 +30,6 @@
     ./homepage.nix
     ./nfs.nix
     ./nginx.nix
-    ./unifi.nix
   ];
 
   networking.hostName = "nickel";
