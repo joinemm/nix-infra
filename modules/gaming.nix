@@ -94,6 +94,7 @@ in
       gst_all_1.gst-libav
       gst_all_1.gst-vaapi
       inputs.nix-gaming.packages.${pkgs.system}.wine-ge
+      bottles
     ]
     ++ [
       game-wrapper
