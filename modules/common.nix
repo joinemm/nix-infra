@@ -1,4 +1,5 @@
 {
+  self,
   pkgs,
   user,
   lib,
@@ -57,6 +58,10 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  # revision of the flake the configuration was built from.
+  # $ nixos-version --configuration-revision
+  system.configurationRevision = if (self ? rev) then self.rev else self.dirtyRev;
 
   nix = {
     registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
