@@ -13,13 +13,12 @@
     ])
     (with self.nixosModules; [
       desktop
-      # https://github.com/NixOS/nixpkgs/pull/370304
-      # virtualization
       zfs
       airvpn
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
+      common-cpu-amd-pstate
       common-pc-ssd
       common-pc
     ])
@@ -49,6 +48,15 @@
       "noauto"
       "users"
     ];
+  };
+
+  services.power-profiles-daemon.enable = true;
+  services.auto-epp = {
+    enable = true;
+    settings.Settings = {
+      epp_state_for_AC = "performance";
+      epp_state_for_BAT = "power";
+    };
   };
 
   # Sample rates for Topping D10 USB DAC
