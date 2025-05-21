@@ -89,6 +89,6 @@
   home.sessionVariables = {
     FM = "yazi";
     FMGUI = "pcmanfm";
-    BROWSER = "zen";
+    BROWSER = "zen-beta";
   };
 }

@@ -11,7 +11,11 @@ in
 
   programs.nixcord = {
     enable = true;
-    discord.enable = false;
+
+    discord = {
+      enable = false;
+      package = pkgs.discord;
+    };
 
     vesktop = {
       enable = true;

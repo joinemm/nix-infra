@@ -71,6 +71,7 @@
     immich-go
     czkawka
     exif
+    yt-dlp
 
     # utils
     tree
@@ -81,5 +82,6 @@
     yq-go
     file
     jq
+    geekbench
   ];
 }
