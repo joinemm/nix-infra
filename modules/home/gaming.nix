@@ -23,7 +23,7 @@
     position=top-left
     font_size=20
 
-    preset=1,2
+    preset=1,2,3
   '';
 
   xdg.configFile."MangoHud/presets.conf".text = ''
@@ -44,6 +44,28 @@
     fps
     show_fps_limit
     gamemode
+    frame_timing=1
+
+    [preset 3]
+    full
+    gpu_stats
+    gpu_temp
+    gpu_load_change
+    gpu_power
+    gpu_stats
+    cpu_stats
+    cpu_temp
+    cpu_power
+    core_load
+    vram
+    ram
+    fps
+    show_fps_limit
+    gamemode
+    fan
+    fsr
+    swap
+    frametime
     frame_timing=1
   '';
 
