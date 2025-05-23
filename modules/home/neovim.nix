@@ -314,6 +314,7 @@
             };
             stylua.enable = true;
             terraform_fmt.enable = true;
+            gofumpt.enable = true;
           };
         };
       };
