@@ -12,7 +12,6 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    steps:
       - uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: true
