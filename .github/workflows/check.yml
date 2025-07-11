@@ -12,12 +12,18 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+    steps:
+      - uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+
       - uses: actions/checkout@v4
 
       - uses: cachix/install-nix-action@v30
         with:
           extra_nix_config: |
             max-jobs = auto
+            builders = @/etc/nix/machines
             max-substitution-jobs = 128
             http-connections = 128
 
@@ -27,6 +33,16 @@ jobs:
           endpoint: "https://attic.joinemm.dev"
           cache: "cache"
           token: '${{ secrets.ATTIC_AUTH_TOKEN }}'
+
+      - name: Configure remote builders
+        run: |
+          sudo sh -c "umask 377; echo '${{ secrets.BUILDER_SSH_KEY }}' >/etc/nix/id_builder_key"
+
+          sudo sh -c "echo 'ssh://github@hetzarm.vedenemo.dev aarch64-linux /etc/nix/id_builder_key 40 1 nixos-test,benchmark,big-parallel,kvm - -' >/etc/nix/machines"
+          sudo sh -c "echo 'hetzarm.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILx4zU4gIkTY/1oKEOkf9gTJChdx/jR3lDgZ7p/c7LEK' >>/etc/ssh/ssh_known_hosts"
+          
+          sudo sh -c "echo 'ssh://github@builder.vedenemo.dev x86_64-linux,i686-linux /etc/nix/id_builder_key 48 1 kvm,benchmark,big-parallel,nixos-test - -' >>/etc/nix/machines"
+          sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >>/etc/ssh/ssh_known_hosts"
 
       - name: Run nix flake check 
         run: nix flake check --accept-flake-config -v
