@@ -17,6 +17,7 @@
       locale
     ])
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
+    inputs.nix-topology.nixosModules.default
     (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
     ./sdcard.nix
     ./rpi-exporter.nix

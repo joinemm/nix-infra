@@ -23,6 +23,7 @@
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
+    inputs.nix-topology.nixosModules.default
     ./arr.nix
     ./disk-config.nix
     ./gatus.nix

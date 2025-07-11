@@ -24,6 +24,7 @@ in
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    inputs.nix-topology.nixosModules.default
     ../../disko/hetzner-osdisk.nix
     (import ../../disko/hetzner-block-storage.nix {
       id = "100958858";

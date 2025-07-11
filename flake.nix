@@ -96,7 +96,10 @@
 
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
     };
 
     zmk-nix = {
@@ -108,8 +111,8 @@
       url = "github:kaylorben/nixcord";
       inputs = {
         flake-compat.follows = "";
-        treefmt-nix.follows = "";
         nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
       };
     };
 
@@ -118,6 +121,13 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         website-builder.follows = "";
+      };
+    };
+
+    nix-topology = {
+      url = "github:oddlama/nix-topology";
+      inputs = {
+        flake-utils.follows = "flake-utils";
       };
     };
   };
