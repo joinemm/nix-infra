@@ -88,6 +88,7 @@
       max-substitution-jobs = 128;
       http-connections = 128;
       max-jobs = "auto";
+      download-buffer-size = 524288000;
     };
     extraOptions = ''
       # Ensure we can still build when a binary cache is not accessible
@@ -98,7 +99,10 @@
   users.users."${user.name}" = {
     isNormalUser = true;
     description = user.fullName;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "input"
+    ];
   };
 
   environment = {
