@@ -29,7 +29,7 @@
     ./gatus.nix
     ./home-assistant.nix
     ./homepage.nix
-    ./nfs.nix
+    ./network-share.nix
     ./nginx.nix
   ];
 
