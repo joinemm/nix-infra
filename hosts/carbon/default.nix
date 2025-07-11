@@ -16,6 +16,7 @@
       laptop
       kanata
       zfs
+      wayland
     ])
     (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-x1-11th-gen
@@ -55,36 +56,12 @@
     };
   };
 
+  services.fprintd.enable = true;
+
   # extra home-manager configuration
   home-manager.users."${user.name}" = {
-    services.poweralertd = {
-      enable = true;
-      extraArgs = [
-        "-i"
-        "line power"
-      ];
-    };
-    programs.wezterm.fontSize = "11.0";
-
-    services.screen-locker = {
-      enable = true;
-      lockCmd = toString (
-        pkgs.writeShellScript "lock" ''
-          export XSECURELOCK_PASSWORD_PROMPT=asterisks
-          export XSECURELOCK_SHOW_HOSTNAME=0
-          export XSECURELOCK_SHOW_KEYBOARD_LAYOUT=0
-          export XSECURELOCK_FONT=monospace
-
-          ${lib.getExe pkgs.xsecurelock} 
-        ''
-      );
-    };
-
-    systemd.user.services.xss-lock.Service.ExecStartPre = toString (
-      pkgs.writeShellScript "xset" ''
-        ${lib.getExe pkgs.xorg.xset} s 600 600
-        ${lib.getExe pkgs.xorg.xset} dpms 600 600 0
-      ''
-    );
+    imports = [
+      ../../modules/home/laptop.nix
+    ];
   };
 }

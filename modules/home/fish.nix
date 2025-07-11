@@ -43,11 +43,10 @@
           tide configure --auto \
             --style=Lean \
             --prompt_colors='16 colors' \
-            --show_time=No \
             --lean_prompt_height='Two lines' \
-            --show_time='24-hour format' \
-            --prompt_connection=Dotted \
+            --show_time=No \
             --prompt_spacing=Compact \
+            --prompt_connection=Disconnected \
             --icons='Few icons' \
             --transient=Yes
 

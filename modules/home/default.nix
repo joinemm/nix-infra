@@ -3,6 +3,7 @@
   user,
   lib,
   pkgs,
+  config,
   ...
 }:
 let
@@ -13,27 +14,39 @@ let
         value = x;
       })
       [
+        # directores
         ./discord
         ./easyeffects
         ./polybar
+        ./waybar
         ./xmonad
+        # files in alphabetical order
         ./common.nix
         ./dunst.nix
+        ./email.nix
         ./firefox.nix
+        ./fish.nix
         ./flameshot.nix
+        ./foot.nix
         ./gaming.nix
         ./git.nix
         ./gpg.nix
         ./gtk.nix
+        ./hidpi.nix
+        ./hyprlock.nix
         ./imv.nix
         ./kdeconnect.nix
+        ./laptop.nix
         ./mpv.nix
         ./neovim.nix
         ./picom.nix
         ./redshift.nix
+        ./river.nix
         ./rofi.nix
         ./ssh-personal.nix
         ./ssh-work.nix
+        ./starship.nix
+        ./wayland.nix
         ./wezterm.nix
         ./xdg.nix
         ./xinitrc.nix
@@ -41,10 +54,57 @@ let
         ./yazi.nix
         ./zathura.nix
         ./zen.nix
-        ./fish.nix
-        ./email.nix
+        ./zsh.nix
       ]
   );
+
+  x11Modules = {
+    inherit (homeModules)
+      polybar
+      xmonad
+      dunst
+      flameshot
+      picom
+      redshift
+      rofi
+      xinitrc
+      xresources
+      ;
+  };
+
+  waylandModules = {
+    inherit (homeModules)
+      wayland
+      river
+      foot
+      hyprlock
+      waybar
+      ;
+  };
+
+  defaultModules = {
+    inherit (homeModules)
+      discord
+      easyeffects
+      common
+      gaming
+      git
+      gpg
+      gtk
+      imv
+      mpv
+      neovim
+      ssh-personal
+      ssh-work
+      wezterm
+      xdg
+      yazi
+      zathura
+      zen
+      fish
+      email
+      ;
+  };
 in
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
@@ -60,9 +120,14 @@ in
       inherit user inputs;
     };
     users."${user.name}" = {
-      imports = lib.flatten [
-        (lib.attrValues homeModules)
-      ];
+      imports =
+        (lib.attrValues defaultModules)
+        ++ (
+          if config.services.xserver.enable then
+            (lib.attrValues x11Modules)
+          else
+            (lib.attrValues waylandModules)
+        );
     };
     useGlobalPkgs = true;
     useUserPackages = true;

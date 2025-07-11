@@ -35,10 +35,11 @@ let
         ./transmission.nix
         ./node-exporter.nix
         ./virtualization.nix
+        ./wayland.nix
         ./dev.nix
         ./gc.nix
-        ./zfs.nix
         ./airvpn.nix
+        ./zfs.nix
       ]
   );
 in
