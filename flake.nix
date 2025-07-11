@@ -130,6 +130,13 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    ghaf-infra = {
+      url = "github:tiiuae/ghaf-infra";
+      # we only want one file from here, none of the nix code needs to be evaluated.
+      # save some space by not downloading all the inputs.
+      flake = false;
+    };
   };
 
   outputs =

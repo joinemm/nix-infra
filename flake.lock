@@ -157,6 +157,22 @@
         "type": "github"
       }
     },
+    "ghaf-infra": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1752229876,
+        "narHash": "sha256-7QK+eHU+lJHl9yXTIsekbPOpHt23km0FSxlazkbw8Xs=",
+        "owner": "tiiuae",
+        "repo": "ghaf-infra",
+        "rev": "79ea3c3e8b7426a71c39bab64ffcfb99c259a143",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tiiuae",
+        "repo": "ghaf-infra",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -454,6 +470,7 @@
         "flake-parts": "flake-parts",
         "flake-root": "flake-root",
         "flake-utils": "flake-utils",
+        "ghaf-infra": "ghaf-infra",
         "home-manager": "home-manager",
         "nix-gaming": "nix-gaming",
         "nix-github-actions": "nix-github-actions",
