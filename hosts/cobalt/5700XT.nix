@@ -26,11 +26,10 @@
   # 1100 mV max voltage
   environment.etc."lact/config.yaml".text = # yaml
     ''
+      version: 5
       daemon:
         log_level: info
-        admin_groups:
-        - wheel
-        - sudo
+        admin_group: wheel
         disable_clocks_cleanup: false
       apply_settings_timer: 5
       gpus:
