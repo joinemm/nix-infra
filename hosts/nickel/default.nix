@@ -99,6 +99,22 @@
     openFirewall = true;
     port = 2284;
     immichUrl = "http://127.0.0.1:${toString config.services.immich.port}";
+    settings = {
+      ipp = {
+        downloadOriginalPhoto = true;
+        showGalleryTitle = true;
+        allowDownloadAll = true;
+      };
+      lightGallery = {
+        controls = true;
+        download = true;
+        mobileSettings = {
+          showCloseIcon = true;
+          download = true;
+          controls = false;
+        };
+      };
+    };
   };
 
   services.audiobookshelf = {
