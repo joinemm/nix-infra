@@ -1,11 +1,10 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 {
   imports = [
     inputs.nix-topology.flakeModule
   ];
 
   perSystem = {
-    topology = {
-    };
+    topology = { };
   };
 }
