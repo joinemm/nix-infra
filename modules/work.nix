@@ -29,11 +29,9 @@
 
   nix.settings = {
     extra-substituters = [
-      "https://prod-cache.vedenemo.dev?priority=43"
-      "https://ghaf-dev.cachix.org?priority=44"
+      "https://ghaf-dev.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "prod-cache.vedenemo.dev~1:JcytRNMJJdYJVQCYwLNsrfVhct5dhCK2D3fa6O1WHOI="
       "ghaf-dev.cachix.org-1:S3M8x3no8LFQPBfHw1jl6nmP8A7cVWKntoMKN3IsEQY="
     ];
   };
