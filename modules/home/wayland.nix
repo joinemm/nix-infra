@@ -25,15 +25,44 @@
 
   home.packages = with pkgs; [
     way-displays
-    satty
-    grim
-    slurp
     wl-clipboard
     hyprpicker
     wlopm
   ];
 
-  services.avizo.enable = true;
+  programs.swayimg = {
+    enable = true;
+    settings = {
+      general = {
+        overlay = "no";
+      };
+      viewer = {
+        window = "#000000";
+      };
+      list = {
+        order = "mtime";
+        reverse = "yes";
+        all = "yes";
+      };
+      info = {
+        info_timeout = 1;
+      };
+      "keys.viewer" = {
+        ScrollUp = "zoom +5";
+        ScrollDown = "zoom -5";
+        j = "prev_file";
+        k = "next_file";
+        Left = "prev_file";
+        Right = "next_file";
+      };
+      "keys.gallery" = {
+        ScrollUp = "thumb +20";
+        ScrollDown = "thumb -20";
+        j = "page_down";
+        k = "page_up";
+      };
+    };
+  };
 
   programs.tofi = {
     enable = true;
@@ -86,15 +115,4 @@
       };
     };
   };
-
-  xdg.configFile."satty/config.toml".source = pkgs.writers.writeTOML "config.toml" {
-    general = {
-      fullscreen = true;
-      early-exit = true;
-      initial-tool = "brush";
-      copy-command = "wl-copy";
-      default-hide-toolbars = true;
-    };
-  };
-
 }

@@ -12,9 +12,9 @@
       workstation
     ])
     (with self.nixosModules; [
-      desktop
       zfs
       airvpn
+      wayland
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
@@ -25,7 +25,6 @@
     inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
     ./5700XT.nix
-    ./monitor.nix
   ];
 
   system.stateVersion = "23.11";
@@ -44,7 +43,7 @@
     device = "192.168.1.4:/";
     fsType = "nfs";
     options = [
-      "x-systemd.automount"
+      # "x-systemd.automount"
       "noauto"
       "users"
     ];
@@ -55,7 +54,7 @@
     enable = true;
     settings.Settings = {
       epp_state_for_AC = "performance";
-      epp_state_for_BAT = "power";
+      epp_state_for_BAT = "performance";
     };
   };
 
@@ -75,6 +74,11 @@
     };
   };
 
+  # don’t shutdown when power button is short-pressed
+  services.logind.extraConfig = ''
+    HandlePowerKey=ignore
+  '';
+
   services.syncthing.settings.folders = {
     "code".enable = true;
     "documents".enable = true;
@@ -86,5 +90,19 @@
   };
 
   # extra home-manager configuration
-  home-manager.users."${user.name}" = { };
+  home-manager.users."${user.name}" = {
+    xdg.configFile."way-displays/cfg.yml".text = ''
+      SCALING: FALSE
+      AUTO_SCALE: FALSE
+      MODE:
+        - NAME_DESC: DP-1
+          WIDTH: 3440
+          HEIGHT: 1440
+          HZ: 144
+      VRR_OFF:
+        - DP-1
+    '';
+
+    programs.foot.settings.main.font = lib.mkForce "monospace:size=11";
+  };
 }

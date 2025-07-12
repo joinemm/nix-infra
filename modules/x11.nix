@@ -1,43 +1,43 @@
-{ pkgs, ... }:
 {
-  services = {
-    xserver = {
-      enable = true;
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+lib.mkMerge [
+  {
+    services = {
+      xserver = {
+        enable = true;
 
-      # keyboard settings
-      xkb.layout = "eu";
+        # keyboard settings
+        xkb.layout = "eu";
 
-      # I don't need xterm
-      excludePackages = with pkgs; [
-        xorg.iceauth
-        xterm
-      ];
+        # I don't need xterm
+        excludePackages = with pkgs; [
+          xorg.iceauth
+          xterm
+        ];
 
-      # use startx as a display manager
-      displayManager.startx.enable = true;
+        # use startx as a display manager
+        displayManager.startx.enable = true;
+      };
     };
-  };
+  }
+  (lib.mkIf config.services.xserver.enable {
+    # use X11 keyboard settings in tty
+    console.useXkbConfig = true;
 
-  # use X11 keyboard settings in tty
-  console.useXkbConfig = true;
+    xdg.portal = {
+      enable = true;
+      xdgOpenUsePortal = false;
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+      config.common.default = "*";
+    };
 
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = false;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-    config.common.default = "*";
-  };
-
-  environment.systemPackages = with pkgs; [
-    xdotool
-    xclip
-    libnotify
-    mesa
-  ];
-
-  services.gnome.gnome-keyring.enable = true;
-
-  programs.dconf.enable = true;
-
-  services.udisks2.enable = true;
-}
+    environment.systemPackages = with pkgs; [
+      xdotool
+      xclip
+    ];
+  })
+]

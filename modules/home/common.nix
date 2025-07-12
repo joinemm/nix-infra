@@ -30,7 +30,14 @@
     options = "--delete-older-than 14d";
   };
 
-  services.udiskie.enable = true;
+  programs.chawan = {
+    enable = true;
+    settings = {
+      buffer = {
+        images = true;
+      };
+    };
+  };
 
   home.packages = with pkgs; [
     # development

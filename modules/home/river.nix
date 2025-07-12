@@ -2,6 +2,12 @@
 {
   wayland.systemd.target = "river-session.target";
 
+  home.packages = with pkgs; [
+    pulseaudio
+    wofi
+    bemoji
+  ];
+
   wayland.windowManager.river = {
     enable = true;
     systemd.enable = true;
@@ -9,9 +15,17 @@
 
     systemd.variables = [ "--all" ];
     extraSessionVariables = {
+      LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
+
       XDG_CURRENT_DESKTOP = "river";
       XDG_SESSION_DESKTOP = "river";
       XDG_SESSION_TYPE = "wayland";
+      SDL_VIDEO_DRIVER = "wayland";
+      QT_QPA_PLATFORM = "wayland";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
+      MOZ_ENABLE_WAYLAND = 1;
+      NIXOS_OZONE_WL = 1;
+      GDK_BACKEND = "wayland";
     };
 
     settings =
@@ -23,20 +37,12 @@
         tagMapStrSet = listToAttrSet (map toString tagMap);
       in
       {
-        extraSessionVariables = {
-          MOZ_ENABLE_WAYLAND = 1;
-          SDL_VIDEODRIVER = "wayland";
-          QT_QPA_PLATFORM = "wayland";
-          QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
-          NIXOS_OZONE_WL = 1;
-          GDK_BACKEND = "wayland";
-        };
         default-layout = "bsp-layout";
         spawn = [
           "'${lib.getExe pkgs.river-bsp-layout} --inner-gap 10 --outer-gap 10 --split-perc 0.5'"
         ];
         focus-follows-cursor = "always";
-        set-cursor-warp = "on-focus-change";
+        # set-cursor-warp = "on-focus-change";
 
         border-width = 3;
         border-color-focused = "0xFAB387";
@@ -55,6 +61,10 @@
           "pointer-2-10-TPPS/2_Elan_TrackPoint" = {
             accel-profile = "flat";
           };
+          "pointer-13652-62733-Compx_LAMZU_Pro_1K_Receiver" = {
+            accel-profile = "flat";
+            scroll-factor = "1.5";
+          };
         };
 
         map = {
@@ -67,10 +77,13 @@
             // {
               # program hotkeys
               "Super Return" = "spawn footclient";
-              "Super W" = "spawn zen";
+              "Super W" = "spawn zen-beta";
+              "Super R" = "spawn thunar";
+              "Super E" = "spawn 'BEMOJI_PICKER_CMD=\"wofi\" bemoji -t'";
               "Super C" = "spawn 'hyprpicker -a'";
               "Super Space" = "spawn 'tofi-drun --drun-launch=true'";
-              "Super+Shift S" = "spawn 'grim -g \"$(slurp)\" -t ppm - | satty --filename -'";
+              "Super+Shift S" = "spawn 'flameshot-copy-fix gui'";
+              "Print" = "spawn 'flameshot-copy-fix full -p /tmp/screenshot.png'";
               "Super Escape" = "spawn wlogout";
 
               # window control
@@ -105,10 +118,10 @@
             "Super BracketLeft" = "send-layout-cmd bsp-layout '--dec-vsplit .01'";
             "Super BracketRight" = "send-layout-cmd bsp-layout '--inc-vsplit .01'";
 
-            "None XF86AudioRaiseVolume" = "spawn 'volumectl -u up'";
-            "None XF86AudioLowerVolume" = "spawn 'volumectl -u down'";
-            "None XF86MonBrightnessUp" = "spawn 'lightctl up'";
-            "None XF86MonBrightnessDown" = "spawn 'lightctl down'";
+            "None XF86AudioRaiseVolume" = "spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'";
+            "None XF86AudioLowerVolume" = "spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'";
+            "None XF86MonBrightnessUp" = "spawn 'brightnessctl s +5%'";
+            "None XF86MonBrightnessDown" = "spawn 'brightnessctl s 5%-'";
           };
         };
 

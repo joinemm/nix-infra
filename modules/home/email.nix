@@ -6,7 +6,7 @@
     enable = true;
     profiles."default".isDefault = true;
     settings = {
-      "mail.biff.show_tray_icon_always" = false;
+      "mail.biff.show_tray_icon_always" = true;
     };
   };
 

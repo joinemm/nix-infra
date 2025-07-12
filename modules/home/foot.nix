@@ -34,9 +34,13 @@
       };
       scrollback = {
         lines = 10000;
+        multiplier = 3;
       };
       mouse = {
         alternate-scroll-mode = false;
+      };
+      key-bindings = {
+        show-urls-launch = "Alt_L";
       };
     };
   };

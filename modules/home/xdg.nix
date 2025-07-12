@@ -1,7 +1,6 @@
 {
   user,
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -27,12 +26,6 @@
         exec = ''add-torrent %u'';
         mimeType = [ "x-scheme-handler/magnet" ];
       };
-
-      "nsxiv" = {
-        name = "nsxiv";
-        exec = ''${pkgs.nsxiv}/bin/nsxiv -a %F'';
-        mimeType = [ "image/gif" ];
-      };
     };
 
     # https://discourse.nixos.org/t/home-manager-and-the-mimeapps-list-file-on-plasma-kde-desktops/37694/7
@@ -42,15 +35,15 @@
       let
         associations =
           let
-            file-manager = "pcmanfm.desktop";
+            file-manager = "thunar.desktop";
             editor = "nvim.desktop";
             browser = "zen-beta.desktop";
             video-player = "mpv.desktop";
-            image-viewer = "imv-dir.desktop";
+            image-viewer = "swayimg.desktop";
           in
           {
-            "application/pdf" = [ "org.pwmt.zathura-pdf-mupdf.desktop" ];
-            "image/gif" = [ "nsxiv.desktop" ];
+            "application/pdf" = [ "sioyek.desktop" ];
+            "image/gif" = [ image-viewer ];
             "image/jpeg" = [ image-viewer ];
             "image/png" = [ image-viewer ];
             "image/webp" = [ image-viewer ];
@@ -72,7 +65,6 @@
             "application/x-extension-xht" = [ browser ];
             "x-scheme-handler/magnet" = [ "transmission-magnet.desktop" ];
             "x-scheme-handler/prusaslicer" = [ "PrusaSlicerURLProtocol.desktop" ];
-            "x-scheme-handler/nxm" = [ "modorganizer2-nxm-handler.desktop" ];
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [
               "libreoffice-writer.desktop"
             ];
@@ -83,12 +75,5 @@
         defaultApplications = associations;
         associations.added = associations;
       };
-  };
-
-  # Programs to launch from xmonad shortcuts
-  home.sessionVariables = {
-    FM = "yazi";
-    FMGUI = "pcmanfm";
-    BROWSER = "zen-beta";
   };
 }

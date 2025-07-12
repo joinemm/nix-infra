@@ -2,6 +2,7 @@
 {
   security.pam.services = {
     hyprlock.fprintAuth = false; # use hyprlock's built in fprint implementation
+    ly.fprintAuth = false;
   };
 
   services.xserver.enable = lib.mkForce false;

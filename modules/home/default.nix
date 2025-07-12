@@ -43,6 +43,7 @@ let
         ./redshift.nix
         ./river.nix
         ./rofi.nix
+        ./sioyek.nix
         ./ssh-personal.nix
         ./ssh-work.nix
         ./starship.nix
@@ -63,7 +64,6 @@ let
       polybar
       xmonad
       dunst
-      flameshot
       picom
       redshift
       rofi
@@ -99,10 +99,11 @@ let
       wezterm
       xdg
       yazi
-      zathura
       zen
       fish
       email
+      sioyek
+      flameshot
       ;
   };
 in

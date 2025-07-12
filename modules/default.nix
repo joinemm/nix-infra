@@ -20,7 +20,6 @@ let
         ./gaming.nix
         ./laptop.nix
         ./locale.nix
-        ./desktop.nix
         ./hetzner.nix
         ./scripts.nix
         ./yubikey.nix
@@ -40,6 +39,8 @@ let
         ./gc.nix
         ./airvpn.nix
         ./zfs.nix
+        ./graphical.nix
+        ./thunar.nix
       ]
   );
 in
@@ -75,6 +76,8 @@ in
         dev
         home
         gc
+        graphical
+        thunar
       ];
     };
   };
