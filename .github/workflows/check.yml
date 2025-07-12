@@ -23,8 +23,8 @@ jobs:
           extra_nix_config: |
             max-jobs = auto
             builders = @/etc/nix/machines
-            max-substitution-jobs = 128
-            http-connections = 128
+            max-substitution-jobs = 64
+            http-connections = 64
 
       - name: Initialize attic cache watcher
         uses: ryanccn/attic-action@v0
