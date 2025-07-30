@@ -1,6 +1,7 @@
 {
   pkgs,
   osConfig,
+  lib,
   ...
 }:
 {
@@ -33,4 +34,8 @@
       };
     };
   };
+
+  # we don't need tray
+  systemd.user.services.flameshot.Unit.Requires = lib.mkForce [ ];
+  systemd.user.services.flameshot.Unit.After = lib.mkForce [ "graphical-session.target" ];
 }

@@ -13,7 +13,6 @@
     ])
     (with self.nixosModules; [
       zfs
-      airvpn
       wayland
     ])
     (with inputs.nixos-hardware.nixosModules; [
@@ -104,5 +103,8 @@
     '';
 
     programs.foot.settings.main.font = lib.mkForce "monospace:size=11";
+
+    services.hypridle.enable = lib.mkForce false;
+    programs.hyprlock.enable = lib.mkForce false;
   };
 }

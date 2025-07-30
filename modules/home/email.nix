@@ -35,7 +35,8 @@
           signature.text = "Joonas";
           thunderbird.enable = true;
           primary = true;
-        } // migadu;
+        }
+        // migadu;
 
         "mail@joinemm.dev" = {
           realName = "Joinemm";
@@ -43,7 +44,8 @@
           userName = "mail@joinemm.dev";
           signature.text = "Joinemm";
           thunderbird.enable = true;
-        } // migadu;
+        }
+        // migadu;
       };
     };
 }

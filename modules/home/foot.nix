@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   programs.foot = {
     enable = true;
@@ -9,10 +10,10 @@
         pad = "12x8";
       };
 
-      cursor.color = "282a36 f8f8f2";
       colors = {
         alpha = 0.85;
         # dracula theme with custom bg color
+        cursor = "282a36 f8f8f2";
         background = "101116";
         foreground = "f8f8f2";
         regular0 = "000000"; # black
@@ -44,4 +45,11 @@
       };
     };
   };
+
+  home.sessionVariables = {
+    TERMINAL = "footclient";
+    TERM = "footclient";
+  };
+
+  systemd.user.services.foot.Unit.PartOf = lib.mkForce [ ];
 }

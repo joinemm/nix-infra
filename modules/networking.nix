@@ -20,6 +20,7 @@
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.services.NetworkManager-dispatcher.enable = false;
 
   users.users."${user.name}".extraGroups = [ "networkmanager" ];
 

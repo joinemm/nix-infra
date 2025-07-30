@@ -5,16 +5,13 @@
     treefmt-nix.flakeModule
   ];
   perSystem =
-    { config, pkgs, ... }:
+    { config, ... }:
     {
       treefmt.config = {
         inherit (config.flake-root) projectRootFile;
 
         programs = {
-          nixfmt = {
-            enable = true;
-            package = pkgs.nixfmt-rfc-style;
-          };
+          nixfmt.enable = true;
           deadnix.enable = true;
           statix.enable = true;
           shellcheck.enable = true;

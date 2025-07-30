@@ -255,7 +255,8 @@ in
             return = "302 https://github.com/joinemm/$repo";
           };
         };
-      } // ssl;
+      }
+      // ssl;
 
       "traffic.joinemm.dev" =
         let
@@ -280,7 +281,8 @@ in
         locations."/" = {
           proxyPass = "http://127.0.0.1:8384";
         };
-      } // ssl;
+      }
+      // ssl;
 
       "fm.joinemm.dev" = {
         # imported spotify history files can be very large
@@ -294,7 +296,8 @@ in
             proxy_pass_header Authorization;
           '';
         };
-      } // ssl;
+      }
+      // ssl;
 
       "attic.joinemm.dev" = {
         extraConfig = ''
@@ -304,14 +307,16 @@ in
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
         };
-      } // ssl;
+      }
+      // ssl;
 
       "portal.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.headscale.port}";
           proxyWebsockets = true;
         };
-      } // ssl;
+      }
+      // ssl;
 
       "digitalocean.joinemm.dev" = mkRedirect "https://m.do.co/c/7251aebbc5e0";
 
@@ -324,7 +329,8 @@ in
           proxyPass = "http://100.64.0.7:8096";
           proxyWebsockets = true;
         };
-      } // ssl;
+      }
+      // ssl;
 
       "jellyfin.joinemm.dev" = mkRedirect "https://stream.joinemm.dev" // ssl;
 
@@ -333,14 +339,16 @@ in
           proxyPass = "http://100.64.0.7:5055";
           proxyWebsockets = true;
         };
-      } // ssl;
+      }
+      // ssl;
 
       "photos.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://100.64.0.7:2284";
           proxyWebsockets = true;
         };
-      } // ssl;
+      }
+      // ssl;
 
       "dav.joinemm.dev" = {
         locations."/" = {
@@ -349,6 +357,7 @@ in
             proxy_pass_header Authorization;
           '';
         };
-      } // ssl;
+      }
+      // ssl;
     };
 }

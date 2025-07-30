@@ -2,7 +2,11 @@
 {
   security.pam.services = {
     hyprlock.fprintAuth = false; # use hyprlock's built in fprint implementation
-    ly.fprintAuth = false;
+    ly = {
+      enableGnomeKeyring = true;
+      fprintAuth = false;
+      u2fAuth = false;
+    };
   };
 
   services.xserver.enable = lib.mkForce false;
@@ -22,8 +26,6 @@
 
   services.displayManager = {
     enable = true;
-    ly = {
-      enable = true;
-    };
+    ly.enable = true;
   };
 }

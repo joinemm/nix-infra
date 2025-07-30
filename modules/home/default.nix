@@ -56,6 +56,7 @@ let
         ./zathura.nix
         ./zen.nix
         ./zsh.nix
+        ./swaybg.nix
       ]
   );
 
@@ -79,6 +80,7 @@ let
       foot
       hyprlock
       waybar
+      swaybg
       ;
   };
 

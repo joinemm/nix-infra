@@ -15,17 +15,9 @@
 
     systemd.variables = [ "--all" ];
     extraSessionVariables = {
-      LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
-
       XDG_CURRENT_DESKTOP = "river";
       XDG_SESSION_DESKTOP = "river";
-      XDG_SESSION_TYPE = "wayland";
-      SDL_VIDEO_DRIVER = "wayland";
-      QT_QPA_PLATFORM = "wayland";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
-      MOZ_ENABLE_WAYLAND = 1;
-      NIXOS_OZONE_WL = 1;
-      GDK_BACKEND = "wayland";
     };
 
     settings =
@@ -61,7 +53,14 @@
           "pointer-2-10-TPPS/2_Elan_TrackPoint" = {
             accel-profile = "flat";
           };
+
+          # mouse when using wireless
           "pointer-13652-62733-Compx_LAMZU_Pro_1K_Receiver" = {
+            accel-profile = "flat";
+            scroll-factor = "1.5";
+          };
+          # same mouse but plugged in
+          "pointer-13652-62735-compx_LAMZU_THORN" = {
             accel-profile = "flat";
             scroll-factor = "1.5";
           };
@@ -117,6 +116,8 @@
           "-repeat normal" = {
             "Super BracketLeft" = "send-layout-cmd bsp-layout '--dec-vsplit .01'";
             "Super BracketRight" = "send-layout-cmd bsp-layout '--inc-vsplit .01'";
+            "Super+Shift BracketLeft" = "send-layout-cmd bsp-layout '--dec-hsplit .01'";
+            "Super+Shift BracketRight" = "send-layout-cmd bsp-layout '--inc-hsplit .01'";
 
             "None XF86AudioRaiseVolume" = "spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'";
             "None XF86AudioLowerVolume" = "spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'";

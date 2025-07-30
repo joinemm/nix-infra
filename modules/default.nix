@@ -11,7 +11,7 @@ let
         ./kanata
         ./x11.nix
         ./keyd.nix
-        ./work.nix
+        ./vpn.nix
         ./attic.nix
         ./fonts.nix
         ./nginx.nix
@@ -21,7 +21,6 @@ let
         ./laptop.nix
         ./locale.nix
         ./hetzner.nix
-        ./scripts.nix
         ./yubikey.nix
         ./headless.nix
         ./bluetooth.nix
@@ -37,7 +36,6 @@ let
         ./wayland.nix
         ./dev.nix
         ./gc.nix
-        ./airvpn.nix
         ./zfs.nix
         ./graphical.nix
         ./thunar.nix
@@ -50,7 +48,6 @@ in
     profiles = {
       core = with modules; [
         common
-        scripts
       ];
       server = with modules; [
         headless
@@ -70,7 +67,7 @@ in
         systemd-boot
         tailscale
         transmission
-        work
+        vpn
         x11
         yubikey
         dev

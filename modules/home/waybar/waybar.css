@@ -14,7 +14,7 @@
 }
 
 #waybar {
-  background-color: #181825;
+  background-color: #101116;
   transition-property: background-color;
   transition-duration: 0.5s;
 }
@@ -50,7 +50,7 @@
 }
 #clock {
   background: none;
-  color: #C0C0C0;
+  color: #ffffff;
 }
 #custom-power{
   background-color: #f38ba8;

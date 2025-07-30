@@ -29,16 +29,15 @@
   };
 
   networking.firewall = rec {
-    allowedTCPPorts =
-      [
-        111 # portmapper
-        2049 # nfs
-      ]
-      ++ lib.attrVals [
-        "statdPort"
-        "lockdPort"
-        "mountdPort"
-      ] config.services.nfs.server;
+    allowedTCPPorts = [
+      111 # portmapper
+      2049 # nfs
+    ]
+    ++ lib.attrVals [
+      "statdPort"
+      "lockdPort"
+      "mountdPort"
+    ] config.services.nfs.server;
 
     allowedUDPPorts = allowedTCPPorts;
   };

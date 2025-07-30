@@ -49,14 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    bin = {
-      url = "github:joinemm/bin";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
-
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs = {

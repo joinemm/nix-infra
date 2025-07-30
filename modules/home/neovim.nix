@@ -7,6 +7,17 @@
 {
   imports = [ inputs.nixvim.homeManagerModules.nixvim ];
 
+  xdg.desktopEntries."nvim" = {
+    name = "nvim";
+    icon = "nvim";
+    exec = ''sh -c "exec \\$TERMINAL nvim %F"'';
+    terminal = false;
+  };
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   programs.nixvim = {
     enable = true;
     viAlias = true;
@@ -16,7 +27,6 @@
 
     extraPackages = with pkgs; [
       glslls
-      nixfmt-rfc-style
       ripgrep
     ];
 

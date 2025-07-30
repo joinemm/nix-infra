@@ -59,6 +59,11 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  # Remove once https://github.com/NixOS/nixpkgs/pull/429473 is merged
+  nixpkgs.config.permittedInsecurePackages = [
+    "libsoup-2.74.3"
+  ];
+
   # revision of the flake the configuration was built from.
   # $ nixos-version --configuration-revision
   system.configurationRevision = if (self ? rev) then self.rev else self.dirtyRev;
@@ -89,11 +94,19 @@
       http-connections = 128;
       max-jobs = "auto";
       download-buffer-size = 524288000;
+
+      extra-substituters = [
+        "https://ghaf-dev.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "ghaf-dev.cachix.org-1:S3M8x3no8LFQPBfHw1jl6nmP8A7cVWKntoMKN3IsEQY="
+      ];
     };
     extraOptions = ''
       # Ensure we can still build when a binary cache is not accessible
       fallback = true
     '';
+
   };
 
   users.users."${user.name}" = {

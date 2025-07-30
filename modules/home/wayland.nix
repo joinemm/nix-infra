@@ -1,18 +1,20 @@
 {
   lib,
   config,
-  user,
   pkgs,
   ...
 }:
 {
-  systemd.user.services.swaybg = {
-    Install.WantedBy = [ config.wayland.systemd.target ];
-    Service = {
-      ExecStart = "${lib.getExe pkgs.swaybg} -m fill -i /home/${user.name}/.wallpaper";
-      Restart = "on-failure";
-    };
-    # TODO: restart on ~/.wallpaper change
+  home.sessionVariables = {
+    XDG_SESSION_TYPE = "wayland";
+    # running steam with this breaks steam overlay
+    # SDL_VIDEO_DRIVER = "wayland";
+    QT_QPA_PLATFORM = "wayland";
+    MOZ_ENABLE_WAYLAND = 1;
+    NIXOS_OZONE_WL = 1;
+    GDK_BACKEND = "wayland";
+
+    LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
   };
 
   systemd.user.services.way-displays = {
@@ -28,6 +30,8 @@
     wl-clipboard
     hyprpicker
     wlopm
+    wf-recorder
+    slurp
   ];
 
   programs.swayimg = {
@@ -54,6 +58,7 @@
         k = "next_file";
         Left = "prev_file";
         Right = "next_file";
+        b = "exec setbg %";
       };
       "keys.gallery" = {
         ScrollUp = "thumb +20";

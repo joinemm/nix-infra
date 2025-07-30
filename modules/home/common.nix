@@ -2,20 +2,15 @@
 {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
-  systemd.user.startServices = "sd-switch";
+  systemd.user.startServices = false;
 
-  imports = [ inputs.nix-index-database.hmModules.nix-index ];
+  imports = [ inputs.nix-index-database.homeModules.nix-index ];
 
   dconf = {
     enable = true;
     settings = {
       "org/gnome/desktop/interface".color-scheme = "prefer-dark";
     };
-  };
-
-  home.sessionVariables = {
-    TERMINAL = "wezterm";
-    EDITOR = "nvim";
   };
 
   programs = {

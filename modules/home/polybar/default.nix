@@ -40,6 +40,7 @@
       systemctl is-active --quiet openconnect-tii.service && VPNS+=("TII")
       systemctl is-active --quiet openvpn-ficolo.service && VPNS+=("FICOLO")
       systemctl is-active --quiet openfortivpn-office.service && VPNS+=("OFFICE")
+      systemctl is-active --quiet wg-quick-airvpn.service && VPNS+=("AIRVPN")
       echo "''${VPNS[@]}" | sed 's/ / + /g'
     '';
   };

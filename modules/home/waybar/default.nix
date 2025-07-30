@@ -19,6 +19,7 @@
         ];
         modules-center = [ "clock" ];
         modules-right = [
+          "custom/vpn"
           "network"
           "bluetooth"
           "pulseaudio"
@@ -36,6 +37,12 @@
         "custom/power" = {
           format = "";
           on-click = "wlogout";
+        };
+
+        "custom/vpn" = {
+          format = " {text}";
+          interval = 5;
+          exec = "vpn-status";
         };
 
         "river/tags" = {
