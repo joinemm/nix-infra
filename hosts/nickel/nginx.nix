@@ -84,6 +84,11 @@
           proxyWebsockets = true;
         };
       };
+      "mealie.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.mealie.port}";
+        };
+      };
       "audio.${labDomain}" = labCert // {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";

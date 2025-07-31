@@ -32,6 +32,7 @@
     ./network-share.nix
     ./nginx.nix
     ./copyparty.nix
+    ./mealie.nix
   ];
 
   networking.hostName = "nickel";
