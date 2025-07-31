@@ -18,6 +18,10 @@
     EDITOR = "nvim";
   };
 
+  home.packages = with pkgs; [
+    nixfmt
+  ];
+
   programs.nixvim = {
     enable = true;
     viAlias = true;
