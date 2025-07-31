@@ -29,6 +29,9 @@
         locations."/".proxyPass =
           "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
       };
+      "fs.${labDomain}" = labCert // {
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.copyparty.settings.p}";
+      };
       "deluge.${labDomain}" = labCert // {
         locations."/".proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
       };

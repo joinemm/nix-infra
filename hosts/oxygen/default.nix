@@ -310,6 +310,16 @@ in
       }
       // ssl;
 
+      "files.joinemm.dev" = {
+        extraConfig = ''
+          client_max_body_size 5G;
+        '';
+        locations."/" = {
+          proxyPass = "http://100.64.0.7:3210";
+        };
+      }
+      // ssl;
+
       "portal.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.headscale.port}";

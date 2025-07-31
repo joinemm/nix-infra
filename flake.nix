@@ -129,6 +129,14 @@
       # save some space by not downloading all the inputs.
       flake = false;
     };
+
+    copyparty = {
+      url = "github:9001/copyparty";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
   outputs =

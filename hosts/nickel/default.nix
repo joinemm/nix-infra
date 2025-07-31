@@ -31,6 +31,7 @@
     ./homepage.nix
     ./network-share.nix
     ./nginx.nix
+    ./copyparty.nix
   ];
 
   networking.hostName = "nickel";
