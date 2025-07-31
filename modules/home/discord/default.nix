@@ -22,37 +22,37 @@ in
 
       # Use vencord fork with customizable tray icon
       # https://github.com/Vencord/Vesktop/pull/517
-      package = oldPkgs.vesktop.overrideAttrs (prev: {
-        src = pkgs.fetchFromGitHub {
-          owner = "PolisanTheEasyNick";
-          repo = "Vesktop";
-          rev = "d15387257ce0c88ec848c8415f44b460d5590f9a";
-          hash = "sha256-JowtPaz2kLjfv8ETgrrjiwn44T2WVPucrR1OoXV/cME=";
-        };
-
-        pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
-          outputHash = "sha256-CHAA3RldLe1jte/701ckNELeiA4O1y2X3uMOhhuv7cc=";
-        });
-
-        patches = prev.patches ++ [ ./readonly-fix.patch ];
-
-        # Patch the desktop file to use discord icon
-        desktopItems = [
-          (pkgs.makeDesktopItem {
-            name = "discord";
-            desktopName = "Discord";
-            exec = "vesktop %U";
-            icon = "discord";
-            startupWMClass = "Discord";
-            genericName = "Internet Messenger";
-            keywords = [
-              "discord"
-              "vencord"
-              "vesktop"
-            ];
-          })
-        ];
-      });
+      # package = oldPkgs.vesktop.overrideAttrs (prev: {
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "PolisanTheEasyNick";
+      #     repo = "Vesktop";
+      #     rev = "d15387257ce0c88ec848c8415f44b460d5590f9a";
+      #     hash = "sha256-JowtPaz2kLjfv8ETgrrjiwn44T2WVPucrR1OoXV/cME=";
+      #   };
+      #
+      #   pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
+      #     outputHash = "sha256-CHAA3RldLe1jte/701ckNELeiA4O1y2X3uMOhhuv7cc=";
+      #   });
+      #
+      #   patches = prev.patches ++ [ ./readonly-fix.patch ];
+      #
+      #   # Patch the desktop file to use discord icon
+      #   desktopItems = [
+      #     (pkgs.makeDesktopItem {
+      #       name = "discord";
+      #       desktopName = "Discord";
+      #       exec = "vesktop %U";
+      #       icon = "discord";
+      #       startupWMClass = "Discord";
+      #       genericName = "Internet Messenger";
+      #       keywords = [
+      #         "discord"
+      #         "vencord"
+      #         "vesktop"
+      #       ];
+      #     })
+      #   ];
+      # });
     };
 
     config.plugins = {
