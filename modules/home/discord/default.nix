@@ -3,9 +3,9 @@
   inputs,
   ...
 }:
-let
-  oldPkgs = import inputs.nixpkgs-old { inherit (pkgs) system; };
-in
+# let
+#   oldPkgs = import inputs.nixpkgs-old { inherit (pkgs) system; };
+# in
 {
   imports = [ inputs.nixcord.homeModules.nixcord ];
 

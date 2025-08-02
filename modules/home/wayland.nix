@@ -1,6 +1,4 @@
 {
-  lib,
-  config,
   pkgs,
   ...
 }:
@@ -17,16 +15,7 @@
     LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
   };
 
-  systemd.user.services.way-displays = {
-    Install.WantedBy = [ config.wayland.systemd.target ];
-    Service = {
-      ExecStart = "${lib.getExe pkgs.way-displays}";
-      Restart = "on-failure";
-    };
-  };
-
   home.packages = with pkgs; [
-    way-displays
     wl-clipboard
     hyprpicker
     wlopm

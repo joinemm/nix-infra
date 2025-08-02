@@ -4,8 +4,7 @@
 
   home.packages = with pkgs; [
     pulseaudio
-    wofi
-    bemoji
+    way-displays
   ];
 
   wayland.windowManager.river = {
@@ -31,6 +30,7 @@
       {
         default-layout = "bsp-layout";
         spawn = [
+          "way-displays"
           "'${lib.getExe pkgs.river-bsp-layout} --inner-gap 10 --outer-gap 10 --split-perc 0.5'"
         ];
         focus-follows-cursor = "always";
