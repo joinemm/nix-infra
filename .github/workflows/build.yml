@@ -6,7 +6,6 @@ on:
       - master
 
 jobs:
-
   define-matrix:
     runs-on: ubuntu-latest
     outputs:
@@ -35,12 +34,8 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      - uses: jlumbroso/free-disk-space@main
-        with:
-          tool-cache: true
-
       - uses: actions/checkout@v4
-
+      - uses: wimpysworld/nothing-but-nix@main
       - uses: cachix/install-nix-action@v30
         with:
           extra_nix_config: |
