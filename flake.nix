@@ -35,10 +35,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Broken with latest nixpkgs??
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/8d47a07563120b36af149edf2273034563339a91";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        # nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
         nuschtosSearch.follows = "";
       };
