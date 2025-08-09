@@ -12,7 +12,6 @@ let
         ./x11.nix
         ./keyd.nix
         ./vpn.nix
-        ./attic.nix
         ./fonts.nix
         ./nginx.nix
         ./sound.nix

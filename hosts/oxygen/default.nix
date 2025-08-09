@@ -43,19 +43,16 @@ in
     secrets = {
       plausible_secret_key_base.owner = "root";
       spotify_client_secret.owner = "root";
-      attic_env.owner = "root";
       radicale_auth.owner = "radicale";
     };
   };
 
   users.users."${user.name}".extraGroups = [
     "headscale"
-    "atticd"
   ];
 
   environment.systemPackages = with pkgs; [
     busybox
-    attic-client
     headscale
   ];
 
@@ -85,46 +82,14 @@ in
       local all all trust
     '';
     ensureDatabases = [
-      "atticd"
       "headscale"
     ];
     ensureUsers = [
-      {
-        name = "atticd";
-        ensureDBOwnership = true;
-      }
       {
         name = "headscale";
         ensureDBOwnership = true;
       }
     ];
-  };
-
-  services.atticd = {
-    enable = true;
-    environmentFile = config.sops.secrets.attic_env.path;
-
-    settings = {
-      listen = "127.0.0.1:8080";
-      database.url = "postgresql:///atticd?host=/run/postgresql";
-
-      storage = {
-        type = "s3";
-        endpoint = "https://s3.us-west-004.backblazeb2.com";
-        bucket = "binarycache";
-        region = "us-west-004";
-      };
-
-      chunking = {
-        nar-size-threshold = 64 * 1024; # 64 KiB
-        min-size = 16 * 1024; # 16 KiB
-        avg-size = 64 * 1024; # 64 KiB
-        max-size = 256 * 1024; # 256 KiB
-      };
-
-      compression.type = "zstd";
-      garbage-collection.interval = "12 hours";
-    };
   };
 
   services.plausible = {
@@ -310,17 +275,6 @@ in
             proxy_set_header X-Script-Name /api;
             proxy_pass_header Authorization;
           '';
-        };
-      }
-      // ssl;
-
-      "attic.joinemm.dev" = {
-        extraConfig = ''
-          client_header_buffer_size 64k;
-          client_max_body_size 2G;
-        '';
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8080";
         };
       }
       // ssl;

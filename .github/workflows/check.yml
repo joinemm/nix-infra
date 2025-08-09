@@ -24,13 +24,6 @@ jobs:
             max-substitution-jobs = 64
             http-connections = 64
 
-      - name: Initialize attic cache watcher
-        uses: ryanccn/attic-action@v0
-        with:
-          endpoint: "https://attic.joinemm.dev"
-          cache: "cache"
-          token: '${{ secrets.ATTIC_AUTH_TOKEN }}'
-
       - name: Configure remote builders
         run: |
           sudo sh -c "umask 377; echo '${{ secrets.BUILDER_SSH_KEY }}' >/etc/nix/id_builder_key"
