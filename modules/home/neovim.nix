@@ -5,7 +5,7 @@
   ...
 }:
 {
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
+  imports = [ inputs.nixvim.homeModules.nixvim ];
 
   xdg.desktopEntries."nvim" = {
     name = "nvim";
