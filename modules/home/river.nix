@@ -30,7 +30,7 @@
       {
         default-layout = "bsp-layout";
         spawn = [
-          "way-displays"
+          "rm -f /tmp/way-displays.* && way-displays"
           "'${lib.getExe pkgs.river-bsp-layout} --inner-gap 10 --outer-gap 10 --split-perc 0.5'"
         ];
         focus-follows-cursor = "always";

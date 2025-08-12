@@ -4,7 +4,6 @@
   inputs,
   pkgs,
   user,
-  modulesPath,
   ...
 }:
 {
@@ -18,7 +17,6 @@
     ])
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
     inputs.nix-topology.nixosModules.default
-    (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
     ./sdcard.nix
     ./rpi-exporter.nix
     ./blocky.nix
@@ -29,7 +27,8 @@
   networking.hostName = "zinc";
   system.stateVersion = "24.05";
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
+  # it's headless so we can't see the console anyway
+  console.enable = false;
 
   hardware = {
     raspberry-pi."4" = {
@@ -75,14 +74,6 @@
     useRoutingFeatures = "server";
   };
 
-  console.enable = false;
-
-  users.users.${user.name}.extraGroups = [
-    "gpio"
-    "vcio"
-  ];
-  users.groups.gpio = { };
-
   # Allow access to GPIO pins for gpio group
   services.udev.packages = [
     (pkgs.writeTextFile {
@@ -96,8 +87,13 @@
     })
   ];
 
+  users.groups.gpio = { };
+  users.users.${user.name}.extraGroups = [
+    "gpio"
+    "vcio"
+  ];
+
   environment.systemPackages = with pkgs; [
-    busybox
     libraspberrypi
     raspberrypi-eeprom
   ];

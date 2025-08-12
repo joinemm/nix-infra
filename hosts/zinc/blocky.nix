@@ -1,16 +1,38 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  self,
+  ...
+}:
 {
   networking.firewall =
     let
       allowed = [
         config.services.blocky.settings.ports.http
         config.services.blocky.settings.ports.dns
+        3344
       ];
     in
     {
       allowedTCPPorts = allowed;
       allowedUDPPorts = allowed;
     };
+
+  systemd.services."blocky-ui" = {
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "blocky.service" ];
+
+    serviceConfig = {
+      ExecStart = lib.getExe self.packages.${pkgs.system}.blocky-ui;
+      # working directory in the store path of the package, where the assets lie
+      WorkingDirectory = toString self.packages.${pkgs.system}.blocky-ui;
+    };
+    environment = {
+      PORT = toString 3344;
+      API_BASE_URL = "http://127.0.0.1:${toString config.services.blocky.settings.ports.http}/api";
+    };
+  };
 
   services.blocky = {
     enable = true;
