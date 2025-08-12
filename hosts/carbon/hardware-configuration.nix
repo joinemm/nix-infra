@@ -49,6 +49,7 @@
     "/boot" = {
       device = "/dev/disk/by-uuid/DE7A-2CD6";
       fsType = "vfat";
+      options = [ "umask=0077" ];
     };
   };
 

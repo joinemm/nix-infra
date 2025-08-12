@@ -1,6 +1,6 @@
 {
   disko.devices.disk = {
-    sda = {
+    os = {
       type = "disk";
       content = {
         type = "gpt";
@@ -16,6 +16,7 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
+              mountOptions = [ "umask=0077" ];
             };
           };
           root = {

@@ -28,7 +28,7 @@ in
     ../../disko/hetzner-osdisk.nix
   ];
 
-  disko.devices.disk.sda.device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_56638307";
+  disko.devices.disk.os.device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_56638307";
 
   nixpkgs.hostPlatform = "x86_64-linux";
   networking.hostName = "misobot-prod";
