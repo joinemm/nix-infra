@@ -5,6 +5,7 @@
   home.packages = with pkgs; [
     pulseaudio
     way-displays
+    wofi
   ];
 
   wayland.windowManager.river = {
@@ -30,11 +31,10 @@
       {
         default-layout = "bsp-layout";
         spawn = [
-          "rm -f /tmp/way-displays.* && way-displays"
+          "way-displays"
           "'${lib.getExe pkgs.river-bsp-layout} --inner-gap 10 --outer-gap 10 --split-perc 0.5'"
         ];
         focus-follows-cursor = "always";
-        # set-cursor-warp = "on-focus-change";
 
         border-width = 3;
         border-color-focused = "0xFAB387";

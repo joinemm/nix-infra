@@ -124,6 +124,7 @@ tooltip {
   padding: 16px;
   background-color: #131822;
   color: #C0C0C0;
+  font-weight: normal;
 }
 
 tooltip label {

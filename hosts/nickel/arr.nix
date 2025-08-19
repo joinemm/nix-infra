@@ -23,15 +23,6 @@
   # allow me to access the files too
   users.users."${user.name}".extraGroups = [ "media" ];
 
-  # https://github.com/NixOS/nixpkgs/issues/360592
-  # sonarr is not updated to .NET 8 yet but 6 is marked as insecure
-  nixpkgs.config.permittedInsecurePackages = [
-    "aspnetcore-runtime-6.0.36"
-    "aspnetcore-runtime-wrapped-6.0.36"
-    "dotnet-sdk-6.0.428"
-    "dotnet-sdk-wrapped-6.0.428"
-  ];
-
   systemd.tmpfiles.rules = [
     "d '${config.nixarr.mediaDir}/torrents'             0755 torrenter media - -"
     "d '${config.nixarr.mediaDir}/torrents/.incomplete' 0755 torrenter media - -"

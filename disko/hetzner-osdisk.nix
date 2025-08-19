@@ -1,6 +1,6 @@
 {
   disko.devices.disk = {
-    os = {
+    sda = {
       type = "disk";
       content = {
         type = "gpt";

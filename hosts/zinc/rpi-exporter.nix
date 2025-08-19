@@ -36,4 +36,11 @@ in
       '';
     };
   };
+
+  services.prometheus.exporters.node.enable = true;
+
+  networking.firewall.allowedTCPPorts = [
+    9110
+    9100
+  ];
 }

@@ -20,7 +20,6 @@
     ./sdcard.nix
     ./rpi-exporter.nix
     ./blocky.nix
-    ./monitoring.nix
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";

@@ -4,6 +4,7 @@
 
   programs.thunderbird = {
     enable = true;
+    package = pkgs.thunderbird-esr-bin;
     profiles."default".isDefault = true;
     settings = {
       "mail.biff.show_tray_icon_always" = true;

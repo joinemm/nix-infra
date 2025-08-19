@@ -33,6 +33,7 @@
     ./nginx.nix
     ./copyparty.nix
     ./mealie.nix
+    ./monitoring.nix
   ];
 
   networking.hostName = "nickel";

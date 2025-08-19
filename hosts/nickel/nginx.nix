@@ -1,5 +1,8 @@
 { config, user, ... }:
 {
+  # https://github.com/Radarr/Radarr/issues/5549#issuecomment-743980409
+  services.nginx.proxyTimeout = "180s";
+
   # map local port to the vpn port so it's accessible from localhost
   services.nginx.virtualHosts =
     let
@@ -36,16 +39,29 @@
         locations."/".proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
       };
       "prowlarr.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:9696";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:9696";
+          proxyWebsockets = true;
+        };
       };
       "radarr.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:7878";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:7878";
+          proxyWebsockets = true;
+        };
       };
       "sonarr.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:8989";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8989";
+          proxyWebsockets = true;
+        };
+
       };
       "bazarr.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:6767";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:6767";
+          proxyWebsockets = true;
+        };
       };
       "jellyseerr.${labDomain}" = labCert // {
         locations."/".proxyPass = "http://127.0.0.1:5055";

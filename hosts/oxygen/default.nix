@@ -1,9 +1,7 @@
 {
   self,
-  user,
   lib,
   inputs,
-  pkgs,
   config,
   ...
 }:
@@ -30,9 +28,12 @@ in
       id = "100958858";
       mountpoint = volumePath;
     })
+    ./headscale.nix
+    ./plausible.nix
+    ./your-spotify.nix
   ];
 
-  disko.devices.disk.os.device = "/dev/disk/by-path/pci-0000:06:00.0-scsi-0:0:0:0";
+  disko.devices.disk.sda.device = "/dev/disk/by-path/pci-0000:06:00.0-scsi-0:0:0:0";
 
   networking.hostName = "oxygen";
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -41,80 +42,9 @@ in
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      plausible_secret_key_base.owner = "root";
-      spotify_client_secret.owner = "root";
       radicale_auth.owner = "radicale";
     };
   };
-
-  users.users."${user.name}".extraGroups = [
-    "headscale"
-  ];
-
-  environment.systemPackages = with pkgs; [
-    busybox
-    headscale
-  ];
-
-  services.your_spotify =
-    let
-      domain = "fm.joinemm.dev";
-    in
-    {
-      enable = true;
-      package = pkgs.your_spotify.overrideAttrs { dontCheckForBrokenSymlinks = true; };
-      settings = {
-        PORT = 8081;
-        SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
-        CLIENT_ENDPOINT = "https://${domain}";
-        API_ENDPOINT = "https://${domain}/api";
-      };
-      spotifySecretFile = config.sops.secrets.spotify_client_secret.path;
-      enableLocalDB = true;
-      nginxVirtualHost = domain;
-    };
-
-  services.mongodb.package = pkgs.mongodb-6_0;
-
-  services.postgresql = {
-    enable = true;
-    authentication = lib.mkForce ''
-      local all all trust
-    '';
-    ensureDatabases = [
-      "headscale"
-    ];
-    ensureUsers = [
-      {
-        name = "headscale";
-        ensureDBOwnership = true;
-      }
-    ];
-  };
-
-  services.plausible = {
-    enable = true;
-    server = {
-      port = 8000;
-      baseUrl = "https://traffic.joinemm.dev";
-      secretKeybaseFile = config.sops.secrets.plausible_secret_key_base.path;
-    };
-
-    database = {
-      clickhouse.setup = true;
-    };
-  };
-
-  environment.etc."clickhouse-server/users.d/disable-logging.xml".text = ''
-    <clickhouse>
-      <profiles>
-        <default>
-          <log_queries>0</log_queries>
-          <log_query_threads>0</log_query_threads>
-        </default>
-      </profiles>
-    </clickhouse>
-  '';
 
   services.syncthing = {
     dataDir = "${volumePath}/syncthing";
@@ -132,35 +62,6 @@ in
       "videos".enable = true;
       "work".enable = true;
       "projects".enable = true;
-    };
-  };
-
-  services.headscale = {
-    enable = true;
-    port = 8085;
-    settings = {
-      server_url = "https://portal.joinemm.dev";
-      metrics_listen_addr = "127.0.0.1:8095";
-      prefixes = {
-        v4 = "100.64.0.0/10";
-        v6 = "fd7a:115c:a1e0::/48";
-      };
-      database = {
-        type = "postgres";
-        postgres = {
-          host = "/run/postgresql";
-          name = "headscale";
-          user = "headscale";
-        };
-      };
-      dns = {
-        override_local_dns = true;
-        base_domain = "tail.net";
-        magic_dns = true;
-        nameservers.global = [ "100.64.0.3" ];
-      };
-      unix_socket_permission = "0770";
-      disable_check_updates = true;
     };
   };
 
@@ -238,43 +139,10 @@ in
       }
       // ssl;
 
-      "traffic.joinemm.dev" =
-        let
-          plausibleAddr = "http://127.0.0.1:${toString config.services.plausible.server.port}";
-          extraConfig = "proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;";
-        in
-        {
-          serverAliases = [ "plausible.joinemm.dev" ];
-          locations."/" = {
-            proxyPass = plausibleAddr;
-            inherit extraConfig;
-          };
-          locations."/visit.js" = {
-            proxyPass = "${plausibleAddr}/js/script.outbound-links.js";
-            inherit extraConfig;
-          };
-        }
-        // ssl;
-
       "sync.joinemm.dev" = {
         serverAliases = [ "syncthing.joinemm.dev" ];
         locations."/" = {
           proxyPass = "http://127.0.0.1:8384";
-        };
-      }
-      // ssl;
-
-      "fm.joinemm.dev" = {
-        # imported spotify history files can be very large
-        extraConfig = ''
-          client_max_body_size 0;
-        '';
-        locations."/api/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.your_spotify.settings.PORT}/";
-          extraConfig = ''
-            proxy_set_header X-Script-Name /api;
-            proxy_pass_header Authorization;
-          '';
         };
       }
       // ssl;
@@ -285,14 +153,6 @@ in
         '';
         locations."/" = {
           proxyPass = "http://100.64.0.7:3210";
-        };
-      }
-      // ssl;
-
-      "portal.joinemm.dev" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.headscale.port}";
-          proxyWebsockets = true;
         };
       }
       // ssl;
