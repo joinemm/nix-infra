@@ -38,6 +38,7 @@ let
         ./zfs.nix
         ./graphical.nix
         ./thunar.nix
+        ./hardening.nix
       ]
   );
 in
@@ -47,6 +48,7 @@ in
     profiles = {
       core = with modules; [
         common
+        hardening
       ];
       server = with modules; [
         headless
