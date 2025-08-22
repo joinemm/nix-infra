@@ -21,11 +21,6 @@
           hostname = "172.18.20.100";
           inherit user;
         };
-
-        "135.181.103.32" = {
-          hostname = "135.181.103.32";
-          inherit user;
-        };
       }
       # map over machine definitions in ghaf-infra and add all of them
       // lib.mapAttrs (name: attrs: {
