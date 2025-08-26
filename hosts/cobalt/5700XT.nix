@@ -33,10 +33,11 @@
         disable_clocks_cleanup: false
       apply_settings_timer: 5
       gpus:
-        1002:731F-1DA2:E411-0000:0b:00.0:
+        '1002:731F-1DA2:E411-0000:0b:00.0':
           fan_control_enabled: false
+          performance_level: manual
+          power_profile_mode_index: 1 # 3D_FULL_SCREEN
           power_cap: 220.0
-          performance_level: auto
           max_core_clock: 2000
           max_memory_clock: 850
           max_voltage: 1110

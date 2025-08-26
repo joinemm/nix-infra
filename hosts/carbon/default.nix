@@ -63,5 +63,10 @@
     imports = [
       ../../modules/home/laptop.nix
     ];
+
+    xdg.configFile."way-displays/cfg.yml".text = ''
+      SCALING: FALSE
+      AUTO_SCALE: FALSE
+    '';
   };
 }

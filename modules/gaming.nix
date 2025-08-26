@@ -7,24 +7,24 @@
 let
   # Usage in steam launch options: game-wrapper %command%
   game-wrapper = pkgs.writeShellScriptBin "game-wrapper" ''
-    # Force the use of RADV driver. gamescope refuses to start without this (at least on my system).
-    # export DISABLE_LAYER_AMD_SWITCHABLE_GRAPHICS_1=1
-    # export VK_ICD_FILENAMES="/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json"
-
     # save LD_PRELOAD value.
     # It is set to empty for gamescope, but reset back to it's original value for the game process.
     # This fixes stuttering after 30 minutes of gameplay, but doesn't break steam overlay.
-    export LD_PRELOAD_SAVED="$LD_PRELOAD"
+    LD_PRELOAD_SAVED="$LD_PRELOAD"
     export LD_PRELOAD=""
 
-    gamemoderun \
+    exec gamemoderun \
       gamescope -r 144 -w 3440 -h 1440 -f -F pixel \
       --mangoapp \
-      --adaptive-sync \
       --force-grab-cursor \
       -- \
       env LD_PRELOAD=$LD_PRELOAD_SAVED \
       "$@"
+  '';
+
+  amdvlk-run = pkgs.writeShellScriptBin "amdvlk-run" ''
+    export VK_DRIVER_FILES="${pkgs.amdvlk}/share/vulkan/icd.d/amd_icd64.json:${pkgs.pkgsi686Linux.amdvlk}/share/vulkan/icd.d/amd_icd32.json"
+    exec "$@"
   '';
 in
 {
@@ -73,7 +73,9 @@ in
       enable32Bit = true;
 
       # Add vulkan video encoding support
-      extraPackages = with pkgs; [ libva ];
+      extraPackages = with pkgs; [
+        libva
+      ];
     };
 
     # Xbox wireless controller driver
@@ -101,5 +103,6 @@ in
     ]
     ++ [
       game-wrapper
+      amdvlk-run
     ];
 }
