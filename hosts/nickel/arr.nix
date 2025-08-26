@@ -73,7 +73,6 @@
     stateDir = "/var/lib/nixarr";
 
     jellyfin.enable = true; # 8096
-
     prowlarr.enable = true; # 9696
     radarr.enable = true; # 7878
     sonarr.enable = true; # 8989

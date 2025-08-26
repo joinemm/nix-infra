@@ -40,13 +40,13 @@
       };
       "prowlarr.${labDomain}" = labCert // {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:9696";
+          proxyPass = "http://127.0.0.1:${toString config.nixarr.prowlarr.port}";
           proxyWebsockets = true;
         };
       };
       "radarr.${labDomain}" = labCert // {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:7878";
+          proxyPass = "http://127.0.0.1:${toString config.nixarr.radarr.port}";
           proxyWebsockets = true;
         };
       };
@@ -55,16 +55,15 @@
           proxyPass = "http://127.0.0.1:8989";
           proxyWebsockets = true;
         };
-
       };
       "bazarr.${labDomain}" = labCert // {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:6767";
+          proxyPass = "http://127.0.0.1:${toString config.nixarr.bazarr.port}";
           proxyWebsockets = true;
         };
       };
       "jellyseerr.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:5055";
+        locations."/".proxyPass = "http://127.0.0.1:${toString config.nixarr.jellyseerr.port}";
       };
       "jellyfin.${labDomain}" = labCert // {
         locations."/".proxyPass = "http://127.0.0.1:8096";
@@ -103,16 +102,6 @@
       "mealie.${labDomain}" = labCert // {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString config.services.mealie.port}";
-        };
-      };
-      "audio.${labDomain}" = labCert // {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_redirect http:// $scheme://;
-            client_max_body_size 0;
-          '';
         };
       };
     };

@@ -121,11 +121,6 @@
     };
   };
 
-  services.audiobookshelf = {
-    enable = true;
-    group = "media";
-  };
-
   networking.firewall = {
     allowedTCPPorts = [ 9999 ];
     allowedUDPPorts = [ 9999 ];
