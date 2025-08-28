@@ -39,7 +39,6 @@ let
       yarnBuildHook
       yarnInstallHook
       nodejs
-      gqlgen
     ];
 
     installPhase = ''
@@ -51,13 +50,6 @@ in
 buildGo123Module {
   pname = "traggo-server";
   inherit src version;
-
-  preBuild = ''
-    mkdir ui/build
-    cp -r ${traggo-ui}/* ui/build
-    printf "\nskip_mod_tidy: true" >> gqlgen.yml
-    gqlgen
-  '';
 
   nativeBuildInputs = with pkgs; [
     # Fails to build with the current gqlgen version in nixpkgs (0.17.78)
@@ -73,6 +65,18 @@ buildGo123Module {
     })
   ];
 
+  preBuild = ''
+    # copy in the built ui
+    mkdir ui/build
+    cp -r ${traggo-ui}/* ui/build
+
+    # skip mod tidy as it needs internet access
+    printf "\nskip_mod_tidy: true" >> gqlgen.yml
+
+    # generate graphql schema and model
+    gqlgen
+  '';
+
   ldflags = [
     "-X main.BuildDate=1970-01-01T00:00:00Z"
     "-X main.BuildMode=prod"
@@ -80,4 +84,8 @@ buildGo123Module {
   ];
 
   vendorHash = "sha256-hH3D4FQc4QgNyoLGABERQXd/cfHf6iYD0GmCg+Pp9Hs=";
+
+  meta = {
+    mainProgram = "server";
+  };
 }
