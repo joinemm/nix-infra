@@ -91,6 +91,22 @@
     settings.web.listen.port = 5500;
   };
 
+  systemd.services.traggo = {
+    wantedBy = [ "multi-user.target" ];
+    environment = {
+      TRAGGO_PORT = toString 3030;
+      TRAGGO_DEFAULT_USER_NAME = "admin";
+      TRAGGO_DEFAULT_USER_PASS = "admin";
+    };
+    serviceConfig = {
+      DynamicUser = true;
+      StateDirectory = "traggo";
+      WorkingDirectory = "/var/lib/traggo";
+      Restart = "on-failure";
+      ExecStart = "${self.packages.${pkgs.system}.traggo}/bin/server";
+    };
+  };
+
   services.immich = {
     enable = true;
     host = "127.0.0.1";

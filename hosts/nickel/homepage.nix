@@ -4,6 +4,7 @@
 
   services.homepage-dashboard = {
     enable = true;
+    allowedHosts = "lab.joinemm.dev";
     environmentFile = config.sops.secrets.homepage_env.path;
     settings = {
       layout = [

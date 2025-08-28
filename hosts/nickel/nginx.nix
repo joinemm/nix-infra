@@ -104,6 +104,11 @@
           proxyPass = "http://127.0.0.1:${toString config.services.mealie.port}";
         };
       };
+      "traggo.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString 3030}";
+        };
+      };
     };
 
   users.users.nginx.extraGroups = [ "acme" ];
