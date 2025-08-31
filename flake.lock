@@ -160,11 +160,11 @@
     "ghaf-infra": {
       "flake": false,
       "locked": {
-        "lastModified": 1755867282,
-        "narHash": "sha256-IRiusSxcu0ZksbKsWm82CXWoJ9XGNXrec9LikUTkdWM=",
+        "lastModified": 1756466813,
+        "narHash": "sha256-haTBiLAPyd3GpkNNUR+7uNGRX51ceySwbJ8XSku4ADw=",
         "owner": "tiiuae",
         "repo": "ghaf-infra",
-        "rev": "7c3935f1b36ea019206ed40c12fb9f11ed503d03",
+        "rev": "0df989161e8b05721c007b0f482ab2f9f814ffbb",
         "type": "github"
       },
       "original": {
