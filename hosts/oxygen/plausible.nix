@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   sops.secrets.plausible_secret_key_base.owner = "root";
 
@@ -25,6 +25,25 @@
       </profiles>
     </clickhouse>
   '';
+
+  systemd.services.clickhouse-cleanup = {
+    path = with pkgs; [
+      clickhouse
+    ];
+    script = ''
+      clickhouse-client -q "SELECT name FROM system.tables WHERE name LIKE '%log%';" | xargs -I{} clickhouse-client -q "TRUNCATE TABLE system.{};"
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+    };
+  };
+
+  systemd.timers.clickhouse-cleanup = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 00:00:00";
+    };
+  };
 
   services.nginx.virtualHosts."traffic.joinemm.dev" =
     let
