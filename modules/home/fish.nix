@@ -1,5 +1,24 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  git-branch-rebase = pkgs.writeShellApplication {
+    name = "git-fork-update";
+    text = # sh
+      ''
+        MAIN="''${1:-main}"
+        BRANCH="$(git branch | grep '\* ' | sed 's/\* //g')"
+        git checkout "$MAIN"
+        git pull upstream "$MAIN"
+        git push
+        git checkout "$BRANCH"
+        git rebase "$MAIN"
+      '';
+  };
+in
 {
+  home.packages = [
+    git-branch-rebase
+  ];
+
   programs.fish = {
     enable = true;
 
@@ -26,35 +45,6 @@
       git-branch-cleanup = "git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D";
     };
 
-    shellInit = # fish
-      ''
-        # Start X at login
-        if status is-login
-            if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-                exec startx -- -keeptty
-            end
-        end
-      '';
-
-    interactiveShellInit = # fish
-      ''
-        if not set -q fish_configured
-          set -U fish_greeting
-          tide configure --auto \
-            --style=Lean \
-            --prompt_colors='16 colors' \
-            --lean_prompt_height='Two lines' \
-            --show_time=No \
-            --prompt_spacing=Compact \
-            --prompt_connection=Disconnected \
-            --icons='Few icons' \
-            --transient=Yes
-
-          tide reload
-          set -U fish_configured
-        end
-      '';
-
     plugins =
       map
         (name: {
@@ -62,7 +52,6 @@
           inherit (pkgs.fishPlugins.${name}) src;
         })
         [
-          "tide"
           "bass"
         ];
   };

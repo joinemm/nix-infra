@@ -3,7 +3,8 @@
     enable = true;
     enableTransience = true;
     settings = {
-      add_newline = true;
+      follow_symlinks = false;
+      add_newline = false;
       right_format = "$time";
       continuation_prompt = "▶▶ ";
 

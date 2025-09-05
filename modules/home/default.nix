@@ -47,6 +47,7 @@ let
         ./ssh-personal.nix
         ./ssh-work.nix
         ./starship.nix
+        ./swaybg.nix
         ./wayland.nix
         ./wezterm.nix
         ./xdg.nix
@@ -56,7 +57,6 @@ let
         ./zathura.nix
         ./zen.nix
         ./zsh.nix
-        ./swaybg.nix
       ]
   );
 
@@ -106,6 +106,7 @@ let
       email
       sioyek
       flameshot
+      starship
       ;
   };
 in
