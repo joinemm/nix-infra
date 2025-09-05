@@ -4,7 +4,6 @@
   border-radius: 0;
   min-height: 0;
   border: none;
-  font-weight: bold;
 }
 
 #tags {
@@ -32,12 +31,14 @@
 #memory,
 #cpu,
 #network,
+#custom-vpn,
 #custom-lock{
   border-radius: 4px;
   margin: 6px 3px;
   padding: 6px 10px;
   background-color: #1e1e2e;
   color: #181825;
+  font-weight: bold;
 }
 
 #custom-lock,
@@ -82,6 +83,7 @@
 #network{
   background-color: #fab387;
 }
+#custom-vpn,
 #custom-lock{
   background-color: #94e2d5;
 }
@@ -105,6 +107,7 @@
   border-radius: 4px;
   background-color: rgba(36, 36, 52, 1.0);
   color: #cdd6f4;
+  font-weight: bold;
 }
 
 #tags button.focused {
@@ -124,7 +127,6 @@ tooltip {
   padding: 16px;
   background-color: #131822;
   color: #C0C0C0;
-  font-weight: normal;
 }
 
 tooltip label {
