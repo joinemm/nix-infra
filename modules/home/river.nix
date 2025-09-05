@@ -5,7 +5,6 @@
   home.packages = with pkgs; [
     pulseaudio
     way-displays
-    wofi
   ];
 
   wayland.windowManager.river = {
@@ -78,12 +77,12 @@
               "Super Return" = "spawn footclient";
               "Super W" = "spawn zen-beta";
               "Super R" = "spawn thunar";
-              "Super E" = "spawn 'BEMOJI_PICKER_CMD=\"wofi\" bemoji -t'";
               "Super C" = "spawn 'hyprpicker -a'";
               "Super Space" = "spawn 'tofi-drun --drun-launch=true'";
               "Super+Shift S" = "spawn 'flameshot-copy-fix gui'";
               "Print" = "spawn 'flameshot-copy-fix full -p /tmp/screenshot.png'";
               "Super Escape" = "spawn wlogout";
+              "Super Backspace" = "spawn wlogout";
 
               # window control
               "Super Q" = "close";
@@ -99,8 +98,8 @@
               "Super+Shift L" = "swap right";
 
               # media control
-              "None XF86AudioMute" = "spawn 'volumectl toggle-mute'";
-              "None XF86AudioMicMute" = "spawn 'volumectl -m toggle-mute'";
+              "None XF86AudioMute" = "spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'";
+              "None XF86AudioMicMute" = "spawn 'pactl set-source-mute @DEFAULT_SINK@ toggle'";
               "None XF86AudioPrev" = "spawn 'playerctl previous'";
               "None XF86AudioNext" = "spawn 'playerctl next'";
               "None XF86AudioPlay" = "spawn 'playerctl play-pause'";
