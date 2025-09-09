@@ -13,7 +13,7 @@
           name = "kyria-firmware";
           board = "nice_nano_v2";
           shield = "kyria_rev3_%PART%";
-          zephyrDepsHash = "sha256-n7xX/d8RLqDyPOX4AEo5hl/3tQtY6mZ6s8emYYtOYOg=";
+          zephyrDepsHash = "sha256-3fuPyz2aRKxpAOYndy9MkCgH0sixj4YKX8m+pPXn/K8=";
 
           src = lib.sourceFilesBySuffices ./kyria [
             ".conf"
