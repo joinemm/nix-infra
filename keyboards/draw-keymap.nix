@@ -1,16 +1,16 @@
 {
   writeShellApplication,
   src,
-  keymap-drawer,
   keymap,
   stdenv,
+  pkgs,
   ...
 }:
 let
   keymap-result = stdenv.mkDerivation {
     name = "keymap";
     inherit src;
-    nativeBuildInputs = [ keymap-drawer ];
+    nativeBuildInputs = [ pkgs.keymap-drawer ];
 
     unpackPhase = ''
       cp -r $src/config .

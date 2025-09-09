@@ -4,7 +4,6 @@
     {
       pkgs,
       lib,
-      self',
       ...
     }:
     {
@@ -25,7 +24,6 @@
         zmk-update = inputs.zmk-nix.packages.${pkgs.system}.update;
 
         draw-keymap = pkgs.callPackage ./draw-keymap.nix {
-          inherit (self'.packages) keymap-drawer;
           src = ./kyria;
           keymap = "kyria_rev3.keymap";
         };
