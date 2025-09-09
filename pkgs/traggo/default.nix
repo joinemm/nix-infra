@@ -15,12 +15,12 @@ let
     hash = "sha256-TxWXadKpZ/yrGh4lTMABgLyqUK2SUOm92ImtTVksiX0=";
   };
 
-  traggo-ui = stdenv.mkDerivation (finalAttrs: {
+  traggo-ui = stdenv.mkDerivation {
     pname = "traggo-ui";
     inherit src version;
 
     offlineCache = fetchYarnDeps {
-      yarnLock = "${finalAttrs.src}/yarn.lock";
+      yarnLock = "${src}/ui/yarn.lock";
       hash = "sha256-BDQ7MgRWBRQQfjS5UCW3KJ0kJrkn4g9o4mU0ZH+vhX0=";
     };
 
@@ -45,7 +45,7 @@ let
       mkdir -p $out
       cp -r build/* $out
     '';
-  });
+  };
 in
 buildGo123Module {
   pname = "traggo-server";
