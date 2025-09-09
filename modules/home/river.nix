@@ -78,6 +78,7 @@
               "Super W" = "spawn zen-beta";
               "Super R" = "spawn thunar";
               "Super C" = "spawn 'hyprpicker -a'";
+              "Super P" = "spawn 'systemctl lock-session'";
               "Super Space" = "spawn 'tofi-drun --drun-launch=true'";
               "Super+Shift S" = "spawn 'flameshot-copy-fix gui'";
               "Print" = "spawn 'flameshot-copy-fix full -p /tmp/screenshot.png'";

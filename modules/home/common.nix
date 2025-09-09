@@ -1,4 +1,8 @@
-{ pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
@@ -13,11 +17,9 @@
     };
   };
 
-  programs = {
-    # run commands without installing them with `, <cmd>`
-    nix-index-database.comma.enable = true;
-    fzf.enable = true;
-  };
+  # run commands without installing them with `, <cmd>`
+  programs.nix-index-database.comma.enable = true;
+  programs.fzf.enable = true;
 
   nix.gc = {
     automatic = true;

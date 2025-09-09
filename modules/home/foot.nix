@@ -1,4 +1,3 @@
-{ lib, ... }:
 {
   programs.foot = {
     enable = true;
@@ -50,6 +49,4 @@
     TERMINAL = "footclient";
     TERM = "footclient";
   };
-
-  systemd.user.services.foot.Unit.PartOf = lib.mkForce [ ];
 }

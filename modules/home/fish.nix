@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
   git-branch-rebase = pkgs.writeShellApplication {
     name = "git-fork-update";
