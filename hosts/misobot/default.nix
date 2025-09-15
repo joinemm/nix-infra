@@ -12,6 +12,67 @@ let
     api = 3000;
     shlink = 8080;
   };
+
+  backupScript = pkgs.writeShellApplication {
+    name = "backup";
+    text = ''
+      if [ "$1" = init ]; then
+          echo "Initialising repository and exiting"
+          restic -r "$BUCKET" init
+          exit 0
+      fi
+
+      BACKUP_DIR="$1"
+      DUMP_OPTIONS="--force --quick --single-transaction --extended-insert --order-by-primary"
+      BUCKET="s3:s3.us-west-004.backblazeb2.com/misobot"
+
+      # Signal healthcheck.io that the backup run started
+      curl -m 10 --retry 5 "https://hc-ping.com/$HC_PING_KEY/db-backup/start"
+
+      # Create our backup directory if not already there
+      mkdir -p "$BACKUP_DIR"
+      if [ ! -d "$BACKUP_DIR" ]; then
+          echo "Not a directory: $BACKUP_DIR"
+          exit 1
+      fi
+
+      # back up the backups because why not
+      echo "Copying old backups to $BACKUP_DIR-yesterday"
+      cp -r "$BACKUP_DIR" "$BACKUP_DIR"-yesterday
+
+      # Dump our databases
+      DATABASE_NAME=misobot
+      echo "Dumping MySQL Database $DATABASE_NAME"
+      # shellcheck disable=SC2086
+      docker exec miso-bot-db \
+          mariadb-dump --user=bot --password=botpw $DUMP_OPTIONS \
+          --ignore-table="$DATABASE_NAME".sessions \
+          "$DATABASE_NAME" >"$BACKUP_DIR"/"$DATABASE_NAME".sql
+
+      DATABASE_NAME=shlink
+      echo "Dumping MySQL Database $DATABASE_NAME"
+      # shellcheck disable=SC2086
+      docker exec miso-shlink-db \
+          mariadb-dump --user=shlink --password=shlinkpw $DUMP_OPTIONS \
+          --ignore-table="$DATABASE_NAME".sessions \
+          "$DATABASE_NAME" >"$BACKUP_DIR"/"$DATABASE_NAME".sql
+
+      echo "Uploading dumps to B2"
+
+      restic -r "$BUCKET" backup "$BACKUP_DIR"
+
+      echo "Forgetting old backups based on policy"
+      RETENTION_POLICY="--keep-daily 7 --keep-weekly 4"
+      # shellcheck disable=SC2086
+      restic -r "$BUCKET" forget $RETENTION_POLICY
+
+      echo "Pruning the bucket"
+      restic -r "$BUCKET" prune
+
+      # signal healthcheck.io that the backup ran fine
+      curl -m 10 --retry 5 "https://hc-ping.com/$HC_PING_KEY/db-backup"
+    '';
+  };
 in
 {
   imports = lib.flatten [
@@ -41,6 +102,30 @@ in
       github_client_id.owner = "grafana";
       github_client_secret.owner = "grafana";
       gatus_env.owner = "gatus";
+      backup_env.owner = "root";
+    };
+  };
+
+  systemd.services."miso-backup" = {
+    path = [
+      backupScript
+    ]
+    ++ (with pkgs; [
+      curl
+      restic
+      docker-client
+    ]);
+    serviceConfig = {
+      Type = "oneshot";
+      EnvironmentFile = config.sops.secrets.backup_env.path;
+      ExecStart = "backup /var/lib/miso/backups";
+    };
+  };
+
+  systemd.timers."miso-backup" = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 00:00:00";
     };
   };
 
@@ -122,6 +207,7 @@ in
     isSystemUser = true;
     group = "gatus";
   };
+
   services.gatus = {
     enable = true;
     environmentFile = config.sops.secrets.gatus_env.path;
@@ -197,7 +283,10 @@ in
 
   users.users.${user.name}.extraGroups = [ "docker" ];
 
-  environment.systemPackages = with pkgs; [ busybox ];
+  environment.systemPackages = [
+    pkgs.busybox
+    backupScript
+  ];
 
   services.nginx.virtualHosts =
     let
