@@ -115,17 +115,11 @@ in
       restic
       docker-client
     ]);
+    startAt = "00:00";
     serviceConfig = {
       Type = "oneshot";
       EnvironmentFile = config.sops.secrets.backup_env.path;
       ExecStart = "backup /var/lib/miso/backups";
-    };
-  };
-
-  systemd.timers."miso-backup" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "*-*-* 00:00:00";
     };
   };
 
