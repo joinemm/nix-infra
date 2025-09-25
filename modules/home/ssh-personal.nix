@@ -1,6 +1,7 @@
 {
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       miso.hostname = "5.161.235.21";
       oxygen.hostname = "65.21.249.145";
