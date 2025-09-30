@@ -107,19 +107,16 @@ in
   };
 
   systemd.services."miso-backup" = {
-    path = [
-      backupScript
-    ]
-    ++ (with pkgs; [
+    path = with pkgs; [
       curl
       restic
       docker-client
-    ]);
+    ];
     startAt = "00:00";
     serviceConfig = {
       Type = "oneshot";
       EnvironmentFile = config.sops.secrets.backup_env.path;
-      ExecStart = "backup /var/lib/miso/backups";
+      ExecStart = "${lib.getExe backupScript} /var/lib/miso/backups";
     };
   };
 
