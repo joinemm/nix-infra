@@ -85,6 +85,7 @@
         "flakes"
       ];
 
+      accept-flake-config = true;
       allow-import-from-derivation = true;
       builders-use-substitutes = true;
       keep-derivations = true;

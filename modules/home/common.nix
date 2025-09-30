@@ -87,5 +87,6 @@
     file
     jq
     geekbench
+    ripgrep
   ];
 }
