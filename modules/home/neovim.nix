@@ -66,6 +66,7 @@
       vscode-json-languageserver
       fixjson
       glslls # not set up yet
+      ueberzug
     ];
 
     startPlugins = with pkgs.vimPlugins; [ cmp-async-path ];
@@ -252,15 +253,24 @@
       };
     };
 
+    treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+      regex
+      ini
+      diff
+    ];
+
     filetree.neo-tree = {
       enable = true;
       setupOpts = {
-        enable_cursor_hijack = true;
         git_status_async = true;
+        filesystem.follow_current_file = {
+          enabled = true;
+          leave_dirs_open = false;
+        };
       };
     };
 
-    hightlight = {
+    highlight = {
       Normal.bg = "none";
       NormalFloat.bg = "none";
       WinSeparator = {
