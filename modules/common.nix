@@ -60,11 +60,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # Remove once https://github.com/NixOS/nixpkgs/pull/429473 is merged
-  nixpkgs.config.permittedInsecurePackages = [
-    "libsoup-2.74.3"
-  ];
-
   # revision of the flake the configuration was built from.
   # $ nixos-version --configuration-revision
   system.configurationRevision = if (self ? rev) then self.rev else self.dirtyRev;
