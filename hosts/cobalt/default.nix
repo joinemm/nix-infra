@@ -48,6 +48,11 @@
     ];
   };
 
+  # allow launcher.keychron.com to access my M5 mouse
+  services.udev.extraRules = ''
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="d028", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+  '';
+
   services.power-profiles-daemon.enable = true;
   services.auto-epp = {
     enable = true;

@@ -76,6 +76,7 @@ in
         gc
         graphical
         thunar
+        virtualization
       ];
     };
   };
