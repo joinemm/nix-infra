@@ -59,13 +59,34 @@
           ];
           filetypes = [ "json" ];
         };
+
+        nix.init_options = {
+          options =
+            let
+              flake = ''(builtins.getFlake "/home/joonas/code/nix-infra")'';
+            in
+            {
+              nixos = {
+                expr = "${flake}.nixosConfigurations.cobalt.options";
+              };
+              home_manager = {
+                expr = "${flake}.nixosConfigurations.cobalt.home-manager.users.type.getSubOptions []";
+              };
+              flake_parts = {
+                expr = "${flake}.debug.options";
+              };
+              flake_parts2 = {
+                expr = "${flake}.currentSystem.options";
+              };
+            };
+        };
+
       };
     };
 
     extraPackages = with pkgs; [
       vscode-json-languageserver
       fixjson
-      glslls # not set up yet
       ueberzug
     ];
 
@@ -168,25 +189,7 @@
       nix = {
         enable = true;
         lsp = {
-          server = "nixd";
-          options =
-            let
-              flake = ''(builtins.getFlake "/home/joonas/code/nix-infra")'';
-            in
-            {
-              nixos = {
-                expr = "${flake}.nixosConfigurations.cobalt.options";
-              };
-              home_manager = {
-                expr = "${flake}.nixosConfigurations.cobalt.home-manager.users.type.getSubOptions []";
-              };
-              flake_parts = {
-                expr = "${flake}.debug.options";
-              };
-              flake_parts2 = {
-                expr = "${flake}.currentSystem.options";
-              };
-            };
+          servers = "nixd";
         };
       };
       markdown.enable = true;

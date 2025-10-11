@@ -144,15 +144,15 @@ keybinds conf@(XConfig {XMonad.modMask = mod, XMonad.terminal = term}) =
       -- mod-[1..9], Switch to workspace N
       -- mod-shift-[1..9], Move client to workspace N
       [ (m .|. mod, k) ~> windows $ f i
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
-          (f, m) <- [(S.greedyView, 0), (S.shift, shiftMask)]
+      | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9],
+        (f, m) <- [(S.greedyView, 0), (S.shift, shiftMask)]
       ]
       ++
       -- mod-([, ]), Switch to physical/Xinerama screens 1 or 2
       -- mod-shift-([, ]), Move client to screen 1 or 2
       [ ((m .|. mod, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_braceleft, xK_braceright] [0 ..],
-          (f, m) <- [(S.view, 0), (S.shift, shiftMask)]
+      | (key, sc) <- zip [xK_braceleft, xK_braceright] [0 ..],
+        (f, m) <- [(S.view, 0), (S.shift, shiftMask)]
       ]
 
 myMouseBindings (XConfig {XMonad.modMask = modm}) =

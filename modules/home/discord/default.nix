@@ -3,9 +3,6 @@
   inputs,
   ...
 }:
-# let
-#   oldPkgs = import inputs.nixpkgs-old { inherit (pkgs) system; };
-# in
 {
   imports = [ inputs.nixcord.homeModules.nixcord ];
 
@@ -19,6 +16,18 @@
 
     vesktop = {
       enable = true;
+
+      package = pkgs.vesktop.overrideAttrs (prev: {
+        src = pkgs.fetchFromGitHub {
+          owner = "Vencord";
+          repo = "Vesktop";
+          rev = "8cc34e217c70700c5d24451fa89cbe53e92b7f0a";
+          hash = "sha256-8EVx4q7jNOpWAf1djOqHrG2GlQf7bq7vYUjWaihUfDw=";
+        };
+        pnpmDeps = prev.pnpmDeps.overrideAttrs (_: {
+          outputHash = "sha256-Vn+Imarp1OTPfe/PoMgFHU5eWnye5Oa+qoGZaTxOUmU=";
+        });
+      });
 
       # Use vencord fork with customizable tray icon
       # https://github.com/Vencord/Vesktop/pull/517

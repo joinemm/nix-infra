@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [ birdtray ];
-
   programs.thunderbird = {
     enable = true;
     package = pkgs.thunderbird-esr-bin;
