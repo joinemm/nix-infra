@@ -68,6 +68,8 @@
     registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
 
+    # nix 2.32 breaks deploy-rs
+    # https://github.com/serokell/deploy-rs/issues/340
     package = pkgs.nixVersions.nix_2_30;
 
     settings = {

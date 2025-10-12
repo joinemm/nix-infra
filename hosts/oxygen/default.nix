@@ -29,7 +29,7 @@ in
       mountpoint = volumePath;
     })
     ./headscale.nix
-    ./plausible.nix
+    ./umami.nix
     ./your-spotify.nix
   ];
 
