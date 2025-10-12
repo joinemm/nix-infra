@@ -23,6 +23,7 @@ let
         user = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nickel;
       };
+      fastConnection = true;
     };
   };
 
@@ -38,7 +39,12 @@ let
 in
 {
   flake = {
-    deploy.nodes = x86 // aarch64;
+    deploy = {
+      nodes = x86 // aarch64;
+
+      magicRollback = false;
+      activationTimeout = 600;
+    };
 
     # This is used in a script to list all nodes
     deployList = lib.attrsets.mapAttrs (_: value: value.hostname) (x86 // aarch64);

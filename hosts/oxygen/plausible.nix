@@ -10,21 +10,8 @@
       secretKeybaseFile = config.sops.secrets.plausible_secret_key_base.path;
     };
 
-    database = {
-      clickhouse.setup = true;
-    };
+    database.clickhouse.setup = true;
   };
-
-  environment.etc."clickhouse-server/users.d/disable-logging.xml".text = ''
-    <clickhouse>
-      <profiles>
-        <default>
-          <log_queries>0</log_queries>
-          <log_query_threads>0</log_query_threads>
-        </default>
-      </profiles>
-    </clickhouse>
-  '';
 
   systemd.services.clickhouse-cleanup = {
     path = with pkgs; [
