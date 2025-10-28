@@ -2,17 +2,20 @@
 {
   home.packages = [ pkgs.git-absorb ];
 
+  programs.diff-so-fancy.enableGitIntegration = true;
+
   programs.git = {
     enable = true;
-
-    userName = user.fullName;
-    userEmail = user.email;
     signing.key = user.gpgKey;
 
-    diff-so-fancy.enable = true;
-    extraConfig = {
+    settings = {
       init.defaultBranch = "master";
-      commit.gpgsign = true;
+
+      user = {
+        name = user.fullName;
+        inherit (user) email;
+      };
+
       color = {
         status = "auto";
         diff = "auto";
@@ -21,15 +24,16 @@
         ui = "auto";
         sh = "auto";
       };
+
       merge = {
         stat = true;
         tool = "nvimdiff2";
       };
-      pull = {
-        rebase = true;
-      };
-      push.autoSetupRemote = true;
+
+      commit.gpgsign = true;
       fetch.prune = true;
+      pull.rebase = true;
+      push.autoSetupRemote = true;
     };
 
     includes = [

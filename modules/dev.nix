@@ -1,8 +1,5 @@
-{ pkgs, user, ... }:
+{ user, ... }:
 {
-  programs.adb.enable = true;
-  services.udev.packages = [ pkgs.android-udev-rules ];
-
   environment.variables = {
     GOPATH = "${user.home}/.local/share/go";
   };

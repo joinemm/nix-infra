@@ -23,7 +23,7 @@ let
   '';
 
   # amdvlk is deprecated, but it's the only driver that runs cs2 well for me
-  oldPkgs = import inputs.nixpkgs-old { inherit (pkgs) system; };
+  oldPkgs = import inputs.nixpkgs-stable { inherit (pkgs) system; };
 
   amdvlk-run = pkgs.writeShellScriptBin "amdvlk-run" ''
     export VK_DRIVER_FILES="${oldPkgs.amdvlk}/share/vulkan/icd.d/amd_icd64.json:${oldPkgs.pkgsi686Linux.amdvlk}/share/vulkan/icd.d/amd_icd32.json"

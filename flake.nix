@@ -14,9 +14,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    # for vesktop with pnpm-9
-    nixpkgs-old.url = "github:NixOS/nixpkgs/c88d1114ed1344d10e21597a8f15d656fda6663a";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";

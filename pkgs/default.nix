@@ -3,7 +3,7 @@
   perSystem =
     { pkgs, ... }:
     let
-      oldPkgs = import inputs.nixpkgs-old { inherit (pkgs) system; };
+      oldPkgs = import inputs.nixpkgs-stable { inherit (pkgs) system; };
     in
     {
       packages = {
