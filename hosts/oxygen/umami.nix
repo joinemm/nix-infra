@@ -12,7 +12,7 @@
     };
   };
 
-  services.nginx.virtualHosts."umami.joinemm.dev" = {
+  services.nginx.virtualHosts."traffic.joinemm.dev" = {
     enableACME = true;
     forceSSL = true;
 
