@@ -87,7 +87,6 @@
     extraPackages = with pkgs; [
       vscode-json-languageserver
       fixjson
-      ueberzug
     ];
 
     startPlugins = with pkgs.vimPlugins; [ cmp-async-path ];
@@ -259,6 +258,8 @@
     treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       regex
       ini
+      yaml
+      toml
       diff
     ];
 
@@ -313,7 +314,6 @@
 
     utility = {
       vim-wakatime.enable = true;
-      images.image-nvim.enable = true;
     };
   };
 }
