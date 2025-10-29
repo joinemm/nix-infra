@@ -46,7 +46,7 @@
     gitmoji-cli
     pre-commit
     leetcode-cli
-    calendar-cli
+    go-grip
 
     # gui apps
     spotify
@@ -76,6 +76,7 @@
     czkawka
     exif
     yt-dlp
+    calendar-cli
 
     # utils
     tree
