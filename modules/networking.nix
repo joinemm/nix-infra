@@ -4,7 +4,7 @@
     networkmanager = {
       enable = true;
       wifi = {
-        backend = "iwd";
+        backend = "wpa_supplicant";
         powersave = true;
       };
     };
@@ -14,9 +14,9 @@
 
   services.resolved = {
     enable = true;
-    extraConfig = ''
-      Cache=no
-    '';
+    # extraConfig = ''
+    #   Cache=no
+    # '';
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;
