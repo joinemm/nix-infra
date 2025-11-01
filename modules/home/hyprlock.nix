@@ -51,8 +51,9 @@
 
   services.swayidle =
     let
-      lockTimeout = 1 * 60; # 300 seconds
-      suspendTimeout = 2 * 60; # 900 seconds
+      lockTimeout = 5 * 60;
+      suspendTimeout = 15 * 60;
+      blankTimeout = 10;
 
       screenLocker = lib.getExe pkgs.hyprlock;
 
@@ -68,16 +69,16 @@
           command = "${lib.getExe' pkgs.libnotify "notify-send"} 'Locking in 5 seconds' -t 5000";
         }
         {
-          timeout = lockTimeout; # 300 seconds (5 minutes)
+          timeout = lockTimeout;
           command = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
         }
         {
-          timeout = lockTimeout + 10;
+          timeout = lockTimeout + blankTimeout;
           command = screenOff;
           resumeCommand = screenOn;
         }
         {
-          timeout = suspendTimeout; # 900 seconds (15 minutes)
+          timeout = suspendTimeout;
           command = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
           resumeCommand = screenOn;
         }
@@ -101,55 +102,4 @@
         }
       ];
     };
-
-  services.hypridle = {
-    enable = false;
-    settings =
-      let
-        lockTimeout = 5 * 60;
-        blankTimeout = 10;
-        suspendTimeout = 15 * 60;
-        screenLocker = "hyprlock";
-        screenOn = "wlopm --on '*'";
-        screenOff = "wlopm --off '*'";
-      in
-      {
-        general = {
-          # If lockscreen is not running start it (prevents multiple lockers).
-          # Hypridle does not count fingerprint activity as resuming,
-          # so the screen will stay blank if no other keys are touched.
-          # Hyprlock blocks until it's unlocked, so to fix this
-          # we can wake the screen on unlock by chaining a wlopm call to it.
-          # We can't use on_unlock_cmd without hyprland-lock-notify-v1 protocol,
-          # and river does not implement it
-          lock_cmd = "pidof ${screenLocker} || { ${screenLocker} && ${screenOn}; }";
-          before_sleep_cmd = "loginctl lock-session";
-        };
-        listener = [
-          {
-            timeout = lockTimeout;
-            on-timeout = "loginctl lock-session && ${screenOff}";
-            on-resume = screenOn;
-          }
-          {
-            # screen locked but still inactive for blankTimeout -> screen off
-            timeout = lockTimeout + blankTimeout;
-            on-timeout = screenOff;
-            on-resume = screenOn;
-          }
-          {
-            # screen was woken up but not unlocked, blank again after blankTimeout
-            # if lockscreen is still active
-            timeout = blankTimeout;
-            on-timeout = "pidof ${screenLocker} && ${screenOff}";
-            on-resume = screenOn;
-          }
-          {
-            timeout = suspendTimeout;
-            on-timeout = "systemctl suspend";
-          }
-        ];
-      };
-  };
-
 }
