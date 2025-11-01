@@ -1,3 +1,4 @@
+{ lib, pkgs, ... }:
 {
   programs.hyprlock = {
     enable = true;
@@ -26,7 +27,7 @@
           position = "15, -10";
         }
         {
-          text = ''cmd[update:10000] echo "$(cat /sys/class/power_supply/BAT0/capacity)%"'';
+          text = ''cmd[update:10000] echo "$(${lib.getExe' pkgs.coreutils "cat"} /sys/class/power_supply/BAT0/capacity)%"'';
           valign = "top";
           halign = "right";
           position = "-15, -10";
@@ -48,8 +49,61 @@
     };
   };
 
+  services.swayidle =
+    let
+      lockTimeout = 1 * 60; # 300 seconds
+      suspendTimeout = 2 * 60; # 900 seconds
+
+      screenLocker = lib.getExe pkgs.hyprlock;
+
+      screenOn = "${lib.getExe pkgs.wlopm} --on '*'";
+      screenOff = "${lib.getExe pkgs.wlopm} --off '*'";
+    in
+    {
+      enable = true;
+      extraArgs = [ ];
+      timeouts = [
+        {
+          timeout = lockTimeout - 5;
+          command = "${lib.getExe' pkgs.libnotify "notify-send"} 'Locking in 5 seconds' -t 5000";
+        }
+        {
+          timeout = lockTimeout; # 300 seconds (5 minutes)
+          command = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
+        }
+        {
+          timeout = lockTimeout + 10;
+          command = screenOff;
+          resumeCommand = screenOn;
+        }
+        {
+          timeout = suspendTimeout; # 900 seconds (15 minutes)
+          command = "${lib.getExe' pkgs.systemd "systemctl"} suspend";
+          resumeCommand = screenOn;
+        }
+      ];
+      events = [
+        {
+          event = "before-sleep";
+          command = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
+        }
+        {
+          event = "lock";
+          command = "${lib.getExe' pkgs.procps "pidof"} hyprlock || ${screenLocker}";
+        }
+        {
+          event = "unlock";
+          command = screenOn;
+        }
+        {
+          event = "after-resume";
+          command = screenOn;
+        }
+      ];
+    };
+
   services.hypridle = {
-    enable = true;
+    enable = false;
     settings =
       let
         lockTimeout = 5 * 60;
