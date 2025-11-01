@@ -79,14 +79,11 @@
     calendar-cli
 
     # utils
-    tree
-    rsync
     ffmpeg-full
     nix-diff
     p7zip
     yq-go
     file
-    jq
     geekbench
     ripgrep
   ];

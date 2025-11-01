@@ -134,6 +134,9 @@
       pciutils
       usbutils
       dig
+      tree
+      rsync
+      jq
     ];
 
     variables = {
