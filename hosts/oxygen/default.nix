@@ -31,6 +31,7 @@ in
     ./headscale.nix
     ./umami.nix
     ./your-spotify.nix
+    ./weddingshare.nix
   ];
 
   disko.devices.disk.sda.device = "/dev/disk/by-path/pci-0000:06:00.0-scsi-0:0:0:0";
@@ -43,6 +44,7 @@ in
     defaultSopsFile = ./secrets.yaml;
     secrets = {
       radicale_auth.owner = "radicale";
+      weddingshare_env.owner = "root";
     };
   };
 
@@ -107,6 +109,16 @@ in
         collection = "public/[^/]+";
         permissions = "r";
       };
+    };
+  };
+
+  services.weddingshare = {
+    enable = true;
+    environmentFile = config.sops.secrets.weddingshare_env.path;
+    uploadsDir = volumePath + "/event-uploads";
+    settings = {
+      title = "EventShare";
+      baseUrl = "eventshare.joinemm.dev";
     };
   };
 
@@ -195,6 +207,13 @@ in
           extraConfig = ''
             proxy_pass_header Authorization;
           '';
+        };
+      }
+      // ssl;
+
+      "eventshare.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:5000";
         };
       }
       // ssl;
