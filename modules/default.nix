@@ -23,6 +23,7 @@ let
         ./yubikey.nix
         ./headless.nix
         ./bluetooth.nix
+        ./secure-boot.nix
         ./syncthing.nix
         ./tailscale.nix
         ./networking.nix

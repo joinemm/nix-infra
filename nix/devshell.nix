@@ -10,6 +10,8 @@
           ssh-to-age
           gnupg
           deploy-rs
+          sbctl
+          e2fsprogs
 
           # add scripts to path
           (pkgs.writeScriptBin "node-list" (builtins.readFile (self + /scripts/list.sh)))
