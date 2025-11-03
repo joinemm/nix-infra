@@ -44,8 +44,7 @@ let
         ./river.nix
         ./rofi.nix
         ./sioyek.nix
-        ./ssh-personal.nix
-        ./ssh-work.nix
+        ./ssh.nix
         ./starship.nix
         ./swaybg.nix
         ./wayland.nix
@@ -96,8 +95,7 @@ let
       imv
       mpv
       neovim
-      ssh-personal
-      ssh-work
+      ssh
       wezterm
       xdg
       yazi
