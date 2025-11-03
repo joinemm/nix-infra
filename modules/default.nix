@@ -22,6 +22,7 @@ let
         ./hetzner.nix
         ./yubikey.nix
         ./headless.nix
+        ./hibernate.nix
         ./bluetooth.nix
         ./secure-boot.nix
         ./syncthing.nix
