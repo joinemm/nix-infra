@@ -31,6 +31,10 @@
     }
   ];
 
+  services.displayManager.ly.settings = {
+    battery_id = "BAT0";
+  };
+
   services = {
     xserver.xkb.options = "caps:super";
 
