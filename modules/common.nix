@@ -136,6 +136,7 @@
   users.users."${user.name}" = {
     isNormalUser = true;
     description = user.fullName;
+    initialHashedPassword = "$y$j9T$KyBnHLJFeVfuTfXyr.PkK.$AI..EcHtj.5x5v4puNb2Gn7iYzmQPSgv2hh7zz6zuz0";
     extraGroups = [
       "wheel"
       "input"
@@ -163,6 +164,7 @@
       rsync
       jq
       efibootmgr
+      e2fsprogs
     ];
 
     variables = {
