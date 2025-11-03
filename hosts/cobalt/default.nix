@@ -14,6 +14,7 @@
     (with self.nixosModules; [
       zfs
       wayland
+      secure-boot
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd

@@ -24,6 +24,7 @@
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/var/lib/sbctl";
+    configurationLimit = 3;
   };
 
   # TPM2 Unlocking
