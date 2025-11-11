@@ -57,8 +57,8 @@
 
       screenLocker = lib.getExe pkgs.hyprlock;
 
-      screenOn = "${lib.getExe pkgs.wlopm} --on '*'";
-      screenOff = "${lib.getExe pkgs.wlopm} --off '*'";
+      screenOn = "${lib.getExe pkgs.wlopm} --on '*' && ${lib.getExe pkgs.brightnessctl} -d tpacpi::kbd_backlight s 2";
+      screenOff = "${lib.getExe pkgs.wlopm} --off '*' && ${lib.getExe pkgs.brightnessctl} -d tpacpi::kbd_backlight s 0";
     in
     {
       enable = true;
