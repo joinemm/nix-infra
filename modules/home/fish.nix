@@ -26,7 +26,14 @@ in
       gs = "git status";
       gd = "git diff";
       ga = "git add";
+      gc = "git checkout";
     };
+
+    # no more
+    # Welcome to fish, the friendly interactive shell!
+    shellInit = ''
+      set fish_greeting
+    '';
 
     shellAliases = {
       ls = "ls --color=auto --hyperlink";
