@@ -31,7 +31,6 @@
       x11Support = false;
       settings = {
         animation = "matrix";
-        auth_fails = 1;
       };
     };
   };
