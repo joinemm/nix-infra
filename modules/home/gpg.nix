@@ -1,5 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, user, ... }:
+let
+  yubikey-to-gpg = pkgs.writeShellScriptBin "import-gpg-yubikey" ''
+    gpg --batch --yes --command-fd 0 --status-fd 1 --edit-card <<<'fetch'
+    echo "${user.gpgFingerprint}:6:" | gpg --import-ownertrust
+    gpg --list-keys
+  '';
+in
 {
+  home.packages = [ yubikey-to-gpg ];
+
   programs.gpg = {
     enable = true;
 
