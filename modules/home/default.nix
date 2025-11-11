@@ -57,6 +57,7 @@ let
         ./zen.nix
         ./zsh.nix
         ./sops.nix
+        ./swww.nix
       ]
   );
 
@@ -80,7 +81,7 @@ let
       foot
       hyprlock
       waybar
-      swaybg
+      swww
       ;
   };
 
