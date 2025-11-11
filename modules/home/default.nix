@@ -23,7 +23,7 @@ let
         # files in alphabetical order
         ./common.nix
         ./dunst.nix
-        ./email.nix
+        ./thunderbird.nix
         ./firefox.nix
         ./fish.nix
         ./flameshot.nix
@@ -56,6 +56,7 @@ let
         ./zathura.nix
         ./zen.nix
         ./zsh.nix
+        ./sops.nix
       ]
   );
 
@@ -101,21 +102,16 @@ let
       yazi
       zen
       fish
-      email
+      thunderbird
       sioyek
       flameshot
       starship
+      sops
       ;
   };
 in
 {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
-
-  environment.extraInit =
-    let
-      homeManagerSessionVars = "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh";
-    in
-    "[[ -f ${homeManagerSessionVars} ]] && source ${homeManagerSessionVars}";
 
   home-manager = {
     extraSpecialArgs = {
@@ -133,6 +129,9 @@ in
     };
     useGlobalPkgs = true;
     useUserPackages = true;
+
+    # TODO: use this instead of imports
+    sharedModules = [ ];
   };
 
   networking.firewall = rec {

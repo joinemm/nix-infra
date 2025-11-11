@@ -47,7 +47,7 @@
         k = "next_file";
         Left = "prev_file";
         Right = "next_file";
-        b = "exec setbg %";
+        b = "exec setbg \"%\"";
       };
       "keys.gallery" = {
         ScrollUp = "thumb +20";

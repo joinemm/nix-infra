@@ -6,7 +6,6 @@
 {
   home.stateVersion = "23.11";
   programs.home-manager.enable = true;
-  systemd.user.startServices = false;
 
   imports = [ inputs.nix-index-database.homeModules.nix-index ];
 

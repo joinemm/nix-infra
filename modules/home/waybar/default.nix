@@ -1,3 +1,14 @@
+{ pkgs, lib, ... }:
+let
+  vpn-status = pkgs.writeShellScriptBin "vpn-status" ''
+    VPNS=()
+    systemctl is-active --quiet openconnect-tii.service && VPNS+=("TII")
+    systemctl is-active --quiet openvpn-ficolo.service && VPNS+=("FICOLO")
+    systemctl is-active --quiet openfortivpn-office.service && VPNS+=("OFFICE")
+    systemctl is-active --quiet wg-quick-airvpn.service && VPNS+=("AIRVPN")
+    echo "''${VPNS[@]}" | ${lib.getExe pkgs.gnused} 's/ / + /g'
+  '';
+in
 {
   programs.wlogout.enable = true;
 
@@ -19,6 +30,7 @@
         ];
         modules-center = [ "clock" ];
         modules-right = [
+          "custom/inhibitor"
           "custom/vpn"
           "network"
           "bluetooth"
@@ -31,18 +43,30 @@
 
         "custom/lock" = {
           format = "";
-          on-click = "loginctl lock-session";
+          on-click = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
         };
 
         "custom/power" = {
           format = "";
-          on-click = "wlogout";
+          on-click = "${lib.getExe pkgs.wlogout}";
+        };
+
+        "custom/inhibitor" = {
+          format = "{icon}";
+          exec = "${lib.getExe pkgs.sway-audio-idle-inhibit} --dry-print-both-waybar";
+          return-type = "json";
+          format-icons = {
+            output = " ";
+            input = " ";
+            output-input = "  ";
+            none = "";
+          };
         };
 
         "custom/vpn" = {
           format = " {text}";
           interval = 5;
-          exec = "vpn-status";
+          exec = "${vpn-status}/bin/vpn-status";
         };
 
         "river/tags" = {

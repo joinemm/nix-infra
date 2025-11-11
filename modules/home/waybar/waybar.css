@@ -7,7 +7,7 @@
 }
 
 #tags {
-  background-color: rgba(24,24,37,1.0);
+  background-color: rgba(24, 24, 37, 1);
   border: none;
   box-shadow: none;
 }
@@ -32,7 +32,8 @@
 #cpu,
 #network,
 #custom-vpn,
-#custom-lock{
+#custom-inhibitor,
+#custom-lock {
   border-radius: 4px;
   margin: 6px 3px;
   padding: 6px 10px;
@@ -42,52 +43,54 @@
 }
 
 #custom-lock,
-#custom-power{
+#custom-power {
   padding: 6px 13px 6px 10px;
 }
 
 #tray {
   background-color: #080815;
 }
+
+#custom-inhibitor,
 #clock {
   background: none;
   color: #ffffff;
 }
-#custom-power{
+#custom-power {
   background-color: #f38ba8;
 }
-#custom-reboot{
+#custom-reboot {
   background-color: #a6e3a1;
 }
-#bluetooth{
+#bluetooth {
   background-color: #f9e2af;
 }
-#battery{
+#battery {
   background-color: #cba6f7;
 }
-#pulseaudio{
+#pulseaudio {
   background-color: #89dceb;
 }
-#backlight{
-  background-color: #D9CB64;
+#backlight {
+  background-color: #d9cb64;
 }
-#custom-temperature{
+#custom-temperature {
   background-color: #74c7ec;
 }
-#memory{
+#memory {
   background-color: #f7768e;
 }
-#cpu{
+#cpu {
   background-color: #f38ba8;
 }
-#network{
+#network {
   background-color: #fab387;
 }
 #custom-vpn,
-#custom-lock{
+#custom-lock {
   background-color: #94e2d5;
 }
-#window{
+#window {
   background-color: #74c7ec;
 }
 
@@ -105,7 +108,7 @@
   padding: 6px 14px;
   margin: 6px 3px;
   border-radius: 4px;
-  background-color: rgba(36, 36, 52, 1.0);
+  background-color: rgba(36, 36, 52, 1);
   color: #cdd6f4;
   font-weight: bold;
 }
@@ -126,11 +129,11 @@ tooltip {
   border-radius: 8px;
   padding: 16px;
   background-color: #131822;
-  color: #C0C0C0;
+  color: #c0c0c0;
 }
 
 tooltip label {
   padding: 5px;
   background-color: #131822;
-  color: #C0C0C0;
+  color: #c0c0c0;
 }

@@ -12,7 +12,6 @@
     systemd.enable = true;
     xwayland.enable = true;
 
-    systemd.variables = [ "--all" ];
     extraSessionVariables = {
       XDG_CURRENT_DESKTOP = "river";
       XDG_SESSION_DESKTOP = "river";
@@ -30,8 +29,10 @@
       {
         default-layout = "bsp-layout";
         spawn = [
-          "way-displays"
           "'${lib.getExe pkgs.river-bsp-layout} --inner-gap 10 --outer-gap 10 --split-perc 0.5'"
+          "${lib.getExe pkgs.way-displays}"
+          "${lib.getExe pkgs.sway-audio-idle-inhibit}"
+          "'${lib.getExe pkgs.foot} --server'"
         ];
         focus-follows-cursor = "always";
 
