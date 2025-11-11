@@ -1,47 +1,50 @@
 keys:
   - &users:
-    - &joonas 87ECDD306614E5105299F0D4090EB48A4669AA54
+    - &joonas-gpg 87ECDD306614E5105299F0D4090EB48A4669AA54
+    - &joonas age1hszrldafdz09hzze4lgq58r0r66p4sjftn6q8z6h0leer77jhf4qd9vu9v
   - &hosts:
     - &cobalt age1wxuydl093x79sx6mglj58lsr6qtm5d4230cdfxhdx3mglfx4u9fsx33v7j
-    - &carbon age1nw5jrnx75p2j5s3e6vx08gu8e24vm4w8llzyn7jt6qskzvkwu3zqlju3ad
+    - &carbon age1gwm4mca3qrq48zr4u7lywp9rqwawa045klu4mad0vq9r2y5vjqjqzp25lx
     - &oxygen age1u700gg0j3h34gu7dhek7cah3agr39mjtmgaml4jwrg6su7wj9szq8qqrcw
     - &misobot age1570r58zv42c0nhn8ngasysdlqexk9qgm50zzy6fgsvc3udpt05yskq4feu
     - &nickel age1kg6sf8x9vwu8nw3fx38z5swpy04k5mnt0nqm2t0wgqt6qjqpjd4qdmmhvk
 
 creation_rules:
-  - path_regex: hosts/oxygen/secrets.yaml$
-    key_groups:
-      - pgp:
-        - *joonas
-        age:
-        - *oxygen
   - path_regex: hosts/cobalt/secrets.yaml$
     key_groups:
       - pgp:
-        - *joonas
+        - *joonas-gpg
         age:
         - *cobalt
-  - path_regex: hosts/misobot/secrets.yaml$
-    key_groups:
-      - pgp:
         - *joonas
-        age:
-        - *misobot
   - path_regex: hosts/carbon/secrets.yaml$
     key_groups:
       - pgp:
-        - *joonas
+        - *joonas-gpg
         age:
         - *carbon
+        - *joonas
+  - path_regex: hosts/oxygen/secrets.yaml$
+    key_groups:
+      - pgp:
+        - *joonas-gpg
+        age:
+        - *oxygen
+  - path_regex: hosts/misobot/secrets.yaml$
+    key_groups:
+      - pgp:
+        - *joonas-gpg
+        age:
+        - *misobot
   - path_regex: hosts/nickel/secrets.yaml$
     key_groups:
       - pgp:
-        - *joonas
+        - *joonas-gpg
         age:
         - *nickel
   - path_regex: hosts/nickel/recyclarr_secrets$
     key_groups:
       - pgp:
-        - *joonas
+        - *joonas-gpg
         age:
         - *nickel
