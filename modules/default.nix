@@ -41,6 +41,7 @@ let
         ./graphical.nix
         ./thunar.nix
         ./hardening.nix
+        ./tpm.nix
       ]
   );
 in
