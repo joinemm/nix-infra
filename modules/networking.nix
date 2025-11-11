@@ -1,11 +1,49 @@
-{ pkgs, user, ... }:
 {
+  pkgs,
+  user,
+  config,
+  ...
+}:
+{
+  sops.secrets.wifi-env.group = "networkmanager";
+
   networking = {
     networkmanager = {
       enable = true;
       wifi = {
         backend = "wpa_supplicant";
         powersave = true;
+      };
+
+      ensureProfiles = {
+        environmentFiles = [
+          config.sops.secrets.wifi-env.path
+        ];
+        profiles = {
+          Waifu = {
+            connection = {
+              id = "Waifu";
+              type = "wifi";
+            };
+            ipv4 = {
+              method = "auto";
+            };
+            ipv6 = {
+              addr-gen-mode = "default";
+              method = "auto";
+            };
+            proxy = { };
+            wifi = {
+              mode = "infrastructure";
+              ssid = "Waifu";
+            };
+            wifi-security = {
+              auth-alg = "open";
+              key-mgmt = "wpa-psk";
+              psk = "$WIFI_PASSWORD_WAIFU";
+            };
+          };
+        };
       };
     };
 

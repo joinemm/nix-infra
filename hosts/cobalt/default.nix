@@ -107,8 +107,8 @@
     '';
 
     programs.foot.settings.main.font = lib.mkForce "monospace:size=11";
-
-    services.hypridle.enable = lib.mkForce false;
     programs.hyprlock.enable = lib.mkForce false;
+
+    sops.defaultSopsFile = ./secrets.yaml;
   };
 }

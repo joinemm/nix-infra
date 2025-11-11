@@ -16,6 +16,7 @@
       laptop
       wayland
       secure-boot
+      tpm
       hibernate
     ])
     (with inputs.nixos-hardware.nixosModules; [
@@ -51,14 +52,6 @@
     extraModulePackages = [ ];
   };
 
-  # boot.initrd.luks.devices = {
-  #   crypt = {
-  #     device = "/dev/disk/by-partlabel/luks";
-  #     allowDiscards = true;
-  #     preLVM = true;
-  #   };
-  # };
-
   hardware.cpu.intel.updateMicrocode = true;
 
   hardware.graphics = {
@@ -80,15 +73,33 @@
 
   services.fprintd.enable = true;
 
+  environment.etc."way-displays/cfg.yaml".text = ''
+    SCALING: FALSE
+    AUTO_SCALE: FALSE
+  '';
+
   # extra home-manager configuration
   home-manager.users."${user.name}" = {
     imports = [
       ../../modules/home/laptop.nix
     ];
 
-    xdg.configFile."way-displays/cfg.yml".text = ''
-      SCALING: FALSE
-      AUTO_SCALE: FALSE
-    '';
+    sops.defaultSopsFile = ./secrets.yaml;
+
+    # home.file =
+    #   let
+    #     stignore = ''
+    #       #include .stglobalignore
+    #     '';
+    #   in
+    #   {
+    #     "code/.stignore".text = stignore;
+    #     "notes/.stignore".text = stignore;
+    #     "pictures/.stignore".text = stignore;
+    #     "videos/.stignore".text = stignore;
+    #     "work/.stignore".text = stignore;
+    #     "documents/.stignore".text = stignore;
+    #     "projects/.stignore".text = stignore;
+    #   };
   };
 }

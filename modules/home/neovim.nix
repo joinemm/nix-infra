@@ -3,10 +3,30 @@
   user,
   pkgs,
   lib,
+  config,
   ...
 }:
 {
-  imports = [ inputs.nvf.homeManagerModules.default ];
+  imports = [
+    inputs.nvf.homeManagerModules.default
+  ];
+
+  sops.secrets.wakatime-api-key = { };
+  sops.templates."wakatime.cfg" = {
+    content = # toml
+      ''
+        [settings]
+        debug = false
+        hidefilenames = false
+        ignore =
+            COMMIT_EDITMSG$
+            PULLREQ_EDITMSG$
+            MERGE_MSG$
+            TAG_EDITMSG$
+        api_key=${config.sops.placeholder.wakatime-api-key}
+      '';
+    path = "${user.home}/.wakatime.cfg";
+  };
 
   xdg.desktopEntries."nvim" = {
     name = "nvim";
@@ -261,6 +281,7 @@
       yaml
       toml
       diff
+      hcl
     ];
 
     filetree.neo-tree = {
