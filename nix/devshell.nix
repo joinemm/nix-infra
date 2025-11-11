@@ -17,7 +17,6 @@
           (writeScriptBin "node-list" (builtins.readFile (self + /scripts/list.sh)))
           (writeScriptBin "node-install" (builtins.readFile (self + /scripts/install.sh)))
           (writeScriptBin "node-init-secrets" (builtins.readFile (self + /scripts/init-secrets.sh)))
-          (writeScriptBin "import-gpg-yubikey" (builtins.readFile (self + /scripts/import-gpg-yubikey.sh)))
         ];
       };
     };

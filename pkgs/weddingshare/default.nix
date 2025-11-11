@@ -12,7 +12,7 @@ buildDotnetModule rec {
   src = fetchFromGitHub {
     owner = "Cirx08";
     repo = pname;
-    rev = "v${version}";
+    rev = version;
     sha256 = "sha256-8hzlzBQ5iOGC/L6Jg/3HQrFDYB4ZKyn4d5Orsx0hcrg=";
   };
 
