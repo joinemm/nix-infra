@@ -26,7 +26,7 @@ if [[ -z "$FLAKE" || -z "$HOST" ]]; then
     echo "FLAKE and HOST not given!"
     echo ""
     echo "Usage:"
-    echo "  node-install .#flakeattr user@hostname [--secrets /path/to/yaml] [-v]"
+    echo "  $(basename "$0") .#flakeattr user@hostname [--secrets /path/to/yaml] [-v]"
     exit 1
 fi
 

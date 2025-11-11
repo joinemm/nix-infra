@@ -14,9 +14,10 @@
           e2fsprogs
 
           # add scripts to path
-          (pkgs.writeScriptBin "node-list" (builtins.readFile (self + /scripts/list.sh)))
-          (pkgs.writeScriptBin "node-install" (builtins.readFile (self + /scripts/install.sh)))
-          (pkgs.writeScriptBin "node-init-secrets" (builtins.readFile (self + /scripts/init-secrets.sh)))
+          (writeScriptBin "node-list" (builtins.readFile (self + /scripts/list.sh)))
+          (writeScriptBin "node-install" (builtins.readFile (self + /scripts/install.sh)))
+          (writeScriptBin "node-init-secrets" (builtins.readFile (self + /scripts/init-secrets.sh)))
+          (writeScriptBin "import-gpg-yubikey" (builtins.readFile (self + /scripts/import-gpg-yubikey.sh)))
         ];
       };
     };
