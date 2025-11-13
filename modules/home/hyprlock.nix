@@ -1,4 +1,12 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  self,
+  ...
+}:
+let
+  idlehack = self.packages.${pkgs.system}.idlehack;
+in
 {
   programs.hyprlock = {
     enable = true;
@@ -102,4 +110,22 @@
         }
       ];
     };
+
+  home.packages = [ idlehack ];
+
+  systemd.user.services.idlehack = {
+    Service = {
+      Environment = "PATH=${
+        lib.makeBinPath [
+          pkgs.systemd
+          pkgs.coreutils
+          idlehack
+        ]
+      }";
+      ExecStart = lib.getExe idlehack;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
 }

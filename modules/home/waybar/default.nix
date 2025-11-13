@@ -57,8 +57,8 @@ in
           return-type = "json";
           format-icons = {
             output = " ";
-            input = " ";
-            output-input = "  ";
+            input = "";
+            output-input = " ";
             none = "";
           };
         };
@@ -71,6 +71,14 @@ in
 
         "river/tags" = {
           hide-vacant = true;
+        };
+
+        "idle_inhibitor" = {
+          "format" = "{icon}";
+          "format-icons" = {
+            "activated" = "";
+            "deactivated" = "";
+          };
         };
 
         tray = {
