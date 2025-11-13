@@ -3,6 +3,7 @@
   user,
   lib,
   pkgs,
+  self,
   config,
   ...
 }:
@@ -58,6 +59,7 @@ let
         ./zsh.nix
         ./sops.nix
         ./swww.nix
+        ./glide.nix
       ]
   );
 
@@ -101,7 +103,7 @@ let
       wezterm
       xdg
       yazi
-      zen
+      glide
       fish
       thunderbird
       sioyek
@@ -116,7 +118,7 @@ in
 
   home-manager = {
     extraSpecialArgs = {
-      inherit user inputs;
+      inherit user inputs self;
     };
     users."${user.name}" = {
       imports =

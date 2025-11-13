@@ -37,7 +37,7 @@
           let
             file-manager = "thunar.desktop";
             editor = "nvim.desktop";
-            browser = "zen-beta.desktop";
+            browser = "glide.desktop";
             video-player = "mpv.desktop";
             image-viewer = "swayimg.desktop";
           in
