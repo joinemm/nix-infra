@@ -4,7 +4,7 @@
     settings = {
       main = {
         term = "xterm-256color";
-        font = "monospace:size=12";
+        font = "monospace:pixelsize=13";
         pad = "12x8";
       };
 

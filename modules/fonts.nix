@@ -7,7 +7,7 @@
       defaultFonts = {
         emoji = [ "Twitter Color Emoji" ];
         monospace = [
-          "Fira Code Nerd Font"
+          "JetBrains Mono Nerd Font"
           "Sarasa Gothic"
         ];
         sansSerif = [
@@ -25,7 +25,7 @@
     };
 
     packages = with pkgs; [
-      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
       cantarell-fonts
       twitter-color-emoji
       sarasa-gothic
