@@ -110,10 +110,14 @@
     };
   };
 
-  services.wlsunset = {
+  services.gammastep = {
     enable = true;
-    sunrise = "7:00";
-    sunset = "21:00";
-    temperature.night = 3000;
+    tray = true;
+    temperature = {
+      day = 6500;
+      night = 3000;
+    };
+    duskTime = "20:30-21:00";
+    dawnTime = "7:30-8:00";
   };
 }
