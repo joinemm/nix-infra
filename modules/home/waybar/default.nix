@@ -3,177 +3,196 @@ let
   vpn-status = pkgs.writeShellScriptBin "vpn-status" ''
     VPNS=()
     systemctl is-active --quiet openconnect-tii.service && VPNS+=("TII")
-    systemctl is-active --quiet openvpn-ficolo.service && VPNS+=("FICOLO")
-    systemctl is-active --quiet openfortivpn-office.service && VPNS+=("OFFICE")
-    systemctl is-active --quiet wg-quick-airvpn.service && VPNS+=("AIRVPN")
+    systemctl is-active --quiet openfortivpn-office.service && VPNS+=("Office")
+    systemctl is-active --quiet wg-quick-airvpn.service && VPNS+=("AirVPN")
     echo "''${VPNS[@]}" | ${lib.getExe pkgs.gnused} 's/ / + /g'
   '';
+
+  span = size: icon: "<span size='${toString size}pt'>${icon}</span>";
+  spanList = size: items: map (x: span size x) items;
 in
 {
-  programs.wlogout.enable = true;
-
   programs.waybar = {
     enable = true;
     systemd.enable = true;
+    style = ./style.css;
 
-    style = ./waybar.css;
+    settings.main = {
+      reload_style_on_change = true;
+      height = 30;
+      spacing = 0;
+      modules-left = [
+        "river/tags"
+        "tray"
+        "clock#date"
+      ];
+      modules-center = [ "clock" ];
+      modules-right = [
+        "custom/vpn"
+        "network"
+        "bluetooth"
+        "pulseaudio"
+        "backlight"
+        "memory"
+        "cpu"
+        "battery"
+      ];
 
-    settings = {
-      mainBar = {
-        height = 35;
-        spacing = 0;
-        modules-left = [
-          "river/tags"
-          "tray"
-          "custom/lock"
-          "custom/power"
+      "custom/vpn" = {
+        format = "󰌆 {text}";
+        interval = 1;
+        exec = "${vpn-status}/bin/vpn-status";
+      };
+
+      "river/tags" = {
+        hide-vacant = true;
+      };
+
+      tray = {
+        icon-size = 20;
+        spacing = 6;
+      };
+
+      network = {
+        interval = 1;
+        format = "{icon}";
+        format-disconnected = "󰤮";
+        format-ethernet = span 15 "󰈀";
+        format-wifi = "{icon} {essid}";
+        format-icons = [
+          "󰤯"
+          "󰤟"
+          "󰤢"
+          "󰤥"
+          "󰤨"
         ];
-        modules-center = [ "clock" ];
-        modules-right = [
-          "custom/inhibitor"
-          "custom/vpn"
-          "network"
-          "bluetooth"
-          "pulseaudio"
-          "backlight"
-          "memory"
-          "cpu"
-          "battery"
-        ];
+        tooltip-format-disconnected = "Disconnected";
+        tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+        tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+      };
 
-        "custom/lock" = {
-          format = "";
-          on-click = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
-        };
+      clock = {
+        interval = 1;
+        format = "{:%H:%M}";
+        format-alt = "{:%H:%M:%S}";
+      };
 
-        "custom/power" = {
-          format = "";
-          on-click = "${lib.getExe pkgs.wlogout}";
-        };
-
-        "custom/inhibitor" = {
-          format = "{icon}";
-          exec = "${lib.getExe pkgs.sway-audio-idle-inhibit} --dry-print-both-waybar";
-          return-type = "json";
-          format-icons = {
-            output = " ";
-            input = "";
-            output-input = " ";
-            none = "";
+      "clock#date" = {
+        format = "<i>{:%A, %B %d}</i>";
+        tooltip-format = "<tt>{calendar}</tt>";
+        calendar = {
+          mode = "month";
+          weeks-pos = "right";
+          format = {
+            months = "<span color='#ffead3'><b>{}</b></span>";
+            days = "<span color='#ecc6d9'><b>{}</b></span>";
+            weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+            weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+            today = "<span color='#ff6699'><b><u>{}</u></b></span>";
           };
         };
+      };
 
-        "custom/vpn" = {
-          format = " {text}";
-          interval = 5;
-          exec = "${vpn-status}/bin/vpn-status";
+      pulseaudio = {
+        tooltip-format = "Playing at {volume}%";
+        format = "{icon} {volume}%";
+        format-muted = span 14 "󰝟";
+        format-icons = {
+          hands-free = "";
+          headset = "";
+          phone = "";
+          portable = "";
+          car = "";
+          default = spanList 14 [
+            "󰕿"
+            "󰖀"
+            "󰕾"
+          ];
         };
+      };
 
-        "river/tags" = {
-          hide-vacant = true;
-        };
+      memory = {
+        format = "${span 14 ""} {used:0.1f}Gb";
+      };
 
-        "idle_inhibitor" = {
-          "format" = "{icon}";
-          "format-icons" = {
-            "activated" = "";
-            "deactivated" = "";
-          };
-        };
+      cpu = {
+        format = "${span 13 ""} {usage}%";
+      };
 
-        tray = {
-          icon-size = 22;
-          spacing = 6;
-        };
-
-        network = {
-          format-wifi = "󰤨 {essid}";
-          format-ethernet = " Wired";
-          format-disconnected = " Disconnected";
-          interval = 1;
-          tooltip-format = "<span color='#FF1493'> 󰅧 </span>{bandwidthUpBytes}  <span color='#00BFFF'> 󰅢 </span>{bandwidthDownBytes}";
-        };
-
-        battery = {
-          states = {
-            warning = 10;
-            critical = 5;
-          };
-          format-icons = [
-            "󰂎"
+      battery = {
+        format = "{capacity}% {icon}";
+        format-charging = "{icon}";
+        format-discharging = "{icon}";
+        format-full = "󰂅";
+        format-icons = {
+          charging = [
+            "󰢜"
+            "󰂆"
+            "󰂇"
+            "󰂈"
+            "󰢝"
+            "󰂉"
+            "󰢞"
+            "󰂊"
+            "󰂋"
+            "󰂅"
+          ];
+          default = [
+            "󰁺"
+            "󰁻"
             "󰁼"
+            "󰁽"
+            "󰁾"
             "󰁿"
+            "󰂀"
             "󰂁"
+            "󰂂"
             "󰁹"
           ];
-          format-charging = "󱐋{capacity}%";
-          interval = 1;
-          format = "{icon} {capacity}%";
         };
+        format-plugged = "";
+        interval = 1;
+        states = {
+          critical = 5;
+          warning = 15;
+        };
+        tooltip-format-charging = "{power:>1.0f}W↑ {capacity}%";
+        tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
+      };
 
-        clock = {
-          format = "{:%H:%M}";
-          tooltip-format = "<tt><small>{calendar}</small></tt>";
-          calendar = {
-            mode = "month";
-            weeks-pos = "right";
-            format = {
-              months = "<span color='#ffead3'><b>{}</b></span>";
-              days = "<span color='#ecc6d9'><b>{}</b></span>";
-              weeks = "<span color='#99ffdd'><b>W{}</b></span>";
-              weekdays = "<span color='#ffcc66'><b>{}</b></span>";
-              today = "<span color='#ff6699'><b><u>{}</u></b></span>";
-            };
-          };
-        };
+      backlight = {
+        format = "{icon} {percent}%";
+        format-icons = [
+          "󰃞"
+          "󰃝"
+          "󰃟"
+          "󰃠"
+        ];
+      };
 
-        pulseaudio = {
-          format = "{icon} {volume}%";
-          format-muted = "󰖁";
-          format-icons = {
-            headphone = "";
-            hands-free = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
-            default = [
-              ""
-              ""
-              ""
-            ];
-          };
-        };
-
-        memory = {
-          format = " {used:0.1f}Gb";
-        };
-
-        cpu = {
-          format = " {usage}%";
-        };
-
-        backlight = {
-          format = "{icon} {percent}%";
-          format-icons = [
-            "󰃞"
-            "󰃝"
-            "󰃟"
-            "󰃠"
-          ];
-        };
-
-        bluetooth = {
-          format = " {status}";
-          format-connected = " {device_alias}";
-          format-connected-battery = " {device_alias} ({device_battery_percentage}%)";
-          tooltip-format = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
-          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
-          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
-          tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
-        };
+      bluetooth = {
+        format-disabled = span 15 "󰂲";
+        format-off = span 15 "󰂲";
+        format = "${span 15 ""} {status}";
+        format-connected = "${span 15 "󰂱"} {device_alias}";
+        format-connected-battery = "${span 15 "{icon}"} {device_alias}";
+        format-icons = [
+          "󰤾"
+          "󰤿"
+          "󰥀"
+          "󰥁"
+          "󰥂"
+          "󰥃"
+          "󰥄"
+          "󰥅"
+          "󰥆"
+          "󰥈"
+        ];
+        tooltip-format = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
+        tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
+        tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+        tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
       };
     };
   };
-
 }

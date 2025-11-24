@@ -1,0 +1,116 @@
+* {
+  font-family: "monospace";
+  font-size: 16px;
+  border-radius: 0;
+  min-height: 0;
+  border: none;
+}
+
+#waybar {
+  background-color: #000000;
+}
+
+#tray,
+#window,
+#clock,
+#custom-power,
+#custom-reboot,
+#bluetooth,
+#battery,
+#pulseaudio,
+#backlight,
+#custom-temperature,
+#memory,
+#cpu,
+#network,
+#custom-vpn,
+#custom-inhibitor,
+#custom-lock {
+  margin: 0px 3px;
+  padding: 3px 3px;
+  color: #181825;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+#custom-inhibitor,
+#clock {
+  color: #ffffff;
+  border-bottom: none;
+  font-weight: bold;
+}
+#clock.date {
+  color: #f0f0f0;
+  font-weight: normal;
+  padding-left: 10px;
+}
+#custom-power {
+  color: #f38ba8;
+}
+#custom-reboot {
+  color: #a6e3a1;
+}
+#bluetooth {
+  color: #74c7ec;
+}
+#battery {
+  color: #a6e3a1;
+}
+#pulseaudio {
+  color: #f9e2af;
+}
+#backlight {
+  color: #d9cb64;
+}
+#custom-temperature {
+  color: #f38ba8;
+}
+#memory {
+  color: #f7768e;
+}
+#cpu {
+  color: #89dceb;
+}
+#network {
+  color: #fab387;
+  padding-right: 7px;
+}
+#custom-vpn,
+#custom-lock {
+  color: #bd93f9;
+}
+
+#tray {
+  color: #89dceb;
+}
+
+#tags {
+  border: none;
+  box-shadow: none;
+}
+#tags button {
+  color: #cdd6f4;
+  padding: 3px 10px;
+  margin: 0px 3px;
+  font-weight: bold;
+}
+
+#tags button.focused {
+  color: #fab387;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+#tags button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  color: #bd93f9;
+}
+
+tooltip {
+  padding: 4px 7px;
+  background-color: #000000;
+  border-radius: 10px;
+}
