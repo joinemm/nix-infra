@@ -77,4 +77,6 @@
       obs-websocket
     ];
   };
+
+  services.gpu-screen-recorder.enable = true;
 }

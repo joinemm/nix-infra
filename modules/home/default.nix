@@ -60,6 +60,7 @@ let
         ./sops.nix
         ./swww.nix
         ./glide.nix
+        ./gpu-screen-recorder.nix
       ]
   );
 
@@ -107,9 +108,9 @@ let
       fish
       thunderbird
       sioyek
-      flameshot
       starship
       sops
+      gpu-screen-recorder
       ;
   };
 in
