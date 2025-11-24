@@ -1,17 +1,6 @@
 {
   description = "Joinemm's Nix Flake";
 
-  nixConfig = {
-    extra-substituters = [
-      "https://nix-gaming.cachix.org?priority=42"
-      "https://deploy-rs.cachix.org?priority=44"
-    ];
-    extra-trusted-public-keys = [
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-      "deploy-rs.cachix.org-1:xfNobmiwF/vzvK1gpfediPwpdIP0rpDV2rYqx40zdSI="
-    ];
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
