@@ -93,9 +93,7 @@
     registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
 
-    # nix 2.32 breaks deploy-rs
-    # https://github.com/serokell/deploy-rs/issues/340
-    package = pkgs.nixVersions.nix_2_30;
+    package = pkgs.lix;
 
     settings = {
       trusted-users = [
@@ -117,7 +115,6 @@
       max-substitution-jobs = 128;
       http-connections = 128;
       max-jobs = "auto";
-      download-buffer-size = 524288000;
 
       extra-substituters = [
         "https://ghaf-dev.cachix.org"
