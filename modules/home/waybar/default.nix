@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  vpn-status = pkgs.writeShellScriptBin "vpn-status" ''
+  vpn-status = pkgs.writeShellScript "vpn-status" ''
     VPNS=()
     systemctl is-active --quiet openconnect-tii.service && VPNS+=("TII")
     systemctl is-active --quiet openfortivpn-office.service && VPNS+=("Office")
@@ -41,7 +41,7 @@ in
       "custom/vpn" = {
         format = "󰌆 {text}";
         interval = 1;
-        exec = "${vpn-status}/bin/vpn-status";
+        exec = "${vpn-status}";
       };
 
       "river/tags" = {
