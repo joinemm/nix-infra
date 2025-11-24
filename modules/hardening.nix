@@ -6,7 +6,7 @@
     # Ensure that /tmp is on tmpfs and is cleaned a new on boot
     tmp = {
       cleanOnBoot = true;
-      useTmpfs = true;
+      useTmpfs = false; # true would be more hardened but it makes /tmp too small
     };
 
     # disallow editing the kernel command-line before boot.
