@@ -217,7 +217,19 @@
       sql.enable = true;
       go.enable = true;
       zig.enable = true;
-      rust.enable = true;
+      rust = {
+        enable = true;
+        format.enable = true;
+        lsp.opts = ''
+          ['rust-analyzer'] = {
+            cargo = {allFeature = true},
+            checkOnSave = true,
+            procMacro = {
+              enable = true,
+            },
+          },
+        '';
+      };
       python = {
         enable = true;
         format.type = "ruff";
