@@ -29,7 +29,7 @@ in
       gc = "git checkout";
     };
 
-    # no more
+    # get rid of;
     # Welcome to fish, the friendly interactive shell!
     shellInit = ''
       set fish_greeting
@@ -38,7 +38,7 @@ in
     shellAliases = {
       ls = "ls --color=auto --hyperlink";
       mv = "mv -iv";
-      rm = "rm -I";
+      rm = "rm -iv";
       cp = "cp -iv";
       ln = "ln -iv";
 

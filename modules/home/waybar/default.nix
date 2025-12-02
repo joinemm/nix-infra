@@ -120,9 +120,7 @@ in
       };
 
       battery = {
-        format = "{capacity}% {icon}";
-        format-charging = "{icon}";
-        format-discharging = "{icon}";
+        format = "{icon} {capacity}% ";
         format-full = "󰂅";
         format-icons = {
           charging = [
