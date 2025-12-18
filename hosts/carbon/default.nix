@@ -32,9 +32,7 @@
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
   };
 
-  networking = {
-    hostName = "carbon";
-  };
+  networking.hostName = "carbon";
 
   boot = {
     initrd.availableKernelModules = [
@@ -45,35 +43,35 @@
       "sd_mod"
     ];
     initrd.kernelModules = [
-      "i915"
-      # "xe"
+      # "i915"
+      "xe"
     ];
     kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
-  };
+    # graphics chip's id: lspci -nn | grep VGA
+    kernelParams = [
+      # "i915.force_probe=a7a1" # use i915
 
-  hardware.cpu.intel.updateMicrocode = true;
-
-  hardware.graphics = {
-    extraPackages = with pkgs; [
-      intel-media-driver
-      vpl-gpu-rt
-      intel-compute-runtime
+      # use experimental Xe driver
+      "i915.force_probe=!a7a1"
+      "xe.force_probe=a7a1"
     ];
   };
 
-  # graphics chip's id: lspci -nn | grep VGA
-  boot.kernelParams = [ "i915.force_probe=a7a1" ];
+  hardware = {
+    cpu.intel.updateMicrocode = true;
 
-  # experimental Xe driver
-  # boot.kernelParams = [
-  #   "i915.force_probe=!a7a1"
-  #   "xe.force_probe=a7a1"
-  # ];
+    graphics = {
+      extraPackages = with pkgs; [
+        intel-media-driver
+        vpl-gpu-rt
+        intel-compute-runtime
+      ];
+    };
 
-  hardware.trackpoint = {
-    enable = true;
-    emulateWheel = true;
+    trackpoint = {
+      enable = true;
+      emulateWheel = true;
+    };
   };
 
   services.fstrim.enable = true;
