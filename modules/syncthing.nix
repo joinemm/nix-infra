@@ -8,10 +8,11 @@
   services.syncthing = {
     enable = true;
 
+    group = "users";
     user = lib.mkDefault user.name;
     dataDir = lib.mkDefault user.home;
 
-    openDefaultPorts = true;
+    openDefaultPorts = lib.mkDefault true;
     overrideDevices = true;
     overrideFolders = true;
 
@@ -19,9 +20,11 @@
       # don't submit anonymous usage data
       options.urAccepted = -1;
 
+      gui.user = "admin";
+
       devices = {
         "cloud" = {
-          id = "UNXBALU-3VLE5GI-2VZBQS7-XFEY3KX-WPVCRQP-55MFDML-CAK27WZ-IGO7HQL";
+          id = "VUAR7EC-VZ5ASBR-5A7ZLEP-A5ZF2XO-IOVPYO6-ICONR72-6GAZV4N-2F4VVAV";
         };
         "cobalt" = {
           id = "75G5FQ2-4573B6V-CIAQYBB-AFBHADB-CAQVWCW-K3FMRP4-DAENIRD-B35BEQA";
