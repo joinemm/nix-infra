@@ -6,17 +6,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "glide-browser";
-  version = "0.1.53a";
+  version = "0.1.55a";
   src =
     let
       sources = {
         "x86_64-linux" = pkgs.fetchurl {
           url = "https://github.com/glide-browser/glide/releases/download/${version}/glide.linux-x86_64.tar.xz";
-          sha256 = "sha256-tU+o6YKtlOX9rDQBS8OJOv3NNlk/mM14keIHDVPO5Ec=";
-        };
-        "aarch64-linux" = pkgs.fetchurl {
-          url = "https://github.com/glide-browser/glide/releases/download/${version}/glide.linux-aarch64.tar.xz";
-          sha256 = "sha256-F62mhBRKlNcNKLHBfO9cWSBH0QxvnD1sxEnOH3oLL8E=";
+          sha256 = "sha256-mjk8KmB/T5ZpB9AMQw1mtb9VbMXVX2VV4N+hWpWkSYI=";
         };
       };
     in
