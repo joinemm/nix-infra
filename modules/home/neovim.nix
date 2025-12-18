@@ -4,6 +4,7 @@
   pkgs,
   lib,
   config,
+  osConfig,
   ...
 }:
 {
@@ -80,27 +81,40 @@
           filetypes = [ "json" ];
         };
 
-        nix.init_options = {
-          options =
-            let
-              flake = ''(builtins.getFlake "/home/joonas/code/nix-infra")'';
-            in
-            {
-              nixos = {
-                expr = "${flake}.nixosConfigurations.cobalt.options";
-              };
-              home_manager = {
-                expr = "${flake}.nixosConfigurations.cobalt.home-manager.users.type.getSubOptions []";
-              };
-              flake_parts = {
-                expr = "${flake}.debug.options";
-              };
-              flake_parts2 = {
-                expr = "${flake}.currentSystem.options";
-              };
-            };
+        basedpyright.settings = {
+          disableOrganizeImports = true;
+          basedpyright.analysis = {
+            typeCheckingMode = "basic";
+            diagnosticSeverityOverrides.reportAny = "none";
+          };
         };
 
+        nixd = {
+          cmd = lib.mkForce [
+            (lib.getExe pkgs.nixd)
+            "--semantic-tokens=true"
+          ];
+          settings.nixd = {
+            options =
+              let
+                flake = ''(builtins.getFlake "$HOME/code/nix-infra")'';
+              in
+              {
+                nixos = {
+                  expr = "${flake}.nixosConfigurations.${osConfig.networking.hostName}.options";
+                };
+                home_manager = {
+                  expr = "${flake}.nixosConfigurations.${osConfig.networking.hostName}.home-manager.users.type.getSubOptions []";
+                };
+                flake_parts = {
+                  expr = "${flake}.debug.options";
+                };
+                flake_parts2 = {
+                  expr = "${flake}.currentSystem.options";
+                };
+              };
+          };
+        };
       };
     };
 
@@ -207,9 +221,8 @@
 
       nix = {
         enable = true;
-        lsp = {
-          servers = "nixd";
-        };
+        lsp.servers = [ "nixd" ];
+        format.type = [ "nixfmt" ];
       };
       markdown.enable = true;
       bash.enable = true;
@@ -232,7 +245,10 @@
       };
       python = {
         enable = true;
-        format.type = "ruff";
+        format.type = [
+          "ruff"
+          "ruff-check"
+        ];
       };
 
       # web dev
