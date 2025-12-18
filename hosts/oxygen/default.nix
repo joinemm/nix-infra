@@ -19,6 +19,7 @@ in
       nginx
       tailscale
       syncthing
+      nebula
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
@@ -38,24 +39,39 @@ in
 
   networking.hostName = "oxygen";
   nixpkgs.hostPlatform = "x86_64-linux";
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.11";
 
   sops = {
     defaultSopsFile = ./secrets.yaml;
     secrets = {
       radicale_auth.owner = "radicale";
       weddingshare_env.owner = "root";
+      syncthing_password.owner = "root";
+      syncthing_cert.owner = "root";
+      syncthing_key.owner = "root";
+      nebula_key.owner = config.nebula.user;
     };
   };
 
+  nebula = {
+    enable = true;
+    cert = ./nebula.crt;
+    isLighthouse = true;
+    key = config.sops.secrets.nebula_key.path;
+  };
+
+  systemd.tmpfiles.rules = [
+    "d /mnt/data/syncthing 0755 joonas users"
+  ];
+
   services.syncthing = {
     dataDir = "${volumePath}/syncthing";
-    guiAddress = "0.0.0.0:8384";
-    settings.gui = {
-      user = "admin";
-      # bcrypt hash until https://github.com/NixOS/nixpkgs/pull/290485 is merged
-      password = "$2b$05$K03dR3Dhq92nHU6wpyH5f.4VYAnry8eDzvXiYfcRf1qZhsI4DymxO";
-    };
+    settings.gui.insecureSkipHostcheck = true;
+
+    guiPasswordFile = config.sops.secrets.syncthing_password.path;
+    key = config.sops.secrets.syncthing_key.path;
+    cert = config.sops.secrets.syncthing_cert.path;
+
     settings.folders = {
       "code".enable = true;
       "documents".enable = true;
@@ -71,15 +87,12 @@ in
     enable = true;
     settings = {
       server = {
-        hosts = [
-          "0.0.0.0:5232"
-          "[::]:5232"
-        ];
+        hosts = "127.0.0.1:5232";
       };
       auth = {
         type = "htpasswd";
         htpasswd_filename = config.sops.secrets.radicale_auth.path;
-        htpasswd_encryption = "autodetect";
+        htpasswd_encryption = "bcrypt";
       };
       storage = {
         filesystem_folder = "/var/lib/radicale/collections";
@@ -154,7 +167,7 @@ in
       "sync.joinemm.dev" = {
         serverAliases = [ "syncthing.joinemm.dev" ];
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8384";
+          proxyPass = "http://${config.services.syncthing.guiAddress}";
         };
       }
       // ssl;
@@ -164,7 +177,7 @@ in
           client_max_body_size 5G;
         '';
         locations."/" = {
-          proxyPass = "http://100.64.0.7:3210";
+          proxyPass = "http://10.6.9.2:3210";
         };
       }
       // ssl;
@@ -177,7 +190,7 @@ in
 
       "stream.joinemm.dev" = {
         locations."/" = {
-          proxyPass = "http://100.64.0.7:8096";
+          proxyPass = "http://10.6.9.2:8096";
           proxyWebsockets = true;
         };
       }
@@ -187,7 +200,7 @@ in
 
       "request.joinemm.dev" = {
         locations."/" = {
-          proxyPass = "http://100.64.0.7:5055";
+          proxyPass = "http://10.6.9.2:5055";
           proxyWebsockets = true;
         };
       }
@@ -195,7 +208,7 @@ in
 
       "photos.joinemm.dev" = {
         locations."/" = {
-          proxyPass = "http://100.64.0.7:2284";
+          proxyPass = "http://10.6.9.2:2284";
           proxyWebsockets = true;
         };
       }
@@ -203,7 +216,7 @@ in
 
       "dav.joinemm.dev" = {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:5232";
+          proxyPass = "http://${config.services.radicale.settings.server.hosts}";
           extraConfig = ''
             proxy_pass_header Authorization;
           '';
@@ -218,4 +231,6 @@ in
       }
       // ssl;
     };
+
+  networking.firewall.allowedUDPPorts = [ 4242 ];
 }

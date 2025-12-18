@@ -42,6 +42,7 @@ let
         ./thunar.nix
         ./hardening.nix
         ./tpm.nix
+        ./nebula
       ]
   );
 in

@@ -19,6 +19,7 @@
       tailscale
       nginx
       bluetooth
+      nebula
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
@@ -44,6 +45,7 @@
     defaultSopsFile = ./secrets.yaml;
     secrets = {
       cloudflare_env.owner = "root";
+      nebula_key.owner = config.nebula.user;
     };
   };
 
@@ -134,6 +136,39 @@
           controls = false;
         };
       };
+    };
+  };
+
+  nebula = {
+    enable = true;
+    cert = ./nebula.crt;
+    key = config.sops.secrets.nebula_key.path;
+  };
+
+  services.nebula.networks.milkyway = {
+    firewall = {
+      inbound = [
+        {
+          port = "8096";
+          proto = "tcp";
+          group = "funnel";
+        }
+        {
+          port = "2284";
+          proto = "tcp";
+          group = "funnel";
+        }
+        {
+          port = "5055";
+          proto = "tcp";
+          group = "funnel";
+        }
+        {
+          port = "3210";
+          proto = "tcp";
+          group = "funnel";
+        }
+      ];
     };
   };
 

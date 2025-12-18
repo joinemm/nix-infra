@@ -48,3 +48,11 @@ creation_rules:
         - *joonas-gpg
         age:
         - *nickel
+  - path_regex: modules/nebula/ca.key.crypt$
+    key_groups:
+      - pgp:
+        - *joonas-gpg
+  - path_regex: modules/nebula/ca.crt.crypt$
+    key_groups:
+      - pgp:
+        - *joonas-gpg
