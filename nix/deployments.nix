@@ -18,7 +18,7 @@ let
       };
     };
     nickel = {
-      hostname = "100.64.0.7";
+      hostname = "192.168.1.4";
       profiles.system = {
         user = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nickel;
@@ -29,7 +29,7 @@ let
 
   aarch64 = {
     zinc = {
-      hostname = "100.64.0.3";
+      hostname = "192.168.1.3";
       profiles.system = {
         user = "root";
         path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations.zinc;
