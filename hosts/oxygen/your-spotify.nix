@@ -12,7 +12,22 @@
     in
     {
       enable = true;
-      package = pkgs.your_spotify.overrideAttrs { dontCheckForBrokenSymlinks = true; };
+      package = pkgs.your_spotify.overrideAttrs (
+        final: _: {
+          version = "git";
+          src = pkgs.fetchFromGitHub {
+            owner = "Yooooomi";
+            repo = "your_spotify";
+            rev = "bb8dc001ce6e43fa1f301008e9bee37b01a10aa9";
+            hash = "sha256-eVKBrYE6U80G1SS/7nIl4fZb2BELb9lQizKcdcEIJIM=";
+          };
+
+          offlineCache = pkgs.fetchYarnDeps {
+            yarnLock = final.src + "/yarn.lock";
+            hash = "sha256-JP5enfy8yyMjZpp0U72S0uR5zJkhpvxog38icOBtQRQ=";
+          };
+        }
+      );
       settings = {
         PORT = 8081;
         SPOTIFY_PUBLIC = "8e870cbcc8d54fb8ad1ae8c33878b7f6";
