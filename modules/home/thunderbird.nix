@@ -29,7 +29,7 @@ in
       "mail.threadpane.listview" = 1;
       "mailnews.message_display.disable_remote_image" = false;
       "messenger.startup.action" = 0;
-      "network.cookie.cookieBehavior" = 2;
+      "network.cookie.cookieBehavior" = 3;
       "places.history.enabled" = false;
       "privacy.globalprivacycontrol.enabled" = true;
     };

@@ -15,6 +15,11 @@ let
       wl-clipboard
     ];
     text = ''
+      if [[ $# -ge 1 ]] && [[ "$1" == "full" ]]; then
+        grim - | swappy -f -
+        exit 0
+      fi
+
       # no negative numbers please
       clamp () {
         echo "$(( $1 < 0 ? 0 : $1 ))"
@@ -75,14 +80,17 @@ in
     early_exit=true
   '';
 
-  home.packages = with pkgs; [
-    pulseaudio
-    way-displays
-    screenshot
-    screencast
-    wlogout
-    river-bsp-layout
-  ];
+  home.packages =
+    (with pkgs; [
+      pulseaudio
+      way-displays
+      wlogout
+      river-bsp-layout
+    ])
+    ++ [
+      screenshot
+      screencast
+    ];
 
   # https://codeberg.org/river/river/issues/1023#issuecomment-2272214
   xdg.portal.config.river = {
@@ -182,7 +190,7 @@ in
             "Super Space" = run "tofi-drun --drun-launch=true";
             "Super+Shift S" = run "screenshot";
             "Super+Shift+Alt S" = run "screencast";
-            "None Print" = run "screenshot";
+            "None Print" = run "screenshot full";
             "Shift Print" = run "screencast";
             "Super Escape" = run "wlogout";
             "Super Backspace" = run "wlogout";

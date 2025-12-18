@@ -111,6 +111,7 @@ let
       starship
       sops
       gpu-screen-recorder
+      zen
       ;
   };
 in

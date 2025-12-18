@@ -20,6 +20,10 @@
   programs.nix-index-database.comma.enable = true;
   programs.fzf.enable = true;
 
+  xdg.configFile."nixpkgs/config.nix".text = ''
+    { allowUnfree = true; }
+  '';
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -64,6 +68,7 @@
     kepubify
     vlc
     libreoffice
+    blender
 
     # cli apps
     glow # render markdown on the cli

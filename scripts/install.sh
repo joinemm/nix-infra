@@ -4,22 +4,21 @@ HOST=$2
 EXTRAFLAGS=()
 
 shift 2
-for arg in "$@"; do
-    case $arg in
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
     --secrets)
         SECRETS=$2
-        shift
         shift
         ;;
     -v)
         EXTRAFLAGS+=("--debug")
-        shift
         ;;
-    --*)
+    *)
         EXTRAFLAGS+=("$1")
-        shift
         ;;
     esac
+    shift
 done
 
 if [[ -z "$FLAKE" || -z "$HOST" ]]; then

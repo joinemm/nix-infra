@@ -87,7 +87,9 @@
 
   # revision of the flake the configuration was built from.
   # $ nixos-version --configuration-revision
-  system.configurationRevision = if (self ? rev) then self.rev else self.dirtyRev;
+  system.configurationRevision = toString (
+    self.rev or self.dirtyRev or self.lastModified or "unknown"
+  );
 
   nix = {
     registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;

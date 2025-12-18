@@ -9,11 +9,6 @@ let
       "*.cloudapp.azure.com" = {
         inherit user;
       };
-
-      "ci-server 172.18.20.100" = {
-        hostname = "172.18.20.100";
-        inherit user;
-      };
     }
     # map over machine definitions in ghaf-infra and add all of them
     // lib.mapAttrs (name: attrs: {

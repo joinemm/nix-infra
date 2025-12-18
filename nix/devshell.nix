@@ -15,6 +15,7 @@
             gnupg
             sbctl
             e2fsprogs
+            nebula
 
             # add scripts to path
             (writeScriptBin "node-list" (builtins.readFile (self + /scripts/list.sh)))

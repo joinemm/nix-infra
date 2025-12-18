@@ -52,9 +52,9 @@
 
   services.resolved = {
     enable = true;
-    # extraConfig = ''
-    #   Cache=no
-    # '';
+    extraConfig = ''
+      DNSSEC=no
+    '';
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;

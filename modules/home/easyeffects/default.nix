@@ -13,7 +13,7 @@
       }
       {
         # Sennheiser HD6XX - Harman target
-        device = "alsa_output.usb-Topping_D10-00.HiFi__hw_D10_0__sink";
+        device = "alsa_output.usb-Topping_D10-00.HiFi__Headphones__sink";
         file = ./presets/HD6XX.json;
         type = "output";
         profile = "[Out] Headphones";
