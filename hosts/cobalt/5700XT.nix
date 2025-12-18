@@ -4,7 +4,6 @@
 
   environment.systemPackages = with pkgs; [
     lact
-    unigine-heaven
   ];
 
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfffd7fff" ];
