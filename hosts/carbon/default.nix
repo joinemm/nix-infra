@@ -19,9 +19,6 @@
       tpm
       hibernate
     ])
-    (with inputs.nixos-hardware.nixosModules; [
-      lenovo-thinkpad-x1-11th-gen
-    ])
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
     ./disk-config.nix
@@ -47,7 +44,10 @@
       "usb_storage"
       "sd_mod"
     ];
-    initrd.kernelModules = [ "i915" ];
+    initrd.kernelModules = [
+      "i915"
+      # "xe"
+    ];
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
   };
@@ -56,10 +56,27 @@
 
   hardware.graphics = {
     extraPackages = with pkgs; [
-      intel-compute-runtime
       intel-media-driver
+      vpl-gpu-rt
+      intel-compute-runtime
     ];
   };
+
+  # graphics chip's id: lspci -nn | grep VGA
+  boot.kernelParams = [ "i915.force_probe=a7a1" ];
+
+  # experimental Xe driver
+  # boot.kernelParams = [
+  #   "i915.force_probe=!a7a1"
+  #   "xe.force_probe=a7a1"
+  # ];
+
+  hardware.trackpoint = {
+    enable = true;
+    emulateWheel = true;
+  };
+
+  services.fstrim.enable = true;
 
   services.syncthing.settings.folders = {
     "code".enable = true;
