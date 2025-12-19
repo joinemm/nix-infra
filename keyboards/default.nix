@@ -8,7 +8,7 @@
     }:
     {
       packages = rec {
-        firmware = inputs.zmk-nix.legacyPackages.${pkgs.system}.buildSplitKeyboard {
+        firmware = inputs.zmk-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system}.buildSplitKeyboard {
           name = "kyria-firmware";
           board = "nice_nano_v2";
           shield = "kyria_rev3_%PART%";
@@ -20,8 +20,10 @@
             ".yml"
           ];
         };
-        flash = inputs.zmk-nix.packages.${pkgs.system}.flash.override { inherit firmware; };
-        zmk-update = inputs.zmk-nix.packages.${pkgs.system}.update;
+        flash = inputs.zmk-nix.packages.${pkgs.stdenv.hostPlatform.system}.flash.override {
+          inherit firmware;
+        };
+        zmk-update = inputs.zmk-nix.packages.${pkgs.stdenv.hostPlatform.system}.update;
 
         draw-keymap = pkgs.callPackage ./draw-keymap.nix {
           src = ./kyria;

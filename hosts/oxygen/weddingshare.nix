@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (self.packages.${pkgs.system}) weddingshare;
+  inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) weddingshare;
   cfg = config.services.weddingshare;
 in
 {

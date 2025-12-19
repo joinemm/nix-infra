@@ -24,9 +24,9 @@
     requires = [ "blocky.service" ];
 
     serviceConfig = {
-      ExecStart = lib.getExe self.packages.${pkgs.system}.blocky-ui;
+      ExecStart = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.blocky-ui;
       # working directory in the store path of the package, where the assets lie
-      WorkingDirectory = toString self.packages.${pkgs.system}.blocky-ui;
+      WorkingDirectory = toString self.packages.${pkgs.stdenv.hostPlatform.system}.blocky-ui;
     };
     environment = {
       PORT = toString 3344;

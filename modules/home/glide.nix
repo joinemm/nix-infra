@@ -6,23 +6,25 @@
   ...
 }:
 let
-  inherit (self.packages.${pkgs.system}) glide-browser;
+  inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) glide-browser;
 
   mkFirefoxModule = import "${inputs.home-manager}/modules/programs/firefox/mkFirefoxModule.nix";
 
-  dracula-improved = inputs.firefox-addons.lib.${pkgs.system}.buildFirefoxXpiAddon {
-    pname = "dracula-improved";
-    version = "1.1.2";
-    addonId = "{e7f21826-229d-4799-8e7b-325957ed27ab}";
-    url = "https://addons.mozilla.org/firefox/downloads/file/3831807/dracula_improved-1.1.2.xpi";
-    sha256 = "sha256-EOsG3dUdpncXZt/mhcOrgtszRZdHz4gwZkM/k3/tB3I=";
-    meta = with lib; {
-      description = "A Dracula theme that doesn't actually suck and have horrible white borders with overly bright sides and actually uses Dark Mode.";
-      license = licenses.cc-by-30;
-      mozPermissions = [ ];
-      platforms = platforms.all;
-    };
-  };
+  dracula-improved =
+    inputs.firefox-addons.lib.${pkgs.stdenv.hostPlatform.system}.buildFirefoxXpiAddon
+      {
+        pname = "dracula-improved";
+        version = "1.1.2";
+        addonId = "{e7f21826-229d-4799-8e7b-325957ed27ab}";
+        url = "https://addons.mozilla.org/firefox/downloads/file/3831807/dracula_improved-1.1.2.xpi";
+        sha256 = "sha256-EOsG3dUdpncXZt/mhcOrgtszRZdHz4gwZkM/k3/tB3I=";
+        meta = with lib; {
+          description = "A Dracula theme that doesn't actually suck and have horrible white borders with overly bright sides and actually uses Dark Mode.";
+          license = licenses.cc-by-30;
+          mozPermissions = [ ];
+          platforms = platforms.all;
+        };
+      };
 in
 {
   imports = [
@@ -122,7 +124,7 @@ in
         };
         extensions = {
           packages =
-            (with inputs.firefox-addons.packages.${pkgs.system}; [
+            (with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
               ublock-origin
               bitwarden
               consent-o-matic

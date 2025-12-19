@@ -1,6 +1,6 @@
 { pkgs, self, ... }:
 let
-  inherit (self.packages.${pkgs.system}) rpi-export;
+  inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) rpi-export;
 in
 {
   users = {

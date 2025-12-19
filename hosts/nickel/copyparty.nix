@@ -14,7 +14,7 @@
 
   services.copyparty = {
     enable = true;
-    package = inputs.copyparty.packages.${pkgs.system}.default;
+    package = inputs.copyparty.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     settings = {
       i = "0.0.0.0";

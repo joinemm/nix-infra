@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (self.packages.${pkgs.system}) idlehack;
+  inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) idlehack;
 in
 {
   programs.hyprlock = {

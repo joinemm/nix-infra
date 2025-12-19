@@ -105,7 +105,7 @@
       StateDirectory = "traggo";
       WorkingDirectory = "/var/lib/traggo";
       Restart = "on-failure";
-      ExecStart = lib.getExe self.packages.${pkgs.system}.traggo;
+      ExecStart = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.traggo;
     };
   };
 
