@@ -80,6 +80,7 @@
     exif
     yt-dlp
     calendar-cli
+    croc
 
     # utils
     ffmpeg-full
