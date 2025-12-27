@@ -1,4 +1,7 @@
-{ config, user, ... }:
+{
+  config,
+  ...
+}:
 {
   # https://github.com/Radarr/Radarr/issues/5549#issuecomment-743980409
   services.nginx.proxyTimeout = "180s";
@@ -31,9 +34,6 @@
       "${labDomain}" = labCert // {
         locations."/".proxyPass =
           "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
-      };
-      "fs.${labDomain}" = labCert // {
-        locations."/".proxyPass = "http://127.0.0.1:${toString config.services.copyparty.settings.p}";
       };
       "deluge.${labDomain}" = labCert // {
         locations."/".proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
@@ -122,10 +122,5 @@
       dnsPropagationCheck = true;
       environmentFile = config.sops.secrets.cloudflare_env.path;
     };
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = user.email;
   };
 }

@@ -1,4 +1,4 @@
-{ user, lib, ... }:
+{ lib, ... }:
 {
   services.openssh = {
     enable = true;
@@ -17,9 +17,6 @@
     ];
   };
 
-  users.users.${user.name}.openssh.authorizedKeys.keys = user.sshKeys;
-
   services.fail2ban.enable = true;
-
   security.sudo.wheelNeedsPassword = false;
 }

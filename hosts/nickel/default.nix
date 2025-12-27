@@ -4,7 +4,6 @@
   inputs,
   pkgs,
   config,
-  user,
   ...
 }:
 {
@@ -32,7 +31,6 @@
     ./homepage.nix
     ./network-share.nix
     ./nginx.nix
-    ./copyparty.nix
     ./mealie.nix
     ./monitoring.nix
   ];
@@ -114,7 +112,7 @@
     host = "127.0.0.1";
   };
 
-  users.users."${user.name}".extraGroups = [ "immich" ];
+  users.default.extraGroups = [ "immich" ];
 
   services.immich-public-proxy = {
     enable = true;
@@ -199,7 +197,7 @@
   };
 
   # init home-manager
-  home-manager.users.${user.name}.home.stateVersion = config.system.stateVersion;
+  home-manager.users.${config.users.default.name}.home.stateVersion = config.system.stateVersion;
 
   environment.systemPackages = with pkgs; [
     mergerfs

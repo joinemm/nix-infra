@@ -1,8 +1,10 @@
-{ pkgs, user, ... }:
+{ pkgs, ... }:
 let
+  gpgFingerprint = "87ECDD306614E5105299F0D4090EB48A4669AA54";
+
   yubikey-to-gpg = pkgs.writeShellScriptBin "import-gpg-yubikey" ''
     gpg --batch --yes --command-fd 0 --status-fd 1 --edit-card <<<'fetch'
-    echo "${user.gpgFingerprint}:6:" | gpg --import-ownertrust
+    echo "${gpgFingerprint}:6:" | gpg --import-ownertrust
     gpg --list-keys
   '';
 in

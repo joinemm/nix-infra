@@ -1,7 +1,6 @@
 {
   pkgs,
   inputs,
-  user,
   ...
 }:
 let
@@ -68,7 +67,7 @@ in
     java.enable = true;
   };
 
-  users.users.${user.name}.extraGroups = [ "gamemode" ];
+  users.default.extraGroups = [ "gamemode" ];
 
   hardware = {
     graphics = {

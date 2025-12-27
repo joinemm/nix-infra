@@ -1,6 +1,5 @@
 {
   pkgs,
-  user,
   config,
   ...
 }:
@@ -40,7 +39,7 @@
   services.openvpn.servers = {
     ficolo = {
       autoStart = false;
-      config = "config ${user.home}/work/tii/credentials/ficolo-vpn.ovpn";
+      config = "config ${config.users.default.home}/work/tii/credentials/ficolo-vpn.ovpn";
     };
   };
 
@@ -50,7 +49,7 @@
       gateway = "access.tii.ae";
       protocol = "gp";
       user = "joonas.rautiola";
-      passwordFile = "${user.home}/work/tii/credentials/tiivpn-password";
+      passwordFile = "${config.users.default.home}/work/tii/credentials/tiivpn-password";
     };
   };
 
@@ -58,17 +57,17 @@
     description = "Office VPN";
     after = [ "network.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn --config ${user.home}/work/tii/credentials/office-vpn.config";
+      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn --config ${config.users.default.home}/work/tii/credentials/office-vpn.config";
       Restart = "always";
       Type = "notify";
     };
   };
 
   # TII nameserver is not reliable
-  networking.hosts = {
-    "10.151.12.79" = [ "confluence.tii.ae" ];
-    "10.151.12.77" = [ "jira.tii.ae" ];
-  };
+  # networking.hosts = {
+  #   "10.151.12.79" = [ "confluence.tii.ae" ];
+  #   "10.151.12.77" = [ "jira.tii.ae" ];
+  # };
 
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "vpn" ''

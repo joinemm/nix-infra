@@ -1,6 +1,5 @@
 {
   inputs,
-  user,
   pkgs,
   lib,
   config,
@@ -26,7 +25,7 @@
             TAG_EDITMSG$
         api_key=${config.sops.placeholder.wakatime-api-key}
       '';
-    path = "${user.home}/.wakatime.cfg";
+    path = "${config.home.homeDirectory}/.wakatime.cfg";
   };
 
   xdg.desktopEntries."nvim" = {
@@ -62,7 +61,7 @@
       termguicolors = true;
       cursorline = true;
       undofile = true;
-      undodir = "/${user.home}/.vim/undodir";
+      undodir = "${config.home.homeDirectory}/.vim/undodir";
     };
 
     lsp = {

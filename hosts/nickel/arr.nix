@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  user,
   inputs,
   ...
 }:
@@ -15,13 +14,13 @@
     recyclarr-secrets = {
       format = "binary";
       sopsFile = ./recyclarr_secrets;
-      path = "${user.home}/.config/recyclarr/secrets.yml";
-      owner = user.name;
+      path = "/home/${config.owner}/.config/recyclarr/secrets.yml";
+      inherit (config) owner;
     };
   };
 
   # allow me to access the files too
-  users.users."${user.name}".extraGroups = [ "media" ];
+  users.default.extraGroups = [ "media" ];
 
   systemd.tmpfiles.rules = [
     "d '${config.nixarr.mediaDir}/torrents'             0755 torrenter media - -"
@@ -139,7 +138,7 @@
     vpnNamespace = "wg";
   };
 
-  home-manager.users.${user.name} = {
+  home-manager.users.${config.owner} = {
     home.stateVersion = config.system.stateVersion;
     xdg.configFile."recyclarr/recyclarr.yml".source = ./recyclarr.yml;
   };

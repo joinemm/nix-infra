@@ -2,13 +2,12 @@
   pkgs,
   lib,
   config,
-  user,
   ...
 }:
 {
   security.acme = {
     acceptTerms = true;
-    defaults.email = user.email;
+    defaults.email = "joonas@rautiola.co";
   };
 
   security.dhparams = {

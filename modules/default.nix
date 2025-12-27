@@ -8,7 +8,6 @@ let
       })
       [
         ./home
-        ./kanata
         ./x11.nix
         ./keyd.nix
         ./vpn.nix
@@ -31,7 +30,6 @@ let
         ./ssh-access.nix
         ./remotebuild.nix
         ./systemd-boot.nix
-        ./transmission.nix
         ./node-exporter.nix
         ./virtualization.nix
         ./wayland.nix
@@ -44,6 +42,7 @@ let
         ./tpm.nix
         ./nebula
         ./niri.nix
+        ./users.nix
       ]
   );
 in
@@ -54,6 +53,7 @@ in
       core = with modules; [
         common
         hardening
+        users
       ];
       server = with modules; [
         headless
@@ -72,7 +72,6 @@ in
         syncthing
         systemd-boot
         tailscale
-        transmission
         vpn
         x11
         yubikey

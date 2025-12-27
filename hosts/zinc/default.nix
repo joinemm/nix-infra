@@ -3,7 +3,6 @@
   self,
   inputs,
   pkgs,
-  user,
   ...
 }:
 {
@@ -79,7 +78,7 @@
   ];
 
   users.groups.gpio = { };
-  users.users.${user.name}.extraGroups = [
+  users.default.extraGroups = [
     "gpio"
     "vcio"
   ];

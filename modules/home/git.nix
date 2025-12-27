@@ -1,4 +1,4 @@
-{ pkgs, user, ... }:
+{ pkgs, ... }:
 let
   delta-themes = pkgs.stdenv.mkDerivation {
     name = "delta-themes";
@@ -31,14 +31,14 @@ in
 
   programs.git = {
     enable = true;
-    signing.key = user.gpgKey;
+    signing.key = "0x090EB48A4669AA54";
 
     settings = {
       init.defaultBranch = "master";
 
       user = {
-        name = user.fullName;
-        inherit (user) email;
+        name = "Joonas Rautiola";
+        email = "joonas@rautiola.co";
       };
 
       color = {

@@ -1,8 +1,8 @@
 {
   inputs,
   lib,
-  user,
   self,
+  config,
   ...
 }:
 {
@@ -93,7 +93,7 @@
   };
 
   # extra home-manager configuration
-  home-manager.users."${user.name}" = {
+  home-manager.users."${config.owner}" = {
     xdg.configFile."way-displays/cfg.yml".text = ''
       SCALING: FALSE
       AUTO_SCALE: FALSE

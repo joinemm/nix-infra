@@ -1,12 +1,11 @@
 {
-  user,
   pkgs,
   config,
   lib,
   ...
 }:
 let
-  wallpaperPath = "${user.home}/.wallpaper";
+  wallpaperPath = "${config.home.homeDirectory}/.wallpaper";
 in
 {
   systemd.user.services.swaybg = {
