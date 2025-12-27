@@ -1,7 +1,7 @@
 {
   inputs,
-  user,
   self,
+  config,
   lib,
   pkgs,
   ...
@@ -94,7 +94,7 @@
   '';
 
   # extra home-manager configuration
-  home-manager.users."${user.name}" = {
+  home-manager.users."${config.owner}" = {
     imports = [
       ../../modules/home/laptop.nix
     ];

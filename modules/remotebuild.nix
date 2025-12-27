@@ -1,4 +1,4 @@
-{ user, inputs, ... }:
+{ config, inputs, ... }:
 let
   machines = import "${inputs.ghaf-infra}/hosts/machines.nix";
 in
@@ -16,7 +16,7 @@ in
             "kvm"
           ];
           sshUser = "jrautiola";
-          sshKey = "${user.home}/.ssh/id_ed25519";
+          sshKey = "${config.users.default.home}/.ssh/id_ed25519";
         };
       in
       [

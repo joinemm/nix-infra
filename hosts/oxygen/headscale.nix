@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  user,
   config,
   ...
 }:
@@ -54,7 +53,7 @@
     headscale
   ];
 
-  users.users."${user.name}".extraGroups = [
+  users.default.extraGroups = [
     "headscale"
   ];
 

@@ -1,7 +1,6 @@
 {
   self,
   pkgs,
-  user,
   lib,
   inputs,
   config,
@@ -67,7 +66,7 @@
       extraConfig = ''
         polkit.addRule(function(action, subject) {
           if (action.id == "org.freedesktop.systemd1.manage-units" &&
-            subject.user == "${user.name}") {
+            subject.user == "${config.owner}") {
             return polkit.Result.YES;
           }
         });
@@ -133,21 +132,10 @@
     '';
   };
 
-  users.users."${user.name}" = {
-    isNormalUser = true;
-    description = user.fullName;
-    initialHashedPassword = "$y$j9T$KyBnHLJFeVfuTfXyr.PkK.$AI..EcHtj.5x5v4puNb2Gn7iYzmQPSgv2hh7zz6zuz0";
-    extraGroups = [
-      "wheel"
-      "input"
-      "dialout"
-    ];
-  };
-
   environment = {
-    shells = [
-      pkgs.bashInteractive
-      pkgs.fish
+    shells = with pkgs; [
+      bashInteractive
+      fish
     ];
 
     # uninstall all default packages that I don't need

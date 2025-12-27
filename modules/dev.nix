@@ -1,7 +1,7 @@
-{ user, ... }:
+{ config, ... }:
 {
   environment.variables = {
-    GOPATH = "${user.home}/.local/share/go";
+    GOPATH = "/home/${config.owner}/.local/share/go";
   };
 
   virtualisation.docker = {
@@ -9,9 +9,4 @@
     enableOnBoot = false;
     autoPrune.enable = true;
   };
-
-  users.users."${user.name}".extraGroups = [
-    "docker"
-    "adbusers"
-  ];
 }

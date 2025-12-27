@@ -1,5 +1,4 @@
 {
-  user,
   config,
   lib,
   ...
@@ -9,8 +8,8 @@
     enable = true;
 
     group = "users";
-    user = lib.mkDefault user.name;
-    dataDir = lib.mkDefault user.home;
+    user = lib.mkDefault config.owner;
+    dataDir = lib.mkDefault "/home/${config.owner}";
 
     openDefaultPorts = lib.mkDefault true;
     overrideDevices = true;

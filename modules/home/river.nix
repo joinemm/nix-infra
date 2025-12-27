@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  user,
+  config,
   ...
 }:
 let
@@ -61,7 +61,7 @@ let
       else
         G="$(slurp -o)"
         notify-send "Starting to record"
-        wf-recorder -y -g "$G" -f "${user.home}/videos/screencast/$(date '+%Y-%m-%d-%H-%M-%S').mp4"
+        wf-recorder -y -g "$G" -f "${config.xdg.userDirs.videos}/screencast/$(date '+%Y-%m-%d-%H-%M-%S').mp4"
       fi
     '';
   };
@@ -71,7 +71,7 @@ in
 
   xdg.configFile."swappy/config".text = ''
     [Default]
-    save_dir=${user.home}/pictures/screenshots
+    save_dir=${config.xdg.userDirs.pictures}/screenshots
     save_filename_format=%Y%m%d-%H%M%S.png
     line_size=3
     text_size=18

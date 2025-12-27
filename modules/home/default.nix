@@ -1,6 +1,5 @@
 {
   inputs,
-  user,
   lib,
   pkgs,
   self,
@@ -11,7 +10,7 @@ let
   homeModules = lib.listToAttrs (
     map
       (x: {
-        name = lib.removeSuffix ".nix" (builtins.baseNameOf x);
+        name = lib.removeSuffix ".nix" (baseNameOf x);
         value = x;
       })
       [
@@ -123,9 +122,9 @@ in
 
   home-manager = {
     extraSpecialArgs = {
-      inherit user inputs self;
+      inherit inputs self;
     };
-    users."${user.name}" = {
+    users."${config.owner}" = {
       imports =
         (lib.attrValues defaultModules)
         ++ (
@@ -152,6 +151,6 @@ in
     allowedUDPPortRanges = allowedTCPPortRanges;
   };
 
-  users.users."${user.name}".shell = pkgs.fish;
+  users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
 }

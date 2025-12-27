@@ -4,7 +4,6 @@
   self,
   pkgs,
   config,
-  user,
   ...
 }:
 let
@@ -272,7 +271,7 @@ in
     enableOnBoot = true;
   };
 
-  users.users.${user.name}.extraGroups = [ "docker" ];
+  users.default.extraGroups = [ "docker" ];
 
   environment.systemPackages = [
     pkgs.busybox

@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  user,
   ...
 }:
 let
@@ -42,7 +41,7 @@ in
 
     outputDirectory = lib.mkOption {
       type = lib.types.str;
-      default = "${user.home}/videos/replay";
+      default = "${config.xdg.userDirs.videos}/replay";
       description = "Directory to save replay clips";
     };
 
