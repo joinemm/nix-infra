@@ -189,6 +189,10 @@
     };
   };
 
+  services.kimai.sites."kimai.lab.joinemm.dev" = {
+    settings = { };
+  };
+
   services.unifi = {
     enable = true;
     openFirewall = true;
