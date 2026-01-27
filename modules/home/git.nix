@@ -1,8 +1,33 @@
 { pkgs, user, ... }:
+let
+  delta-themes = pkgs.stdenv.mkDerivation {
+    name = "delta-themes";
+    src = pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig";
+      sha256 = "sha256-kPGzO4bzUXUAeG82UjRk621uL1faNOZfN4wNTc1oeN4=";
+    };
+    unpackPhase = "true";
+    installPhase = ''
+      cp $src $out
+    '';
+  };
+in
 {
-  home.packages = [ pkgs.git-absorb ];
+  home.packages = with pkgs; [
+    git-absorb
+  ];
 
-  programs.diff-so-fancy.enableGitIntegration = true;
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      side-by-side = true;
+      line-numbers = true;
+      hyperlinks = true;
+      dark = true;
+      features = "navigate mantis-shrimp";
+    };
+  };
 
   programs.git = {
     enable = true;
@@ -26,6 +51,7 @@
       };
 
       merge = {
+        conflictStyle = "zdiff3";
         stat = true;
         tool = "nvimdiff2";
       };
@@ -40,6 +66,9 @@
       {
         condition = "gitdir:~/work/tii/";
         path = "~/work/tii/.gitconfig_include";
+      }
+      {
+        path = toString delta-themes;
       }
     ];
   };
