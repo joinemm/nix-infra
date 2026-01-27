@@ -2,6 +2,7 @@
 with lib;
 let
   cfg = config.services.easyeffects;
+  cfgdir = ".local/share/easyeffects";
 in
 {
   options = {
@@ -28,7 +29,7 @@ in
     };
   };
   config = {
-    xdg.configFile = lib.mergeAttrsList (
+    home.file = lib.mergeAttrsList (
       map (
         {
           device,
@@ -41,8 +42,8 @@ in
           name = builtins.head (lib.splitString "." (builtins.baseNameOf file));
         in
         {
-          "easyeffects/${type}/${name}.json".source = file;
-          "easyeffects/autoload/${type}/${device}.json".text = builtins.toJSON {
+          "${cfgdir}/${type}/${name}.json".source = file;
+          "${cfgdir}/autoload/${type}/${device}.json".text = builtins.toJSON {
             inherit device;
             device-description = description;
             device-profile = profile;
