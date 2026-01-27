@@ -11,7 +11,7 @@
           "Sarasa Gothic"
         ];
         sansSerif = [
-          "Cantarell"
+          "Lato"
           "Sarasa Gothic"
         ];
       };
@@ -26,11 +26,11 @@
 
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
-      cantarell-fonts
       twitter-color-emoji
       sarasa-gothic
       corefonts
       dejavu_fonts
+      lato
     ];
   };
 }
