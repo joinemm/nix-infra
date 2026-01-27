@@ -29,6 +29,12 @@
           src = ./kyria;
           keymap = "kyria_rev3.keymap";
         };
+
+        qmk-flash = pkgs.writeShellApplication {
+          name = "qmk-flash";
+          text = builtins.readFile ./qmk-flash.sh;
+          runtimeInputs = with pkgs; [ dfu-programmer ];
+        };
       };
     };
 }
