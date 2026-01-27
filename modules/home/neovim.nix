@@ -81,6 +81,12 @@
           filetypes = [ "json" ];
         };
 
+        clangd.cmd = lib.mkForce [
+          "clangd"
+          "--background-index"
+          "--query-driver=**"
+        ];
+
         basedpyright.settings = {
           disableOrganizeImports = true;
           basedpyright.analysis = {
@@ -156,6 +162,13 @@
         silent = true;
         unique = true;
         action = ":Trouble diagnostics toggle<CR>";
+      }
+      {
+        key = "<leader>ca";
+        mode = "n";
+        silent = true;
+        lua = true;
+        action = "vim.lsp.buf.code_action";
       }
       {
         key = "<C-h>";
