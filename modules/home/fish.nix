@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   git-branch-rebase = pkgs.writeShellApplication {
-    name = "git-fork-update";
+    name = "git-branch-rebase";
     text = # sh
       ''
         MAIN="''${1:-main}"

@@ -139,6 +139,7 @@
     extraGroups = [
       "wheel"
       "input"
+      "dialout"
     ];
   };
 
