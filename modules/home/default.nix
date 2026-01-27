@@ -23,6 +23,7 @@ let
         ./xmonad
         # files in alphabetical order
         ./common.nix
+        ./chromium.nix
         ./dunst.nix
         ./thunderbird.nix
         ./firefox.nix
@@ -112,6 +113,7 @@ let
       sops
       gpu-screen-recorder
       zen
+      chromium
       ;
   };
 in
