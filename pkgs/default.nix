@@ -13,6 +13,7 @@
         weddingshare = pkgs.callPackage ./weddingshare { };
         idlehack = pkgs.callPackage ./idlehack { };
         glide-browser = pkgs.callPackage ./glide-browser { };
+        hypruler = pkgs.callPackage ./hypruler { };
         traggo = oldPkgs.callPackage ./traggo { }; # needs go 1.23 which is end-of-life
       };
     };
