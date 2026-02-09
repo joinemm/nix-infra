@@ -51,6 +51,8 @@
       pre-commit
       leetcode-cli
       go-grip
+      minicom
+      godot
 
       # gui apps
       spotify
@@ -94,5 +96,5 @@
       geekbench
       ripgrep
     ])
-    ++ [ self.packages.${pkgs.system}.hypruler ];
+    ++ [ self.packages.${pkgs.stdenv.hostPlatform.system}.hypruler ];
 }

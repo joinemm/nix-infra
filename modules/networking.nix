@@ -50,12 +50,7 @@
     firewall.enable = true;
   };
 
-  services.resolved = {
-    enable = true;
-    extraConfig = ''
-      DNSSEC=no
-    '';
-  };
+  services.resolved.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.services.NetworkManager-dispatcher.enable = false;

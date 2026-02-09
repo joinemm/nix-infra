@@ -23,7 +23,7 @@
     desktopEntries = {
       "transmission-magnet" = {
         name = "Transmission add torrent";
-        exec = ''add-torrent %u'';
+        exec = "add-torrent %u";
         mimeType = [ "x-scheme-handler/magnet" ];
       };
     };

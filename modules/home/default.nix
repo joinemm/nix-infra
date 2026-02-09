@@ -35,7 +35,7 @@ let
         ./gpg.nix
         ./gtk.nix
         ./hidpi.nix
-        ./hyprlock.nix
+        ./screenlocker.nix
         ./imv.nix
         ./kdeconnect.nix
         ./laptop.nix
@@ -83,7 +83,7 @@ let
       wayland
       river
       foot
-      hyprlock
+      screenlocker
       waybar
       swww
       ;

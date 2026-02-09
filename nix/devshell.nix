@@ -1,10 +1,7 @@
-{ self, ... }:
+{ self, inputs, ... }:
 {
   perSystem =
-    { pkgs, ... }:
-    let
-      deploy-rs = pkgs.deploy-rs.overrideAttrs { patches = [ ./deploy-rs-fix-targets.diff ]; };
-    in
+    { system, pkgs, ... }:
     {
       devShells.default = pkgs.mkShell {
         name = "snowflake";
@@ -23,7 +20,7 @@
             (writeScriptBin "node-init-secrets" (builtins.readFile (self + /scripts/init-secrets.sh)))
           ])
           ++ [
-            deploy-rs
+            inputs.deploy-rs.packages.${system}.default
           ];
       };
     };

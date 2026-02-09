@@ -19,7 +19,7 @@ in
       auth.fingerprint = {
         enabled = true;
         ready_message = "<span>  </span>";
-        present_message = ''<span foreground='##94E2D5'>  </span>'';
+        present_message = "<span foreground='##94E2D5'>  </span>";
       };
 
       label = [
@@ -91,24 +91,12 @@ in
           resumeCommand = screenOn;
         }
       ];
-      events = [
-        {
-          event = "before-sleep";
-          command = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
-        }
-        {
-          event = "lock";
-          command = "${lib.getExe' pkgs.procps "pidof"} hyprlock || ${screenLocker}";
-        }
-        {
-          event = "unlock";
-          command = screenOn;
-        }
-        {
-          event = "after-resume";
-          command = screenOn;
-        }
-      ];
+      events = {
+        before-sleep = "${lib.getExe' pkgs.systemd "loginctl"} lock-session";
+        lock = "${lib.getExe' pkgs.procps "pidof"} hyprlock || ${screenLocker}";
+        unlock = screenOn;
+        after-resume = screenOn;
+      };
     };
 
   home.packages = [ idlehack ];

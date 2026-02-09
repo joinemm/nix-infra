@@ -120,16 +120,17 @@
 
       extra-substituters = [
         "https://ghaf-dev.cachix.org"
+        "https://nix-community.cachix.org"
       ];
       extra-trusted-public-keys = [
         "ghaf-dev.cachix.org-1:S3M8x3no8LFQPBfHw1jl6nmP8A7cVWKntoMKN3IsEQY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
     extraOptions = ''
       # Ensure we can still build when a binary cache is not accessible
       fallback = true
     '';
-
   };
 
   users.users."${user.name}" = {

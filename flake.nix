@@ -56,11 +56,11 @@
     };
 
     deploy-rs = {
-      url = "github:serokell/deploy-rs";
+      url = "github:neunenak/deploy-rs";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-compat.follows = "";
-        utils.follows = "flake-utils";
+        flake-utils.follows = "flake-utils";
       };
     };
 
@@ -81,7 +81,7 @@
       url = "github:kaylorben/nixcord";
       inputs = {
         flake-compat.follows = "";
-        nixpkgs.follows = "nixpkgs";
+        # nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
       };
     };
@@ -97,7 +97,7 @@
     nix-topology = {
       url = "github:oddlama/nix-topology";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        flake-parts.follows = "flake-parts";
       };
     };
 

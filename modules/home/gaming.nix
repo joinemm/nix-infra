@@ -2,12 +2,13 @@
 {
   home.packages = with pkgs; [
     prismlauncher # Minecraft launcher
-    kdePackages.kdenlive # for editing obs clips
+    # fails to build
+    # kdePackages.kdenlive # for editing obs clips
     mangohud
   ];
 
   # makes steam download a lot faster
-  home.file.".steam/steam/steam_dev.cfg".text = ''
+  home.file.".local/share/Steam/steam_dev.cfg".text = ''
     @nClientDownloadEnableHTTP2PlatformLinux 0
     @fDownloadRateImprovementToAddAnotherConnection 1.0
   '';
