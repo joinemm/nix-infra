@@ -58,4 +58,6 @@
   users.users."${user.name}".extraGroups = [ "networkmanager" ];
 
   environment.systemPackages = with pkgs; [ wirelesstools ];
+
+  networking.firewall.allowedTCPPorts = [ 4321 ];
 }
