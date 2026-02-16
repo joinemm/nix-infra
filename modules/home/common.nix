@@ -53,6 +53,7 @@
       go-grip
       minicom
       godot
+      codex
 
       # gui apps
       spotify
