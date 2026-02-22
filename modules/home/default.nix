@@ -62,6 +62,8 @@ let
         ./swww.nix
         ./glide.nix
         ./gpu-screen-recorder.nix
+        ./niri.nix
+        ./noctalia.nix
       ]
   );
 
@@ -81,11 +83,12 @@ let
   waylandModules = {
     inherit (homeModules)
       wayland
-      river
       foot
       screenlocker
       waybar
       swww
+      noctalia
+      niri
       ;
   };
 
@@ -105,7 +108,6 @@ let
       wezterm
       xdg
       yazi
-      glide
       fish
       thunderbird
       sioyek
@@ -113,7 +115,6 @@ let
       sops
       gpu-screen-recorder
       zen
-      chromium
       ;
   };
 in

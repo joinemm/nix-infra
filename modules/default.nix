@@ -43,6 +43,7 @@ let
         ./hardening.nix
         ./tpm.nix
         ./nebula
+        ./niri.nix
       ]
   );
 in
@@ -81,6 +82,7 @@ in
         graphical
         thunar
         virtualization
+        niri
       ];
     };
   };
