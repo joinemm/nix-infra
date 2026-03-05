@@ -1,6 +1,6 @@
 {
   services.mealie = {
-    enable = true;
+    enable = false; # TODO: fails to build right now
 
     listenAddress = "127.0.0.1";
     port = 9000;

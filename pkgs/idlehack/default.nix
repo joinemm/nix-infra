@@ -7,8 +7,8 @@
   pkg-config,
   bash,
   dbus,
+  libX11,
   systemd,
-  xorg,
   ...
 }:
 stdenv.mkDerivation (self: {
@@ -27,7 +27,7 @@ stdenv.mkDerivation (self: {
   buildInputs = [
     bash
     dbus
-    xorg.libX11
+    libX11
   ]
   ++ lib.optionals systemdSupport [ systemd ];
 

@@ -14,6 +14,8 @@
 
   zramSwap.enable = true;
 
+  systemd.services."systemd-zram-setup@zram0".restartIfChanged = false;
+
   # Tweaking the system's swap to take full advantage of zram.
   # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram
   boot.kernel.sysctl = lib.mkIf config.zramSwap.enable {
@@ -145,7 +147,7 @@
       git
       vim
       wget
-      neofetch
+      fastfetch
       pciutils
       usbutils
       dig

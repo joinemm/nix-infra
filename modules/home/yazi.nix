@@ -2,6 +2,7 @@
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
+    shellWrapperName = "y";
     settings = {
       manager = {
         sort_dir_first = true;

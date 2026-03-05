@@ -1,26 +1,8 @@
 {
   inputs,
-  lib,
   pkgs,
   ...
 }:
-let
-  dracula-improved =
-    inputs.firefox-addons.lib.${pkgs.stdenv.hostPlatform.system}.buildFirefoxXpiAddon
-      {
-        pname = "dracula-improved";
-        version = "1.1.2";
-        addonId = "{e7f21826-229d-4799-8e7b-325957ed27ab}";
-        url = "https://addons.mozilla.org/firefox/downloads/file/3831807/dracula_improved-1.1.2.xpi";
-        sha256 = "sha256-EOsG3dUdpncXZt/mhcOrgtszRZdHz4gwZkM/k3/tB3I=";
-        meta = with lib; {
-          description = "A Dracula theme that doesn't actually suck and have horrible white borders with overly bright sides and actually uses Dark Mode.";
-          license = licenses.cc-by-30;
-          mozPermissions = [ ];
-          platforms = platforms.all;
-        };
-      };
-in
 {
   imports = [
     inputs.zen-browser.homeModules.default
@@ -28,6 +10,25 @@ in
 
   programs.zen-browser = {
     enable = true;
+    suppressXdgMigrationWarning = true;
+    policies = {
+      AutofillAddressEnabled = true;
+      AutofillCreditCardEnabled = false;
+      DisableAppUpdate = true;
+      DisableFeedbackCommands = true;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      DontCheckDefaultBrowser = true;
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+    };
     profiles.default = {
       settings = {
         "app.normandy.first_run" = false;
@@ -37,7 +38,6 @@ in
         "media.hardwaremediakeys.enabled" = false;
         "privacy.donottrackheader.enabled" = true;
         "signon.rememberSignons" = false;
-        # "extensions.activeThemeID" = "{e7f21826-229d-4799-8e7b-325957ed27ab}";
         "extensions.autoDisableScopes" = 0;
         "sidebar.new-sidebar.has-used" = true;
         "sidebar.verticalTabs" = true;
@@ -86,23 +86,19 @@ in
         };
       };
       extensions = {
-        packages =
-          (with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
-            ublock-origin
-            bitwarden
-            consent-o-matic
-            dark-mode-website-switcher
-            image-max-url
-            kagi-search
-            reddit-enhancement-suite
-            sponsorblock
-            multi-account-containers
-            csgofloat
-            csgo-trader-steam-trading
-          ])
-          ++ [
-            dracula-improved
-          ];
+        packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
+          ublock-origin
+          bitwarden
+          consent-o-matic
+          dark-mode-website-switcher
+          image-max-url
+          kagi-search
+          reddit-enhancement-suite
+          sponsorblock
+          multi-account-containers
+          csgofloat
+          csgo-trader-steam-trading
+        ];
       };
     };
   };

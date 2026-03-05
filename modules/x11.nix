@@ -15,7 +15,7 @@ lib.mkMerge [
 
         # I don't need xterm
         excludePackages = with pkgs; [
-          xorg.iceauth
+          iceauth
           xterm
         ];
 

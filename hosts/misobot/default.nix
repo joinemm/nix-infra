@@ -148,6 +148,8 @@ in
       };
 
       auth.disable_login_form = true;
+
+      security.secret_key = "1d0df220ab6742f87a33503ebe58a5c307a67da1b700e6dd67369321e6e66ec1";
     };
 
     provision.datasources.settings.datasources = [

@@ -25,21 +25,21 @@ stdenv.mkDerivation rec {
     atk
     glib
     libcanberra-gtk3
-    xorg.libX11
-    xorg.libxcb
-    xorg.libXScrnSaver
-    xorg.libXcomposite
-    xorg.libXcursor
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXtst
-    xorg.libxshmfence
-    xorg.libXxf86dga
-    xorg.libXxf86vm
-    xorg.libXt
+    libX11
+    libxcb
+    libXScrnSaver
+    libXcomposite
+    libXcursor
+    libXdamage
+    libXext
+    libXfixes
+    libXi
+    libXrandr
+    libXtst
+    libxshmfence
+    libXxf86dga
+    libXxf86vm
+    libXt
     libdrm
     libGL
     mesa

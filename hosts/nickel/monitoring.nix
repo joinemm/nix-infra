@@ -44,6 +44,8 @@
         reporting_enabled = false;
         feedback_links_enabled = false;
       };
+
+      security.secret_key = "6e181acc464d46c15a3e4f905fd566c876bb9d32d7e6055289251b184c356bf5";
     };
 
     provision.datasources.settings.datasources = [

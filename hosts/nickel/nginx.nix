@@ -109,6 +109,11 @@
           proxyPass = "http://127.0.0.1:${toString 3030}";
         };
       };
+      "grafana.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
+        };
+      };
       "kimai.${labDomain}" = labCert;
     };
 
