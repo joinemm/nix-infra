@@ -5,79 +5,115 @@
 }:
 {
   sops.secrets = {
-    airvpn_private_key.owner = "root";
-    airvpn_preshared_key.owner = "root";
+    vpn-secrets.owner = "root";
   };
 
-  networking.wg-quick.interfaces."airvpn" = {
-    autostart = false;
-    address = [
-      "10.138.209.189/32"
-      "fd7d:76ee:e68f:a993:36:bd75:6ac8:7c65/128"
-    ];
-    privateKeyFile = config.sops.secrets.airvpn_private_key.path;
-    dns = [
-      "10.128.0.1"
-      "fd7d:76ee:e68f:a993::1"
-    ];
-
-    peers = [
-      {
-        publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
-        presharedKeyFile = config.sops.secrets.airvpn_preshared_key.path;
-        endpoint = "europe3.vpn.airdns.org:1637";
-        allowedIPs = [
-          "0.0.0.0/0"
-          "::/0"
-        ];
-      }
-    ];
+  networking.hosts = {
+    "10.151.12.79" = [ "confluence.tii.ae" ];
   };
 
-  # work vpns
+  networking.networkmanager = {
+    plugins = with pkgs; [
+      networkmanager-openconnect
+      networkmanager-fortisslvpn
+    ];
+    ensureProfiles = {
+      environmentFiles = [
+        config.sops.secrets.vpn-secrets.path
+      ];
 
-  services.openvpn.servers = {
-    ficolo = {
-      autoStart = false;
-      config = "config ${config.users.default.home}/work/tii/credentials/ficolo-vpn.ovpn";
+      profiles = {
+        OfficeVPN = {
+          connection = {
+            id = "Office";
+            type = "vpn";
+            autoconnect = false;
+          };
+
+          vpn = {
+            service-type = "org.freedesktop.NetworkManager.fortisslvpn";
+            gateway = "109.204.204.138:10443";
+            user = "joonas.rautiola@ssrc.fi";
+            trusted-cert = "aac5a1e0e81f2e8438a6dba8f705807d47d76ad747e084ae7b3959460f6ed08f";
+          };
+
+          vpn-secrets = {
+            password = "$OFFICE_VPN_PASSWORD";
+          };
+
+          ipv4 = {
+            method = "auto";
+            never-default = true;
+            ignore-auto-dns = true;
+            dns = "172.18.16.137";
+          };
+
+          ipv6 = {
+            method = "disabled";
+          };
+        };
+
+        TIIVPN = {
+          connection = {
+            id = "TII";
+            type = "vpn";
+            autoconnect = false;
+          };
+
+          vpn = {
+            service-type = "org.freedesktop.NetworkManager.openconnect";
+            gateway = "access.tii.ae";
+            protocol = "gp";
+            user = "joonas.rautiola";
+          };
+
+          vpn-secrets = {
+            password = "$TII_VPN_PASSWORD";
+          };
+
+          ipv4 = {
+            method = "auto";
+            never-default = true;
+          };
+
+          ipv6 = {
+            method = "disabled";
+          };
+        };
+
+        AirVPN = {
+          connection = {
+            id = "AirVPN";
+            type = "wireguard";
+            autoconnect = false;
+            interface-name = "airvpn";
+          };
+
+          wireguard = {
+            private-key = "$AIRVPN_PRIVATE_KEY";
+            mtu = 1320;
+          };
+
+          # One peer
+          "wireguard-peer.PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=" = {
+            preshared-key = "$AIRVPN_PRESHARED_KEY";
+            endpoint = "europe3.vpn.airdns.org:1637";
+            allowed-ips = "0.0.0.0/0;::/0;";
+          };
+
+          ipv4 = {
+            method = "manual";
+            address1 = "10.138.209.189/32";
+            dns = "10.128.0.1;";
+          };
+
+          ipv6 = {
+            method = "manual";
+            address1 = "fd7d:76ee:e68f:a993:36:bd75:6ac8:7c65/128";
+            dns = "fd7d:76ee:e68f:a993::1;";
+          };
+        };
+      };
     };
   };
-
-  networking.openconnect.interfaces = {
-    tii = {
-      autoStart = false;
-      gateway = "access.tii.ae";
-      protocol = "gp";
-      user = "joonas.rautiola";
-      passwordFile = "${config.users.default.home}/work/tii/credentials/tiivpn-password";
-    };
-  };
-
-  systemd.services.openfortivpn-office = {
-    description = "Office VPN";
-    after = [ "network.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.openfortivpn}/bin/openfortivpn --config ${config.users.default.home}/work/tii/credentials/office-vpn.config";
-      Restart = "always";
-      Type = "notify";
-    };
-  };
-
-  # TII nameserver is not reliable
-  # networking.hosts = {
-  #   "10.151.12.79" = [ "confluence.tii.ae" ];
-  #   "10.151.12.77" = [ "jira.tii.ae" ];
-  # };
-
-  environment.systemPackages = [
-    (pkgs.writeShellScriptBin "vpn" ''
-      case $1 in
-      "tii") systemctl "$2" openconnect-tii.service ;;
-      "office") systemctl "$2" openfortivpn-office.service ;;
-      "ficolo") systemctl "$2" openvpn-ficolo.service ;;
-      "air") systemctl "$2" wg-quick-airvpn.service ;;
-      *) echo "Invalid VPN: $1\nVPNs: tii, office, ficolo, air" && exit 1 ;;
-      esac
-    '')
-  ];
 }

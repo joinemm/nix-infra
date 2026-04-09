@@ -20,6 +20,7 @@ let
         ./polybar
         ./waybar
         ./xmonad
+        ./dms
         # files in alphabetical order
         ./common.nix
         ./chromium.nix
@@ -62,7 +63,7 @@ let
         ./glide.nix
         ./gpu-screen-recorder.nix
         ./niri.nix
-        ./noctalia.nix
+        ./dsearch.nix
       ]
   );
 
@@ -83,11 +84,9 @@ let
     inherit (homeModules)
       wayland
       foot
-      screenlocker
-      waybar
-      swww
-      noctalia
       niri
+      dms
+      dsearch
       ;
   };
 

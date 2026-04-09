@@ -1,4 +1,9 @@
-{ pkgs, osConfig, ... }:
+{
+  pkgs,
+  config,
+  osConfig,
+  ...
+}:
 {
   home = {
     pointerCursor = {
@@ -35,16 +40,26 @@
     in
     {
       enable = true;
-      theme = {
-        name = "Dracula";
-        package = pkgs.dracula-theme;
+
+      gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+
+      font = {
+        name = "Inter";
+        package = pkgs.google-fonts.override { fonts = [ "Inter" ]; };
+        size = 10;
       };
+
       iconTheme = {
         name = "WhiteSur";
         package = pkgs.whitesur-icon-theme;
       };
 
-      gtk3 = disableDecorations;
-      gtk4 = disableDecorations;
+      theme = {
+        name = "adw-gtk3-dark";
+        package = pkgs.adw-gtk3;
+      };
+
+      # gtk3 = disableDecorations;
+      # gtk4 = disableDecorations;
     };
 }

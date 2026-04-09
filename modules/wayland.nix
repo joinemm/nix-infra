@@ -19,11 +19,6 @@
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
-  # programs.river-classic = {
-  #   enable = true;
-  #   xwayland.enable = true;
-  # };
-
   services.displayManager = {
     enable = true;
     ly = {
