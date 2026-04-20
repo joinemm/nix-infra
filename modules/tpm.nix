@@ -33,6 +33,8 @@ in
       tpm-enroll
     ];
 
-  boot.initrd.systemd.enable = true;
-  boot.initrd.availableKernelModules = [ "tpm_tis" ];
+  boot.initrd = {
+    systemd.enable = true;
+    availableKernelModules = [ "tpm_tis" ];
+  };
 }
