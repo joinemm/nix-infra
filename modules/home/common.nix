@@ -53,7 +53,9 @@
       go-grip
       minicom
       godot
-      codex
+      nurl
+      nix-init
+      nh
 
       # gui apps
       spotify
@@ -75,6 +77,7 @@
       blender
       wasistlos
       arduino-ide
+      chromium
 
       # cli apps
       glow # render markdown on the cli
