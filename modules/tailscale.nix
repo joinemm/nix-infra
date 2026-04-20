@@ -1,6 +1,8 @@
+{ lib, ... }:
 {
   services.tailscale = {
     enable = true;
-    useRoutingFeatures = "client";
+    useRoutingFeatures = lib.mkDefault "client";
+    disableUpstreamLogging = true;
   };
 }

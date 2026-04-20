@@ -13,6 +13,7 @@
     ])
     (with self.nixosModules; [
       locale
+      tailscale
     ])
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
     inputs.nix-topology.nixosModules.default
@@ -59,10 +60,7 @@
     '';
   };
 
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "server";
-  };
+  services.tailscale.useRoutingFeatures = "server";
 
   # Allow access to GPIO pins for gpio group
   services.udev.packages = [
