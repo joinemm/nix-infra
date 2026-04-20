@@ -96,7 +96,7 @@
   # extra home-manager configuration
   home-manager.users."${config.owner}" = {
     imports = [
-      ../../modules/home/laptop.nix
+      self.homeModules.laptop
     ];
 
     sops.defaultSopsFile = ./secrets.yaml;

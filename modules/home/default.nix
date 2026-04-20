@@ -1,11 +1,4 @@
-{
-  inputs,
-  lib,
-  pkgs,
-  self,
-  config,
-  ...
-}:
+{ lib, ... }:
 let
   homeModules = lib.listToAttrs (
     map
@@ -14,12 +7,10 @@ let
         value = x;
       })
       [
-        # directores
         ./discord
         ./easyeffects
         ./waybar
         ./dms
-        # files in alphabetical order
         ./common.nix
         ./chromium.nix
         ./thunderbird.nix
@@ -33,7 +24,6 @@ let
         ./gtk.nix
         ./screenlocker.nix
         ./imv.nix
-        ./kdeconnect.nix
         ./laptop.nix
         ./mpv.nix
         ./neovim.nix
@@ -61,21 +51,7 @@ let
       ]
   );
 
-  waylandModules = {
-    inherit (homeModules)
-      wayland
-      foot
-      niri
-      dms
-      dsearch
-      gammastep
-      mako
-      tofi
-      swayimg
-      ;
-  };
-
-  defaultModules = {
+  defaultModules = lib.attrValues {
     inherit (homeModules)
       discord
       easyeffects
@@ -97,36 +73,56 @@ let
       starship
       sops
       zen
+      wayland
+      foot
+      niri
+      dms
+      dsearch
+      gammastep
+      mako
+      tofi
+      swayimg
       ;
   };
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
+  inherit homeModules;
 
-  home-manager = {
-    extraSpecialArgs = {
-      inherit inputs self;
+  nixosModule =
+    {
+      inputs,
+      pkgs,
+      self,
+      config,
+      ...
+    }:
+    {
+      imports = [ inputs.home-manager.nixosModules.home-manager ];
+
+      home-manager = {
+        extraSpecialArgs = {
+          inherit inputs self;
+        };
+        users."${config.owner}" = {
+          imports = defaultModules;
+        };
+        useGlobalPkgs = true;
+        useUserPackages = true;
+      };
+
+      # KDE connect firewall rules
+      networking.firewall = rec {
+        allowedTCPPortRanges = [
+          {
+            from = 1714;
+            to = 1764;
+          }
+        ];
+        allowedUDPPortRanges = allowedTCPPortRanges;
+      };
+
+      # Set fish as default shell
+      users.defaultUserShell = pkgs.fish;
+      programs.fish.enable = true;
     };
-    users."${config.owner}" = {
-      imports = (lib.attrValues defaultModules) ++ (lib.attrValues waylandModules);
-    };
-    useGlobalPkgs = true;
-    useUserPackages = true;
-
-    # TODO: use this instead of imports
-    sharedModules = [ ];
-  };
-
-  networking.firewall = rec {
-    allowedTCPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-    ];
-    allowedUDPPortRanges = allowedTCPPortRanges;
-  };
-
-  users.defaultUserShell = pkgs.fish;
-  programs.fish.enable = true;
 }

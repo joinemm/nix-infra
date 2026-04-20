@@ -1,5 +1,5 @@
 {
-  rrograms.swayimg = {
+  programs.swayimg = {
     enable = true;
     settings = {
       general = {
