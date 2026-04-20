@@ -22,8 +22,8 @@
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
-    inputs.home-manager.nixosModules.home-manager
     inputs.nix-topology.nixosModules.default
+    inputs.hjem.nixosModules.default
     ./arr.nix
     ./disk-config.nix
     ./gatus.nix
@@ -195,9 +195,6 @@
     enable = true;
     openFirewall = true;
   };
-
-  # init home-manager
-  home-manager.users.${config.users.default.name}.home.stateVersion = config.system.stateVersion;
 
   environment.systemPackages = with pkgs; [
     mergerfs

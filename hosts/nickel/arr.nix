@@ -138,9 +138,8 @@
     vpnNamespace = "wg";
   };
 
-  home-manager.users.${config.owner} = {
-    home.stateVersion = config.system.stateVersion;
-    xdg.configFile."recyclarr/recyclarr.yml".source = ./recyclarr.yml;
+  hjem.users.${config.owner}.files = {
+    ".config/recyclarr/recyclarr.yml".source = ./recyclarr.yml;
   };
 
   environment.systemPackages = with pkgs; [
