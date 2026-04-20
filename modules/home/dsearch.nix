@@ -4,75 +4,77 @@
   programs.dsearch = {
     enable = true;
     config = {
-      index_paths = {
-        path = "/home/${config.home.username}";
-        exclude_dirs = [
-          ".git"
+      index_paths = [
+        {
+          path = "/home/${config.home.username}";
+          exclude_dirs = [
+            ".git"
 
-          # JavaScript/Node.js
-          "node_modules"
-          "bower_components"
-          ".npm"
-          ".yarn"
+            # JavaScript/Node.js
+            "node_modules"
+            "bower_components"
+            ".npm"
+            ".yarn"
 
-          # Python
-          "site-packages"
-          "__pycache__"
-          ".venv"
-          "venv"
-          ".tox"
-          ".pytest_cache"
-          ".eggs"
+            # Python
+            "site-packages"
+            "__pycache__"
+            ".venv"
+            "venv"
+            ".tox"
+            ".pytest_cache"
+            ".eggs"
 
-          # Build outputs
-          "dist"
-          "build"
-          "out"
-          "bin"
-          "obj"
+            # Build outputs
+            "dist"
+            "build"
+            "out"
+            "bin"
+            "obj"
 
-          # Rust
-          "target"
+            # Rust
+            "target"
 
-          # Go
-          "vendor"
+            # Go
+            "vendor"
 
-          # Java/JVM
-          ".gradle"
-          ".m2"
+            # Java/JVM
+            ".gradle"
+            ".m2"
 
-          # Ruby
-          "bundle"
+            # Ruby
+            "bundle"
 
-          # Cache directories
-          ".cache"
-          ".parcel-cache"
-          ".next"
-          ".nuxt"
+            # Cache directories
+            ".cache"
+            ".parcel-cache"
+            ".next"
+            ".nuxt"
 
-          # OS specific
-          "Library"
-          ".Trash-1000"
+            # OS specific
+            "Library"
+            ".Trash-1000"
 
-          # Databases
-          ".postgresql"
-          ".mysql"
-          ".mongodb"
-          ".redis"
+            # Databases
+            ".postgresql"
+            ".mysql"
+            ".mongodb"
+            ".redis"
 
-          # Package manager caches
-          "go"
-          ".cargo"
-          ".pyenv"
-          ".rbenv"
-          ".nvm"
-          ".rustup"
+            # Package manager caches
+            "go"
+            ".cargo"
+            ".pyenv"
+            ".rbenv"
+            ".nvm"
+            ".rustup"
 
-          # IDE/Editor
-          ".idea"
-          ".vscode"
-        ];
-      };
+            # IDE/Editor
+            ".idea"
+            ".vscode"
+          ];
+        }
+      ];
     };
   };
 }

@@ -447,40 +447,24 @@
       "removeWidgetPadding": false,
       "rightWidgets": [
         {
-          "enabled": true,
-          "id": "systemTray"
+          "id": "systemTray",
+          "enabled": true
         },
         {
-          "enabled": true,
-          "id": "nixMonitor"
+          "id": "dankKDEConnect",
+          "enabled": true
         },
         {
-          "enabled": true,
-          "id": "dankKDEConnect"
+          "id": "niriScreenshot",
+          "enabled": true
         },
         {
-          "enabled": true,
-          "id": "niriScreenshot"
+          "id": "developerUtilities",
+          "enabled": true
         },
         {
-          "enabled": true,
-          "id": "developerUtilities"
-        },
-        {
-          "enabled": true,
-          "id": "clipboard"
-        },
-        {
-          "enabled": true,
-          "id": "notificationButton"
-        },
-        {
-          "enabled": true,
-          "id": "vpn"
-        },
-        {
-          "enabled": true,
           "id": "cpuUsage",
+          "enabled": true,
           "minimumWidth": true
         },
         {
@@ -491,24 +475,36 @@
           "showBatteryIcon": false
         },
         {
-          "enabled": true,
-          "id": "controlCenterButton",
-          "showAudioIcon": true,
-          "showAudioPercent": true,
-          "showBatteryIcon": true,
-          "showBluetoothIcon": true,
-          "showBrightnessIcon": true,
-          "showBrightnessPercent": true,
-          "showMicIcon": true,
-          "showMicPercent": true,
-          "showNetworkIcon": true,
-          "showPrinterIcon": true,
-          "showScreenSharingIcon": true,
-          "showVpnIcon": true
+          "id": "clipboard",
+          "enabled": true
+        },
+        {
+          "id": "notificationButton",
+          "enabled": true
+        },
+        {
+          "id": "vpn",
+          "enabled": true
         },
         {
           "id": "battery",
           "enabled": true
+        },
+        {
+          "id": "controlCenterButton",
+          "enabled": true,
+          "showNetworkIcon": true,
+          "showBluetoothIcon": true,
+          "showAudioIcon": true,
+          "showAudioPercent": true,
+          "showVpnIcon": false,
+          "showBrightnessIcon": true,
+          "showBrightnessPercent": true,
+          "showMicIcon": true,
+          "showMicPercent": true,
+          "showBatteryIcon": false,
+          "showPrinterIcon": true,
+          "showScreenSharingIcon": true
         }
       ],
       "screenPreferences": [
