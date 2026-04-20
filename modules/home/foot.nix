@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   programs.foot = {
     enable = true;
@@ -47,5 +48,6 @@
   home.sessionVariables = {
     TERMINAL = "footclient";
     TERM = "footclient";
+    LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
   };
 }

@@ -8,6 +8,7 @@
 
   networking = {
     networkmanager = {
+      dns = "systemd-resolved";
       enable = true;
       wifi = {
         backend = "wpa_supplicant";
@@ -52,7 +53,6 @@
   services.resolved.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
-  systemd.services.NetworkManager-dispatcher.enable = false;
 
   environment.systemPackages = with pkgs; [ wirelesstools ];
 

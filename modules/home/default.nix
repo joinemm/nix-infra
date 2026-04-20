@@ -63,6 +63,10 @@ let
         ./glide.nix
         ./niri.nix
         ./dsearch.nix
+        ./gammastep.nix
+        ./mako.nix
+        ./tofi.nix
+        ./swayimg.nix
       ]
   );
 
@@ -86,6 +90,10 @@ let
       niri
       dms
       dsearch
+      gammastep
+      mako
+      tofi
+      swayimg
       ;
   };
 

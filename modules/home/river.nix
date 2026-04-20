@@ -93,12 +93,6 @@ in
     ];
 
   # https://codeberg.org/river/river/issues/1023#issuecomment-2272214
-  xdg.portal.config.river = {
-    default = [ "gtk" ];
-    "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-    "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
-    "org.freedesktop.impl.portal.Inhibit" = [ "none" ];
-  };
 
   wayland.windowManager.river = {
     enable = true;

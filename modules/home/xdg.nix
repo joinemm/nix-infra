@@ -13,6 +13,8 @@
       in
       {
         enable = true;
+        setSessionVariables = true;
+
         desktop = home;
         templates = home;
         publicShare = home;

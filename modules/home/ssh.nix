@@ -12,10 +12,10 @@ let
     }
     # map over machine definitions in ghaf-infra and add all of them
     // lib.mapAttrs (name: attrs: {
-      host = "${name} ${attrs.ip}";
-      hostname = attrs.ip;
+      host = "${name} ${attrs.machine.ip}";
+      hostname = attrs.machine.ip;
       inherit user;
-    }) machines;
+    }) (lib.filterAttrs (_: host: host ? machine) machines);
 in
 {
   programs.ssh = {

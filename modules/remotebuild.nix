@@ -40,7 +40,7 @@ in
   };
 
   programs.ssh.knownHosts = {
-    "hetzarm.vedenemo.dev".publicKey = machines.hetzarm.publicKey;
-    "builder.vedenemo.dev".publicKey = machines.hetz86-builder.publicKey;
+    "hetzarm.vedenemo.dev".publicKey = machines.hetzarm.machine.publicKey;
+    "builder.vedenemo.dev".publicKey = machines.hetz86-builder.machine.publicKey;
   };
 }

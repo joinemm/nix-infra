@@ -10,8 +10,15 @@ let
       port = 465;
     };
   };
-  davHost = "https://dav.joinemm.dev";
-  davUser = "joonas";
+  mkDavRemote = type: uuid: {
+    inherit type;
+    url = "https://dav.joinemm.dev/joonas/${uuid}/";
+    userName = "joonas";
+  };
+  mkWebcalRemote = id: {
+    type = "http";
+    url = "https://www.webcal.guru/fi-FI/lataa_kalenteri?calendar_instance_id=${toString id}";
+  };
 in
 {
   programs.thunderbird = {
@@ -37,22 +44,15 @@ in
 
   accounts.calendar.accounts = {
     "Primary" = {
-      remote = {
-        type = "caldav";
-        url = "${davHost}/${davUser}/2a465ca7-ebea-45ff-db4d-61eb39cf6631/";
-        userName = davUser;
-      };
+      remote = mkDavRemote "caldav" "2a465ca7-ebea-45ff-db4d-61eb39cf6631/";
       thunderbird = {
         enable = true;
-        color = "#BD93F9";
+        color = "#60A356";
       };
       primary = true;
     };
     "Pyhät" = {
-      remote = {
-        type = "caldav";
-        url = "${davHost}/public/55b3acf2-379b-5e91-9636-c557cf55d476/";
-      };
+      remote = mkWebcalRemote 52;
       thunderbird = {
         enable = true;
         readOnly = true;
@@ -60,10 +60,7 @@ in
       };
     };
     "Hyvä Tietää" = {
-      remote = {
-        type = "caldav";
-        url = "${davHost}/public/f9858e17-dc08-22c6-66aa-d56f92372f21/";
-      };
+      remote = mkWebcalRemote 180;
       thunderbird = {
         enable = true;
         readOnly = true;
@@ -74,11 +71,7 @@ in
 
   accounts.contact.accounts = {
     "contacts" = {
-      remote = {
-        type = "carddav";
-        url = "${davHost}/${davUser}/c589f856-74e5-5445-5cdd-d285c23b82f9/";
-        userName = davUser;
-      };
+      remote = mkDavRemote "carddav" "c589f856-74e5-5445-5cdd-d285c23b82f9/";
       thunderbird.enable = true;
     };
   };

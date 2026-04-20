@@ -31,7 +31,10 @@ in
 
   programs.git = {
     enable = true;
-    signing.key = "0x090EB48A4669AA54";
+    signing = {
+      format = "openpgp";
+      key = "0x090EB48A4669AA54";
+    };
 
     settings = {
       init.defaultBranch = "master";

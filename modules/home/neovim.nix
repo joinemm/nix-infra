@@ -71,6 +71,8 @@
       trouble.enable = true;
       lspSignature.enable = true;
 
+      presets.tailwindcss-language-server.enable = true;
+
       servers = {
         "json-ls" = {
           cmd = [
@@ -267,7 +269,6 @@
       ts.enable = true;
       css.enable = true;
       html.enable = true;
-      tailwind.enable = true;
       astro.enable = true;
       svelte.enable = true;
     };

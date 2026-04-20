@@ -58,6 +58,7 @@
 
     tlp = {
       enable = true;
+      pd.enable = true;
       settings = {
         DEVICES_TO_DISABLE_ON_STARTUP = "nfc";
       };

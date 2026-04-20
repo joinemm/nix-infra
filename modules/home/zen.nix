@@ -10,7 +10,6 @@
 
   programs.zen-browser = {
     enable = true;
-    suppressXdgMigrationWarning = true;
     policies = {
       AutofillAddressEnabled = true;
       AutofillCreditCardEnabled = false;
@@ -50,13 +49,12 @@
         "browser.aboutConfig.showWarning" = false;
         "browser.urlbar.trimURLs" = false;
         "browser.startup.couldRestoreSession.count" = -1;
+        # https://github.com/niri-wm/niri/blob/2dc6f448/docs/wiki/Application-Issues.md#zen-browser
+        "widget.dmabuf.force-enabled" = true;
+        "zen.welcome-screen.seen" = true;
+        "zen.view.use-single-toolbar" = false;
       };
       containers = {
-        Unikie = {
-          color = "blue";
-          icon = "briefcase";
-          id = 1;
-        };
         TII = {
           color = "red";
           icon = "briefcase";
@@ -96,7 +94,6 @@
           reddit-enhancement-suite
           sponsorblock
           multi-account-containers
-          csgofloat
           csgo-trader-steam-trading
         ];
       };

@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
   security.pam.services = {
     hyprlock.fprintAuth = false; # use hyprlock's built in fprint implementation
@@ -12,12 +12,6 @@
   services.xserver.enable = lib.mkForce false;
 
   systemd.services.display-manager.environment.XDG_CURRENT_DESKTOP = "X-NIXOS-SYSTEMD-AWARE";
-
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
 
   services.displayManager = {
     enable = true;
