@@ -10,7 +10,6 @@
     QT_QPA_PLATFORM = "wayland";
     MOZ_ENABLE_WAYLAND = 1;
     NIXOS_OZONE_WL = 1;
-    GDK_BACKEND = "wayland";
 
     LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
   };
@@ -21,6 +20,7 @@
     wlopm
     wf-recorder
     slurp
+    wl-mirror
   ];
 
   programs.swayimg = {
@@ -77,7 +77,7 @@
   };
 
   services.mako = {
-    enable = true;
+    enable = false;
     settings = {
       sort = "-time";
       layer = "overlay";
