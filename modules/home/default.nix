@@ -61,7 +61,6 @@ let
         ./sops.nix
         ./swww.nix
         ./glide.nix
-        ./gpu-screen-recorder.nix
         ./niri.nix
         ./dsearch.nix
       ]
@@ -111,7 +110,6 @@ let
       sioyek
       starship
       sops
-      gpu-screen-recorder
       zen
       ;
   };

@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 let
@@ -12,12 +13,41 @@ let
     LD_PRELOAD_SAVED="$LD_PRELOAD"
     export LD_PRELOAD=""
 
+    APPID="''${SteamGameId:-''${STEAM_COMPAT_APP_ID:-unknown}}"
+    REPLAY_DIR="$HOME/videos/replay/$APPID"
+    mkdir -p "$REPLAY_DIR"
+
+    GSR_PID=""
+
+    if ! pgrep -f gpu-screen-recorder >/dev/null 2>&1; then
+    gpu-screen-recorder \
+      -w screen \
+      -v no \
+      -fm vfr \
+      -a "default_output|default_input" \
+      -c mkv \
+      -q ultra \
+      -r 60 \
+      -o "$REPLAY_DIR" \
+      >/tmp/gsr-"$APPID".log 2>&1 &
+    GSR_PID=$!
+    echo "Replay recording into $REPLAY_DIR"
+    fi
+
+    cleanup() {
+      if [ -n "$GSR_PID" ] && kill -0 "$GSR_PID" 2>/dev/null; then
+        kill -INT "$GSR_PID"
+        wait "$GSR_PID" || true
+      fi
+    }
+    trap cleanup EXIT INT TERM
+
     exec gamemoderun \
       gamescope -r 144 -w 3440 -h 1440 -f -F pixel \
       --mangoapp \
       --force-grab-cursor \
       -- \
-      env LD_PRELOAD=$LD_PRELOAD_SAVED \
+      env LD_PRELOAD="$LD_PRELOAD_SAVED" \
       "$@"
   '';
 
@@ -27,6 +57,14 @@ let
   amdvlk-run = pkgs.writeShellScriptBin "amdvlk-run" ''
     export VK_DRIVER_FILES="${oldPkgs.amdvlk}/share/vulkan/icd.d/amd_icd64.json:${oldPkgs.pkgsi686Linux.amdvlk}/share/vulkan/icd.d/amd_icd32.json"
     exec "$@"
+  '';
+
+  save-replay = pkgs.writeShellScriptBin "save-replay" ''
+    if pkill -USR1 -f gpu-screen-recorder; then
+      ${lib.getExe' pkgs.libnotify "notify-send"} "Saved replay"
+    else
+      ${lib.getExe' pkgs.libnotify "notify-send"} "No replay buffer running"
+    fi
   '';
 in
 {
@@ -108,5 +146,6 @@ in
     ++ [
       game-wrapper
       amdvlk-run
+      save-replay
     ];
 }

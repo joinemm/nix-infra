@@ -2,8 +2,7 @@
 {
   home.packages = with pkgs; [
     prismlauncher # Minecraft launcher
-    # fails to build
-    # kdePackages.kdenlive # for editing obs clips
+    kdePackages.kdenlive # for editing obs clips
     mangohud
   ];
 
@@ -78,6 +77,4 @@
       obs-websocket
     ];
   };
-
-  services.gpu-screen-recorder.enable = true;
 }
