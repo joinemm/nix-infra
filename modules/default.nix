@@ -8,7 +8,6 @@ let
       })
       [
         ./home
-        ./x11.nix
         ./keyd.nix
         ./vpn.nix
         ./fonts.nix
@@ -73,7 +72,6 @@ in
         systemd-boot
         tailscale
         vpn
-        x11
         yubikey
         dev
         home

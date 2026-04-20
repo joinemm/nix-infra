@@ -21,7 +21,7 @@
       "cd ...." = "cd ../../..";
       ".." = "cd ..";
       "..." = "cd ../..";
-      copy = "xclip -selection clipboard";
+      copy = "wl-copy";
       dev = "nix develop --impure -c $SHELL";
       git-branch-cleanup = "git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D";
     };
@@ -29,7 +29,6 @@
     envExtra = ''
       typeset -U path PATH
       path+=$HOME/bin
-      path+=$HOME/bin/rofi
       path+=$HOME/bin/status
       export PATH
     '';
@@ -59,12 +58,6 @@
       setopt no_nomatch
 
       zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
-    '';
-
-    profileExtra = ''
-      if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-        startx
-      fi
     '';
   };
 }

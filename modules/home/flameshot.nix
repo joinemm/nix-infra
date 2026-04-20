@@ -1,6 +1,5 @@
 {
   pkgs,
-  osConfig,
   lib,
   ...
 }:
@@ -17,7 +16,7 @@
   services = {
     flameshot = {
       enable = true;
-      package = pkgs.flameshot.override { enableWlrSupport = !osConfig.services.xserver.enable; };
+      package = pkgs.flameshot.override { enableWlrSupport = true; };
       settings = {
         General = {
           saveAfterCopy = true;

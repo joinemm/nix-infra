@@ -47,7 +47,7 @@ in
       "...." = "cd ../../..";
 
       please = "sudo $history[1]";
-      copy = "xclip -selection clipboard";
+      copy = "wl-copy";
       dev = "nix develop --impure -c $SHELL";
       git-branch-cleanup = "git branch -vv | grep gone | awk '{print $1}' | xargs git branch -D";
     };

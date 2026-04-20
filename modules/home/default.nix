@@ -17,14 +17,11 @@ let
         # directores
         ./discord
         ./easyeffects
-        ./polybar
         ./waybar
-        ./xmonad
         ./dms
         # files in alphabetical order
         ./common.nix
         ./chromium.nix
-        ./dunst.nix
         ./thunderbird.nix
         ./firefox.nix
         ./fish.nix
@@ -34,17 +31,13 @@ let
         ./git.nix
         ./gpg.nix
         ./gtk.nix
-        ./hidpi.nix
         ./screenlocker.nix
         ./imv.nix
         ./kdeconnect.nix
         ./laptop.nix
         ./mpv.nix
         ./neovim.nix
-        ./picom.nix
-        ./redshift.nix
         ./river.nix
-        ./rofi.nix
         ./sioyek.nix
         ./ssh.nix
         ./starship.nix
@@ -52,8 +45,6 @@ let
         ./wayland.nix
         ./wezterm.nix
         ./xdg.nix
-        ./xinitrc.nix
-        ./xresources.nix
         ./yazi.nix
         ./zathura.nix
         ./zen.nix
@@ -69,19 +60,6 @@ let
         ./swayimg.nix
       ]
   );
-
-  x11Modules = {
-    inherit (homeModules)
-      polybar
-      xmonad
-      dunst
-      picom
-      redshift
-      rofi
-      xinitrc
-      xresources
-      ;
-  };
 
   waylandModules = {
     inherit (homeModules)
@@ -130,14 +108,7 @@ in
       inherit inputs self;
     };
     users."${config.owner}" = {
-      imports =
-        (lib.attrValues defaultModules)
-        ++ (
-          if config.services.xserver.enable then
-            (lib.attrValues x11Modules)
-          else
-            (lib.attrValues waylandModules)
-        );
+      imports = (lib.attrValues defaultModules) ++ (lib.attrValues waylandModules);
     };
     useGlobalPkgs = true;
     useUserPackages = true;
