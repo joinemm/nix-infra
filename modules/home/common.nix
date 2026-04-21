@@ -56,6 +56,7 @@
       nurl
       nix-init
       nh
+      oras
 
       # gui apps
       spotify
