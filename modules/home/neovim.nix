@@ -266,7 +266,10 @@
       };
 
       # web dev
-      ts.enable = true;
+      ts = {
+        enable = true;
+        format.type = [ "prettierd" ];
+      };
       css.enable = true;
       html.enable = true;
       astro.enable = true;
@@ -276,6 +279,15 @@
     formatter.conform-nvim = {
       enable = true;
       setupOpts = {
+        format_on_save = lib.generators.mkLuaInline ''
+          function()
+            if not vim.g.formatsave or vim.b.disableFormatSave then
+              return
+            else
+              return { lsp_format = "fallback", timeout_ms = 3000 }
+            end
+          end
+        '';
         formatters_by_ft = {
           nix = [ "nixfmt" ];
           glsl = [ "clang-format" ];

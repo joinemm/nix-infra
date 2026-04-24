@@ -31,6 +31,7 @@
       calculator.enable = true;
       developerUtilities.enable = true;
       dankPomodoroTimer.enable = true;
+      markets.enable = true;
     };
 
     settings = builtins.fromJSON (builtins.readFile ./settings.json);
