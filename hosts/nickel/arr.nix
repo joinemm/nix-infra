@@ -138,6 +138,85 @@
     vpnNamespace = "wg";
   };
 
+  services.nginx.virtualHosts = {
+    # proxy from vpn confinement to localhost
+    "127.0.0.1:${toString config.services.deluge.web.port}" = {
+      listen = [
+        {
+          addr = "0.0.0.0";
+          inherit (config.services.deluge.web) port;
+        }
+      ];
+      locations."/" = {
+        proxyWebsockets = true;
+        proxyPass = "http://${config.vpnNamespaces.wg.namespaceAddress}:${toString config.services.deluge.web.port}";
+      };
+    };
+
+    "deluge.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/".proxyPass = "http://127.0.0.1:${toString config.services.deluge.web.port}";
+    };
+
+    "prowlarr.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString config.nixarr.prowlarr.port}";
+        proxyWebsockets = true;
+      };
+    };
+
+    "radarr.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString config.nixarr.radarr.port}";
+        proxyWebsockets = true;
+      };
+    };
+
+    "sonarr.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString config.nixarr.sonarr.port}";
+        proxyWebsockets = true;
+      };
+    };
+
+    "bazarr.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString config.nixarr.bazarr.port}";
+        proxyWebsockets = true;
+      };
+    };
+
+    "jellyseerr.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/".proxyPass = "http://127.0.0.1:${toString config.nixarr.jellyseerr.port}";
+    };
+
+    "jellyfin.lab.joinemm.dev" = {
+      useACMEHost = "lab.joinemm.dev";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8096";
+        extraConfig = ''
+          proxy_buffering off;
+        '';
+      };
+      locations."/socket" = {
+        proxyPass = "http://127.0.0.1:8096";
+        proxyWebsockets = true;
+      };
+    };
+  };
+
   hjem.users.${config.owner}.files = {
     ".config/recyclarr/recyclarr.yml".source = ./recyclarr.yml;
   };

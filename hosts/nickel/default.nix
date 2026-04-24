@@ -28,11 +28,13 @@
     ./disk-config.nix
     ./gatus.nix
     ./home-assistant.nix
+    ./immich.nix
     ./homepage.nix
     ./network-share.nix
     ./nginx.nix
     ./mealie.nix
     ./monitoring.nix
+    ./backup.nix
   ];
 
   networking.hostName = "nickel";
@@ -107,36 +109,6 @@
     };
   };
 
-  services.immich = {
-    enable = true;
-    host = "127.0.0.1";
-  };
-
-  users.default.extraGroups = [ "immich" ];
-
-  services.immich-public-proxy = {
-    enable = true;
-    openFirewall = true;
-    port = 2284;
-    immichUrl = "http://127.0.0.1:${toString config.services.immich.port}";
-    settings = {
-      ipp = {
-        downloadOriginalPhoto = true;
-        showGalleryTitle = true;
-        allowDownloadAll = true;
-      };
-      lightGallery = {
-        controls = true;
-        download = true;
-        mobileSettings = {
-          showCloseIcon = true;
-          download = true;
-          controls = false;
-        };
-      };
-    };
-  };
-
   nebula = {
     enable = true;
     cert = ./nebula.crt;
@@ -171,8 +143,14 @@
   };
 
   networking.firewall = {
-    allowedTCPPorts = [ 9999 ];
-    allowedUDPPorts = [ 9999 ];
+    allowedTCPPorts = [
+      9999
+      2283
+    ];
+    allowedUDPPorts = [
+      9999
+      2283
+    ];
   };
 
   systemd.services."rclone-webdav" = {

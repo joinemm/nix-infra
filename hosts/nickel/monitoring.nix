@@ -14,13 +14,32 @@
 
     scrapeConfigs = [
       {
-        job_name = "local";
+        job_name = "node_exporter";
         static_configs = [
           {
             targets = [
               "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "rpi";
+        static_configs = [
+          {
+            targets = [
               "192.0.1.3:9110"
               "192.0.1.3:9100"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "immich";
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:8081"
             ];
           }
         ];
@@ -32,8 +51,10 @@
     enable = true;
     settings = {
       server = {
+        domain = "grafana.lab.joinemm.dev";
         http_port = 3000;
         http_addr = "0.0.0.0";
+        root_url = "https://grafana.lab.joinemm.dev/";
       };
 
       # allow html for blocky panel with buttons
@@ -56,5 +77,25 @@
         url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
       }
     ];
+  };
+
+  services.nginx.virtualHosts."grafana.lab.joinemm.dev" = {
+    useACMEHost = "lab.joinemm.dev";
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
+    };
+    locations."/api/live/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
+      proxyWebsockets = true;
+    };
+  };
+
+  services.nginx.virtualHosts."prometheus.lab.joinemm.dev" = {
+    useACMEHost = "lab.joinemm.dev";
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.services.prometheus.port}";
+    };
   };
 }

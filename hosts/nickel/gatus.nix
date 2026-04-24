@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   services.gatus = {
     enable = true;
@@ -39,5 +40,11 @@
         }
       ];
     };
+  };
+
+  services.nginx.virtualHosts."status.lab.joinemm.dev" = {
+    useACMEHost = "lab.joinemm.dev";
+    forceSSL = true;
+    locations."/".proxyPass = "http://127.0.0.1:${toString config.services.gatus.settings.web.port}";
   };
 }

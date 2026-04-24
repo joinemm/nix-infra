@@ -89,4 +89,11 @@
     ];
   };
 
+  services.nginx.virtualHosts."lab.joinemm.dev" = {
+    useACMEHost = "lab.joinemm.dev";
+    forceSSL = true;
+    locations."/".proxyPass =
+      "http://127.0.0.1:${toString config.services.homepage-dashboard.listenPort}";
+  };
+
 }
