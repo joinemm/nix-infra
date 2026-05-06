@@ -24,7 +24,7 @@
     ])
     inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
-    ./5700XT.nix
+    ./9070XT.nix
   ];
 
   system.stateVersion = "23.11";
