@@ -68,13 +68,4 @@
     frametime
     frame_timing=1
   '';
-
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      obs-vaapi
-      obs-vkcapture
-      obs-websocket
-    ];
-  };
 }

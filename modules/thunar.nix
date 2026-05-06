@@ -18,6 +18,5 @@
     webp-pixbuf-loader # thumbnails for .webp
     ffmpegthumbnailer # thumbnails for video files
     poppler # thumbnails for .pdf
-    f3d # thumbnails for 3D model files
   ];
 }

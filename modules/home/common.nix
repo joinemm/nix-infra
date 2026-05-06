@@ -70,15 +70,14 @@
       prusa-slicer
       nsxiv
       via
-      freecad
       krita
       kepubify
       vlc
       libreoffice
       blender
-      wasistlos
       arduino-ide
       chromium
+      karere
 
       # cli apps
       glow # render markdown on the cli
