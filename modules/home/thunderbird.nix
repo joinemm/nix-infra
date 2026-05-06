@@ -12,7 +12,7 @@ let
   };
   mkDavRemote = type: uuid: {
     inherit type;
-    url = "https://dav.joinemm.dev/joonas/${uuid}/";
+    url = "https://dav.joinemm.dev/joonas/${uuid}";
     userName = "joonas";
   };
   mkWebcalRemote = id: {
@@ -44,7 +44,7 @@ in
 
   accounts.calendar.accounts = {
     "Primary" = {
-      remote = mkDavRemote "caldav" "2a465ca7-ebea-45ff-db4d-61eb39cf6631/";
+      remote = mkDavRemote "caldav" "2a465ca7-ebea-45ff-db4d-61eb39cf6631";
       thunderbird = {
         enable = true;
         color = "#60A356";
@@ -71,7 +71,7 @@ in
 
   accounts.contact.accounts = {
     "contacts" = {
-      remote = mkDavRemote "carddav" "c589f856-74e5-5445-5cdd-d285c23b82f9/";
+      remote = mkDavRemote "carddav" "c589f856-74e5-5445-5cdd-d285c23b82f9";
       thunderbird.enable = true;
     };
   };
