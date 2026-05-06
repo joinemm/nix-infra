@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  config,
+  mkBackup,
+  ...
+}:
 {
   systemd.tmpfiles.rules = [
     "f '${config.services.home-assistant.configDir}/automations.yaml' 0755 hass hass - -"
@@ -68,5 +73,11 @@
       proxyPass = "http://127.0.0.1:${toString config.services.home-assistant.config.http.server_port}";
       proxyWebsockets = true;
     };
+  };
+
+  services.restic.backups.home-assistant = mkBackup "home-assistant" {
+    paths = [
+      config.services.home-assistant.configDir
+    ];
   };
 }

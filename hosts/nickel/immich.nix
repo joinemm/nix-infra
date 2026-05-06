@@ -7,7 +7,6 @@
       TZ = "Europe/Helsinki";
       IMMICH_TELEMETRY_INCLUDE = "all"; # expose all prometheus metrics
     };
-    database.enableVectors = false;
   };
 
   users.default.extraGroups = [ "immich" ];

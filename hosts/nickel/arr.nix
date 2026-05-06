@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  mkBackup,
   ...
 }:
 {
@@ -226,4 +227,20 @@
     intel-gpu-tools
     recyclarr
   ];
+
+  services.restic.backups.arr = mkBackup "arr" {
+    paths = [
+      (config.nixarr.stateDir + "/bazarr")
+      (config.nixarr.stateDir + "/jellyfin")
+      (config.nixarr.stateDir + "/jellyseerr")
+      (config.nixarr.stateDir + "/prowlarr")
+      (config.nixarr.stateDir + "/radarr")
+      (config.nixarr.stateDir + "/sonarr")
+      config.services.deluge.dataDir
+    ];
+    extraBackupArgs = [
+      "--exclude='**/logs'"
+      "--exclude='**/log'"
+    ];
+  };
 }
