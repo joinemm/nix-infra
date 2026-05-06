@@ -2,8 +2,7 @@
   description = "Joinemm's Nix Flake";
 
   inputs = {
-    # pin until https://github.com/NixOS/nixpkgs/pull/496839
-    nixpkgs.url = "github:NixOS/nixpkgs/2c763080e99463aa4505a62aa85d4057da6282e2";
+    nixpkgs.url = "github:NixOS/nixpkgs";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     treefmt-nix = {
@@ -88,10 +87,11 @@
     };
 
     nixarr = {
-      url = "github:rasmus-kirk/nixarr";
+      url = "github:nix-media-server/nixarr";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         website-builder.follows = "";
+        treefmt-nix.follows = "treefmt-nix";
       };
     };
 

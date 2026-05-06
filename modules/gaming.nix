@@ -124,6 +124,15 @@ in
 
   programs.gpu-screen-recorder.enable = true;
 
+  # fix for https://github.com/NixOS/nixpkgs/issues/513245
+  nixpkgs.overlays = [
+    (_: prev: {
+      openldap = prev.openldap.overrideAttrs {
+        doCheck = !prev.stdenv.hostPlatform.isi686;
+      };
+    })
+  ];
+
   environment.systemPackages =
     with pkgs;
     [
@@ -133,9 +142,8 @@ in
       vulkan-extension-layer
       protontricks
       winetricks
-      protonplus
       libva-utils
-      lutris-free
+      unigine-heaven
       (bottles.override { removeWarningPopup = true; })
       (wineWow64Packages.full.override {
         wineRelease = "staging";

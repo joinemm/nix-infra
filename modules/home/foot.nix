@@ -9,7 +9,7 @@
         pad = "12x8";
       };
 
-      colors = {
+      colors-dark = {
         alpha = 0.85;
         # dracula theme with custom bg color
         cursor = "282a36 f8f8f2";

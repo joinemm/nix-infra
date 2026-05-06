@@ -266,9 +266,9 @@
       };
 
       # web dev
-      ts = {
+      typescript = {
         enable = true;
-        format.type = [ "prettierd" ];
+        # format.type = [ "prettier" ];
       };
       css.enable = true;
       html.enable = true;

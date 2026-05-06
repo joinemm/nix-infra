@@ -11,6 +11,7 @@
   fileSystems."/srv/nfs" = {
     device = "/data/share";
     options = [ "bind" ];
+    fsType = "auto";
   };
 
   users.users.nfs = {

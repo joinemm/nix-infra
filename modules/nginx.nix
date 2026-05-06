@@ -10,11 +10,6 @@
     defaults.email = "joonas@rautiola.co";
   };
 
-  security.dhparams = {
-    enable = true;
-    params.nginx = { };
-  };
-
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;
@@ -22,7 +17,6 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     resolver.addresses = config.networking.nameservers;
-    sslDhparam = config.security.dhparams.params.nginx.path;
     appendHttpConfig = ''
       proxy_headers_hash_max_size 512;
       proxy_headers_hash_bucket_size 128;
