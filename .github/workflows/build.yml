@@ -50,4 +50,4 @@ jobs:
             ${{ secrets.BUILDER_SSH_KEY }}
 
       - name: Build ${{ matrix.host }}
-        run: nix run github:Mic92/nix-fast-build -- --remote jrautiola@builder.vedenemo.dev --no-download --no-nom --skip-cached --option accept-flake-config true"
+        run: nix run github:Mic92/nix-fast-build -- --remote jrautiola@builder.vedenemo.dev --no-download --no-nom --skip-cached --option accept-flake-config true
