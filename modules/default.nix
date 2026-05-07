@@ -16,6 +16,7 @@ let
           ./nginx.nix
           ./sound.nix
           ./common.nix
+          ./dms.nix
           ./gaming.nix
           ./laptop.nix
           ./locale.nix
@@ -86,6 +87,7 @@ in
         thunar
         virtualization
         niri
+        dms
       ];
     };
   };
