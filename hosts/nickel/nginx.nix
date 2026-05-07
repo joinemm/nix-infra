@@ -38,11 +38,6 @@
           proxyWebsockets = true;
         };
       };
-      "traggo.${labDomain}" = labCert // {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString 3030}";
-        };
-      };
       "kimai.${labDomain}" = labCert;
     };
 

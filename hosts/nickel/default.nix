@@ -93,22 +93,6 @@
     settings.web.listen.port = 5500;
   };
 
-  systemd.services.traggo = {
-    wantedBy = [ "multi-user.target" ];
-    environment = {
-      TRAGGO_PORT = toString 3030;
-      TRAGGO_DEFAULT_USER_NAME = "admin";
-      TRAGGO_DEFAULT_USER_PASS = "admin";
-    };
-    serviceConfig = {
-      DynamicUser = true;
-      StateDirectory = "traggo";
-      WorkingDirectory = "/var/lib/traggo";
-      Restart = "on-failure";
-      ExecStart = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.traggo;
-    };
-  };
-
   nebula = {
     enable = true;
     cert = ./nebula.crt;
