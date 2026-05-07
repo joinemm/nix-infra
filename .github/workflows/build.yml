@@ -36,6 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: wimpysworld/nothing-but-nix@v10
+        with:
+          hatchet-protocol: 'holster'
 
       - uses: DeterminateSystems/determinate-nix-action@v3 
         with:
@@ -46,8 +48,10 @@ jobs:
 
       - uses: webfactory/ssh-agent@v0.10.0
         with:
-          ssh-private-key: |
+          ssh-private-key: 
             ${{ secrets.BUILDER_SSH_KEY }}
 
       - name: Build ${{ matrix.host }}
-        run: nix run github:Mic92/nix-fast-build -- --remote jrautiola@builder.vedenemo.dev --no-download --no-nom --skip-cached --option accept-flake-config true
+        run: |
+          sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >>/etc/ssh/ssh_known_hosts"
+          nix run github:Mic92/nix-fast-build -- --remote jrautiola@builder.vedenemo.dev --no-download --no-nom --skip-cached --option accept-flake-config true
