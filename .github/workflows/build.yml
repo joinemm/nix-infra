@@ -45,7 +45,7 @@ jobs:
             max-substitution-jobs = 64
             http-connections = 64
 
-      - uses: webfactory/ssh-agent@v0.10
+      - uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: |
             ${{ secrets.BUILDER_SSH_KEY }}
