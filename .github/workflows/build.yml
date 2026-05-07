@@ -54,4 +54,4 @@ jobs:
       - name: Build ${{ matrix.host }}
         run: |
           sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >>/etc/ssh/ssh_known_hosts"
-          nix run github:Mic92/nix-fast-build -- --remote jrautiola@builder.vedenemo.dev --no-download --no-nom --skip-cached --option accept-flake-config true
+          nix run github:Mic92/nix-fast-build -- --remote jrautiola@builder.vedenemo.dev --no-download --no-nom --skip-cached --option accept-flake-config true --flake .#ci-targets
