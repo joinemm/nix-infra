@@ -161,6 +161,17 @@
   "centeringMode": "index",
   "clockDateFormat": "ddd MMM d",
   "lockDateFormat": "",
+  "greeterRememberLastSession": true,
+  "greeterRememberLastUser": true,
+  "greeterEnableFprint": false,
+  "greeterEnableU2f": false,
+  "greeterWallpaperPath": "",
+  "greeterUse24HourClock": true,
+  "greeterShowSeconds": false,
+  "greeterPadHours12Hour": false,
+  "greeterLockDateFormat": "",
+  "greeterFontFamily": "",
+  "greeterWallpaperFillMode": "",
   "mediaSize": 1,
   "appLauncherViewMode": "list",
   "spotlightModalViewMode": "list",
@@ -184,7 +195,7 @@
   "dankLauncherV2UnloadOnClose": true,
   "useAutoLocation": true,
   "weatherEnabled": true,
-  "networkPreference": "auto",
+  "networkPreference": "wifi",
   "iconTheme": "System Default",
   "cursorSettings": {
     "dwl": {
@@ -225,15 +236,15 @@
   "soundVolumeChanged": true,
   "soundPluggedIn": true,
   "acMonitorTimeout": 0,
-  "acLockTimeout": 0,
+  "acLockTimeout": 600,
   "acSuspendTimeout": 0,
   "acSuspendBehavior": 0,
-  "acProfileName": "",
-  "batteryMonitorTimeout": 0,
-  "batteryLockTimeout": 0,
-  "batterySuspendTimeout": 0,
+  "acProfileName": "2",
+  "batteryMonitorTimeout": 300,
+  "batteryLockTimeout": 600,
+  "batterySuspendTimeout": 1800,
   "batterySuspendBehavior": 0,
-  "batteryProfileName": "",
+  "batteryProfileName": "1",
   "batteryChargeLimit": 100,
   "lockBeforeSuspend": true,
   "loginctlLockIntegration": true,
@@ -273,6 +284,7 @@
   "matugenTemplateKcolorscheme": false,
   "matugenTemplateVscode": false,
   "matugenTemplateEmacs": false,
+  "matugenTemplateZed": true,
   "showDock": false,
   "dockAutoHide": false,
   "dockSmartAutoHide": false,
@@ -314,6 +326,8 @@
   "lockAtStartup": false,
   "enableFprint": false,
   "maxFprintTries": 15,
+  "enableU2f": false,
+  "u2fMode": "or",
   "lockScreenActiveMonitor": "all",
   "lockScreenInactiveColor": "#000000",
   "lockScreenNotificationMode": 0,
@@ -447,64 +461,64 @@
       "removeWidgetPadding": false,
       "rightWidgets": [
         {
-          "id": "systemTray",
-          "enabled": true
-        },
-        {
-          "id": "dankKDEConnect",
-          "enabled": true
-        },
-        {
-          "id": "niriScreenshot",
-          "enabled": true
-        },
-        {
-          "id": "developerUtilities",
-          "enabled": true
-        },
-        {
-          "id": "cpuUsage",
           "enabled": true,
+          "id": "systemTray"
+        },
+        {
+          "enabled": true,
+          "id": "dankKDEConnect"
+        },
+        {
+          "enabled": true,
+          "id": "niriScreenshot"
+        },
+        {
+          "enabled": true,
+          "id": "developerUtilities"
+        },
+        {
+          "enabled": true,
+          "id": "cpuUsage",
           "minimumWidth": true
         },
         {
+          "enabled": true,
           "id": "memUsage",
-          "enabled": true,
           "minimumWidth": true,
-          "showSwap": false,
-          "showBatteryIcon": false
+          "showBatteryIcon": false,
+          "showSwap": false
         },
         {
-          "id": "clipboard",
-          "enabled": true
-        },
-        {
-          "id": "notificationButton",
-          "enabled": true
-        },
-        {
-          "id": "vpn",
-          "enabled": true
-        },
-        {
-          "id": "battery",
-          "enabled": true
-        },
-        {
-          "id": "controlCenterButton",
           "enabled": true,
-          "showNetworkIcon": true,
-          "showBluetoothIcon": true,
+          "id": "clipboard"
+        },
+        {
+          "enabled": true,
+          "id": "notificationButton"
+        },
+        {
+          "enabled": true,
+          "id": "vpn"
+        },
+        {
+          "enabled": true,
+          "id": "battery"
+        },
+        {
+          "enabled": true,
+          "id": "controlCenterButton",
           "showAudioIcon": true,
           "showAudioPercent": true,
-          "showVpnIcon": false,
+          "showBatteryIcon": false,
+          "showBluetoothIcon": true,
           "showBrightnessIcon": true,
           "showBrightnessPercent": true,
           "showMicIcon": true,
           "showMicPercent": true,
-          "showBatteryIcon": false,
+          "showNetworkIcon": true,
           "showPrinterIcon": true,
-          "showScreenSharingIcon": true
+          "showScreenSharingIcon": true,
+          "showVpnIcon": false
         }
       ],
       "screenPreferences": [

@@ -113,12 +113,6 @@
                 home_manager = {
                   expr = "${flake}.nixosConfigurations.${osConfig.networking.hostName}.home-manager.users.type.getSubOptions []";
                 };
-                flake_parts = {
-                  expr = "${flake}.debug.options";
-                };
-                flake_parts2 = {
-                  expr = "${flake}.currentSystem.options";
-                };
               };
           };
         };
