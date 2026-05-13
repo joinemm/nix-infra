@@ -106,6 +106,19 @@
         - DP-1
     '';
 
+    programs.niri.settings.outputs."DP-1" = {
+      mode = {
+        width = 3440;
+        height = 1440;
+        refresh = 144.001;
+      };
+      scale = 1;
+      position = {
+        x = 0;
+        y = 0;
+      };
+    };
+
     programs.foot.settings.main.font = lib.mkForce "monospace:size=11";
     programs.hyprlock.enable = lib.mkForce false;
 
