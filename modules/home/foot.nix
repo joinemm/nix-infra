@@ -34,7 +34,7 @@
       };
       scrollback = {
         lines = 10000;
-        multiplier = 3;
+        multiplier = 6;
       };
       mouse = {
         alternate-scroll-mode = false;

@@ -99,6 +99,18 @@
       self.homeModules.laptop
     ];
 
+    programs.niri.settings.outputs."eDP-1" = {
+      mode = {
+        width = 1920;
+        height = 1200;
+      };
+      scale = 1;
+      position = {
+        x = 0;
+        y = 0;
+      };
+    };
+
     sops.defaultSopsFile = ./secrets.yaml;
 
     # home.file =

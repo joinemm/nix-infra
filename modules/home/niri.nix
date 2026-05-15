@@ -20,7 +20,17 @@
         repeat-rate = 30;
       };
 
+      touchpad = {
+        tap = true;
+        accel-speed = 0.0;
+        accel-profile = "adaptive";
+        natural-scroll = false;
+        scroll-factor = 0.5;
+        scroll-method = "two-finger";
+      };
+
       mouse.accel-profile = "flat";
+      trackpoint.accel-profile = "flat";
 
       focus-follows-mouse = {
         enable = true;
