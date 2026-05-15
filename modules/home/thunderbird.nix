@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
   migadu = {
     imap = {
@@ -19,26 +19,35 @@ let
     type = "http";
     url = "https://www.webcal.guru/fi-FI/lataa_kalenteri?calendar_instance_id=${toString id}";
   };
+
+  addons = import inputs.rycee-nur-expressions { inherit pkgs; };
 in
 {
   programs.thunderbird = {
     enable = true;
     package = pkgs.thunderbird-esr-bin;
-    profiles."default".isDefault = true;
-    settings = {
-      "mail.biff.show_tray_icon_always" = true;
-      "calendar.alarms.playsound" = false;
-      "calendar.alarms.show" = false;
-      "calendar.item.editInTab" = true;
-      "calendar.view.visiblehours" = 12;
-      "calendar.week.start" = 1;
-      "mail.spam.manualMark" = true;
-      "mail.threadpane.listview" = 1;
-      "mailnews.message_display.disable_remote_image" = false;
-      "messenger.startup.action" = 0;
-      "network.cookie.cookieBehavior" = 3;
-      "places.history.enabled" = false;
-      "privacy.globalprivacycontrol.enabled" = true;
+    profiles."default" = {
+      isDefault = true;
+      extensions = with addons.thunderbird-addons; [
+        tbsync
+        eas-4-tbsync
+      ];
+      settings = {
+        "extensions.autoDisableScopes" = 0;
+        "mail.biff.show_tray_icon_always" = true;
+        "calendar.alarms.playsound" = false;
+        "calendar.alarms.show" = false;
+        "calendar.item.editInTab" = true;
+        "calendar.view.visiblehours" = 12;
+        "calendar.week.start" = 1;
+        "mail.spam.manualMark" = true;
+        "mail.threadpane.listview" = 1;
+        "mailnews.message_display.disable_remote_image" = false;
+        "messenger.startup.action" = 0;
+        "network.cookie.cookieBehavior" = 3;
+        "places.history.enabled" = false;
+        "privacy.globalprivacycontrol.enabled" = true;
+      };
     };
   };
 
