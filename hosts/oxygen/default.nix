@@ -3,6 +3,7 @@
   lib,
   inputs,
   config,
+  pkgs,
   ...
 }:
 let
@@ -85,6 +86,11 @@ in
 
   services.radicale = {
     enable = true;
+    package = pkgs.radicale.overrideAttrs (oldAttrs: {
+      patches = (oldAttrs.patches or [ ]) ++ [
+        ./radicale-bday-href-suffix.patch
+      ];
+    });
     settings = {
       server = {
         hosts = "127.0.0.1:5232";
@@ -96,6 +102,14 @@ in
       };
       storage = {
         filesystem_folder = "/var/lib/radicale/collections";
+      };
+      sharing = {
+        type = "files";
+        collection_by_token = true;
+        collection_by_map = true;
+        permit_create_token = true;
+        permit_create_map = true;
+        permit_properties_overlay = true;
       };
     };
     rights = {

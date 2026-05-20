@@ -55,13 +55,6 @@
   '';
 
   services.power-profiles-daemon.enable = true;
-  services.auto-epp = {
-    enable = true;
-    settings.Settings = {
-      epp_state_for_AC = "performance";
-      epp_state_for_BAT = "performance";
-    };
-  };
 
   # Sample rates for Topping D10 USB DAC
   services.pipewire.extraConfig = {
@@ -94,18 +87,6 @@
 
   # extra home-manager configuration
   home-manager.users."${config.owner}" = {
-    xdg.configFile."way-displays/cfg.yml".text = ''
-      SCALING: FALSE
-      AUTO_SCALE: FALSE
-      MODE:
-        - NAME_DESC: DP-1
-          WIDTH: 3440
-          HEIGHT: 1440
-          HZ: 144
-      VRR_OFF:
-        - DP-1
-    '';
-
     programs.niri.settings.outputs."DP-1" = {
       mode = {
         width = 3440;
@@ -120,8 +101,6 @@
     };
 
     programs.foot.settings.main.font = lib.mkForce "monospace:size=11";
-    programs.hyprlock.enable = lib.mkForce false;
-
     sops.defaultSopsFile = ./secrets.yaml;
   };
 }

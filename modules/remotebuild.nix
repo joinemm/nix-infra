@@ -24,7 +24,7 @@ in
           {
             hostName = "hetzarm.vedenemo.dev";
             system = "aarch64-linux";
-            maxJobs = 40;
+            maxJobs = 20;
           }
           // commonOptions
         )
@@ -32,7 +32,7 @@ in
           {
             hostName = "builder.vedenemo.dev";
             system = "x86_64-linux";
-            maxJobs = 48;
+            maxJobs = 24;
           }
           // commonOptions
         )

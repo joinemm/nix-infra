@@ -76,6 +76,13 @@ in
         color = "#F1FA8C";
       };
     };
+    "Birthdays" = {
+      remote = mkDavRemote "caldav" "91e4a928-cd53-c315-d8fb-f702f9066170";
+      thunderbird = {
+        enable = true;
+        color = "#00ff00";
+      };
+    };
   };
 
   accounts.contact.accounts = {

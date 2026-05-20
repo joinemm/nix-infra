@@ -4,6 +4,19 @@
     enable = true;
     pulse.enable = true;
 
+    # pipewire 1.6.5 should have fixes for occasional audio loss when using easyeffects
+    package = pkgs.pipewire.overrideAttrs rec {
+      version = "1.6.5";
+
+      src = pkgs.fetchFromGitLab {
+        domain = "gitlab.freedesktop.org";
+        owner = "pipewire";
+        repo = "pipewire";
+        tag = version;
+        hash = "sha256-ui5VTbSiobHmPUHW4jLguoeMWaKT4f2eTqdo3ZGgvNI=";
+      };
+    };
+
     # https://www.reddit.com/r/linux/comments/1em8biv/psa_pipewire_has_been_halving_your_battery_life/
     wireplumber = {
       enable = true;

@@ -49,6 +49,9 @@
     })
   ];
 
+  networking.firewall.allowedTCPPorts = [ 8096 ];
+  networking.firewall.allowedUDPPorts = [ 8096 ];
+
   # enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
