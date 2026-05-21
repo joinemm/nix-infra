@@ -1,13 +1,12 @@
 {
   pkgs,
-  lib,
   config,
   ...
 }:
 {
   services.postgresql = {
     enable = true;
-    authentication = lib.mkForce ''
+    authentication = ''
       local all all trust
     '';
     ensureDatabases = [

@@ -93,6 +93,8 @@
     AUTO_SCALE: FALSE
   '';
 
+  services.niks3-auto-upload.enable = true;
+
   # extra home-manager configuration
   home-manager.users."${config.owner}" = {
     imports = [

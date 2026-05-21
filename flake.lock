@@ -492,6 +492,29 @@
         "type": "github"
       }
     },
+    "niks3": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779223902,
+        "narHash": "sha256-qQogttCU2zOyK7MN85yPaUxxN2u0BN9zabfO4X7FwNg=",
+        "owner": "Mic92",
+        "repo": "niks3",
+        "rev": "1db826ca990cb3dead5c033bcfba4bf68ce9fc05",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "niks3",
+        "type": "github"
+      }
+    },
     "niri": {
       "inputs": {
         "niri-stable": "niri-stable",
@@ -863,6 +886,7 @@
         "hjem": "hjem",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
+        "niks3": "niks3",
         "niri": "niri",
         "nix-gaming": "nix-gaming",
         "nix-github-actions": "nix-github-actions",

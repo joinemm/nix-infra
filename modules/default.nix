@@ -45,6 +45,7 @@ let
           ./nebula
           ./niri.nix
           ./users.nix
+          ./cache.nix
         ]
     )
     // {
@@ -60,6 +61,7 @@ in
         common
         hardening
         users
+        cache
       ];
       server = with nixosModules; [
         headless

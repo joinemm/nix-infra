@@ -34,6 +34,7 @@ in
     ./umami.nix
     ./your-spotify.nix
     ./weddingshare.nix
+    ./niks3.nix
   ];
 
   disko.devices.disk.sda.device = "/dev/disk/by-path/pci-0000:06:00.0-scsi-0:0:0:0";

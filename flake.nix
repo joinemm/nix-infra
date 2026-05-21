@@ -146,8 +146,10 @@
 
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.quickshell.follows = "quickshell";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        quickshell.follows = "quickshell";
+      };
     };
 
     dms-plugin-registry = {
@@ -167,8 +169,18 @@
 
     hjem = {
       url = "github:feel-co/hjem";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nix-darwin.follows = "";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nix-darwin.follows = "";
+      };
+    };
+
+    niks3 = {
+      url = "github:Mic92/niks3";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
     };
   };
 

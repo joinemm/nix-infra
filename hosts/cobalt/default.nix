@@ -15,6 +15,7 @@
       zfs
       wayland
       secure-boot
+      cache
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
@@ -84,6 +85,8 @@
     "work".enable = true;
     "projects".enable = true;
   };
+
+  services.niks3-auto-upload.enable = true;
 
   # extra home-manager configuration
   home-manager.users."${config.owner}" = {

@@ -17,6 +17,7 @@
     ])
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
     inputs.nix-topology.nixosModules.default
+    inputs.sops-nix.nixosModules.sops
     ./sdcard.nix
     ./rpi-exporter.nix
     ./blocky.nix

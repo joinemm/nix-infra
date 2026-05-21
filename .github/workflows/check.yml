@@ -12,18 +12,23 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: wimpysworld/nothing-but-nix@main
-
-      - uses: cachix/install-nix-action@v30
+      - uses: actions/checkout@v6
+      - uses: wimpysworld/nothing-but-nix@v10
         with:
-          extra_nix_config: |
+          hatchet-protocol: 'holster'
+
+      - uses: DeterminateSystems/determinate-nix-action@v3 
+        with:
+          extra-conf: |
             max-jobs = auto
-            builders = @/etc/nix/machines
             max-substitution-jobs = 64
             http-connections = 64
-
+            builders = @/etc/nix/machines
+            
+      - uses: Mic92/niks3-action@v1
+        with:
+          server-url: https://niks3.joinemm.dev
+          
       - name: Configure remote builders
         run: |
           sudo sh -c "umask 377; echo '${{ secrets.BUILDER_SSH_KEY }}' >/etc/nix/id_builder_key"
