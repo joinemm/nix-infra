@@ -29,7 +29,10 @@
       };
     }
     (lib.mkIf config.services.niks3-auto-upload.enable {
-      sops.secrets.niks3-api-token.owner = "root";
+      sops.secrets.niks3-api-token = {
+        owner = "root";
+        restartUnits = [ "niks3-auto-upload.service" ];
+      };
     })
   ];
 }

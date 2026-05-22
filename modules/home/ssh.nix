@@ -3,45 +3,44 @@ let
   ghaf-infra-hosts =
     let
       machines = import "${inputs.ghaf-infra}/hosts/machines.nix";
-      user = "jrautiola";
+      User = "jrautiola";
     in
     {
       "*.cloudapp.azure.com" = {
-        inherit user;
+        inherit User;
       };
     }
     # map over machine definitions in ghaf-infra and add all of them
-    // lib.mapAttrs (name: attrs: {
-      host = "${name} ${attrs.machine.ip}";
-      hostname = attrs.machine.ip;
-      inherit user;
-    }) (lib.filterAttrs (_: host: host ? machine) machines);
+    // lib.mapAttrs' (
+      name: attrs:
+      lib.nameValuePair "${name} ${attrs.machine.ip}" {
+        HostName = attrs.machine.ip;
+        inherit User;
+      }
+    ) (lib.filterAttrs (_: host: host ? machine) machines);
 in
 {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        forwardAgent = false;
-        identitiesOnly = true;
+        ForwardAgent = false;
+        IdentitiesOnly = true;
       };
 
-      miso.hostname = "5.161.235.21";
-      oxygen.hostname = "65.21.249.145";
+      miso.HostName = "5.161.235.21";
+      oxygen.HostName = "65.21.249.145";
+      zinc.HostName = "192.168.1.3";
+      nickel.HostName = "192.168.1.4";
 
       oracle = {
-        hostname = "129.151.193.22";
-        user = "ubuntu";
+        HostName = "129.151.193.22";
+        User = "ubuntu";
       };
 
-      zinc.hostname = "192.168.1.3";
-      nickel.hostname = "192.168.1.4";
-
       "lab.joinemm.dev *.lab.joinemm.dev" = {
-        extraOptions = {
-          ConnectTimeout = toString 3;
-        };
+        ConnectTimeout = 3;
       };
     }
     // ghaf-infra-hosts;

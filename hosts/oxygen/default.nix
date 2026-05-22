@@ -87,10 +87,13 @@ in
 
   services.radicale = {
     enable = true;
-    package = pkgs.radicale.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ [
-        ./radicale-bday-href-suffix.patch
-      ];
+    package = pkgs.radicale.overrideAttrs (_: {
+      src = pkgs.fetchFromGitHub {
+        owner = "Kozea";
+        repo = "Radicale";
+        rev = "d83e9b90dc691a0c3c3df68e0ab8f9f9d13314fd";
+        hash = "sha256-KXFxxplb5Rwk+z5oSCHfnhThaJU06IT5xC/aVm13LDc=";
+      };
     });
     settings = {
       server = {
