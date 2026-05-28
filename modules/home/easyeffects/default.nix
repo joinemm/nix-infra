@@ -1,8 +1,18 @@
+{ pkgs, ... }:
 {
   imports = [ ./preset.nix ];
 
   services.easyeffects = {
     enable = true;
+    package = pkgs.easyeffects.overrideAttrs rec {
+      version = "8.2.1";
+      src = pkgs.fetchFromGitHub {
+        owner = "wwmm";
+        repo = "easyeffects";
+        tag = "v${version}";
+        hash = "sha256-bGjIqts06ruwMQIW5hk4wlG7G/7GtgFVBgSr68tkIqY=";
+      };
+    };
     presets = [
       {
         # Antlion Modmic Wireless
