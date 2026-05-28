@@ -45,35 +45,19 @@ in
         "sidebar.verticalTabs" = true;
         "sidebar.verticalTabs.dragToPinPromo.dismissed" = true;
 
-        # https://www.reddit.com/r/firefox/comments/kojli8/actually_smooth_scrolling_for_firefox_now/
-        "general.smoothScroll.currentVelocityWeighting" = 0;
-        "general.smoothScroll.durationToIntervalRatio" = 2000;
-        "general.smoothScroll.lines.durationMaxMS" = 150;
-        "general.smoothScroll.lines.durationMinMS" = 0;
-        "general.smoothScroll.mouseWheel.durationMaxMS" = 275;
-        "general.smoothScroll.mouseWheel.durationMinMS" = 0;
-        "general.smoothScroll.mouseWheel.migrationPercent" = 100;
-        "general.smoothScroll.msdPhysics.enabled" = false;
-        "general.smoothScroll.other.durationMaxMS" = 150;
-        "general.smoothScroll.other.durationMinMS" = 0;
-        "general.smoothScroll.pages.durationMaxMS" = 150;
-        "general.smoothScroll.pages.durationMinMS" = 0;
-        "general.smoothScroll.pixels.durationMaxMS" = 150;
-        "general.smoothScroll.pixels.durationMinMS" = 0;
-        "general.smoothScroll.scrollbars.durationMaxMS" = 600;
-        "general.smoothScroll.scrollbars.durationMinMS" = 0;
-        "general.smoothScroll.stopDecelerationWeighting" = 0.2;
-        "layers.async-pan-zoom.enabled" = true;
-        "mousewheel.acceleration.factor" = 10;
-        "mousewheel.acceleration.start" = 0;
-        "mousewheel.default.delta_multiplier_x" = 100;
-        "mousewheel.default.delta_multiplier_y" = 100;
-        "mousewheel.default.delta_multiplier_z" = 100;
-        "mousewheel.min_line_scroll_amount" = 12;
-        "mousewheel.system_scroll_override_on_root_content.enabled" = false;
-        "mousewheel.transaction.timeout" = 2000;
-        "toolkit.scrollbox.horizontalScrollDistance" = 6;
-        "toolkit.scrollbox.verticalScrollDistance" = 6;
+        # https://www.reddit.com/r/firefox/comments/kojli8/actually_smooth_scrolling_for_firefox_now/ght8nzd/
+        "general.smoothScroll.msdPhysics.enabled" = true;
+        "general.smoothScroll.msdPhysics.continuousMotionMaxDeltaMS" = 250;
+        "general.smoothScroll.msdPhysics.motionBeginSpringConstant" = 450;
+        "general.smoothScroll.msdPhysics.regularSpringConstant" = 450;
+        "general.smoothScroll.msdPhysics.slowdownMinDeltaMS" = 50;
+        "general.smoothScroll.msdPhysics.slowdownMinDeltaRatio;0" = 4;
+        "general.smoothScroll.msdPhysics.slowdownSpringConstant" = 5000;
+        "mousewheel.min_line_scroll_amount" = 30;
+        "toolkit.scrollbox.horizontalScrollDistance" = 4;
+        "toolkit.scrollbox.verticalScrollDistance" = 5;
+        "general.smoothScroll.mouseWheel.durationMinMS" = 250;
+        "apz.frame_delay.enabled" = false;
 
         "browser.tabs.warnOnClose" = true;
         "browser.startup.page" = 1; # don't open previous tabs
