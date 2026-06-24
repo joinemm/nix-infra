@@ -1,49 +1,14 @@
-{ config, lib, ... }:
 {
-  # nfs
+  users.groups.smbusers = { };
 
-  systemd.tmpfiles.rules = [
-    "d /data 0755 root root"
-    "d /srv/nfs 0775 nfs users"
-  ];
+  users.users = {
+    joonas.extraGroups = [ "smbusers" ];
 
-  # Bind mount /data/share into /srv/nfs
-  fileSystems."/srv/nfs" = {
-    device = "/data/share";
-    options = [ "bind" ];
-    fsType = "auto";
+    julia = {
+      isNormalUser = true;
+      extraGroups = [ "smbusers" ];
+    };
   };
-
-  users.users.nfs = {
-    isNormalUser = true;
-    uid = 1001;
-  };
-
-  services.nfs.server = {
-    enable = true;
-    exports = ''
-      /srv/nfs  192.168.1.0/24(rw,sync,no_subtree_check,root_squash,all_squash,anonuid=1001,anongid=100,fsid=0)
-    '';
-    statdPort = 4000;
-    lockdPort = 4001;
-    mountdPort = 4002;
-  };
-
-  networking.firewall = rec {
-    allowedTCPPorts = [
-      111 # portmapper
-      2049 # nfs
-    ]
-    ++ lib.attrVals [
-      "statdPort"
-      "lockdPort"
-      "mountdPort"
-    ] config.services.nfs.server;
-
-    allowedUDPPorts = allowedTCPPorts;
-  };
-
-  # samba
 
   services.samba = {
     enable = true;
@@ -51,27 +16,19 @@
 
     settings = {
       global = {
-        "workgroup" = "WORKGROUP";
-        "server string" = "smbnix";
-        "netbios name" = "smbnix";
         "security" = "user";
-        #"use sendfile" = "yes";
-        #"max protocol" = "smb2";
-        # note: localhost is the ipv6 localhost ::1
-        "hosts allow" = "192.168.1. 127.0.0.1 localhost";
-        "hosts deny" = "0.0.0.0/0";
-        "guest account" = "nobody";
-        "map to guest" = "bad user";
       };
-      "private" = {
-        "path" = "/data/share";
-        "browseable" = "yes";
+
+      share = {
+        path = "/data/share";
+        browseable = "yes";
         "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = "nfs";
-        "force group" = "users";
+        "guest ok" = "no";
+
+        "valid users" = "@smbusers";
+        "force group" = "smbusers";
+        "create mask" = "0664";
+        "directory mask" = "0775";
       };
     };
   };
@@ -82,12 +39,19 @@
   };
 
   services.avahi = {
-    publish.enable = true;
-    publish.userServices = true;
-    # ^^ Needed to allow samba to automatically register mDNS records (without the need for an `extraServiceFile`
-    nssmdns4 = true;
-    # ^^ Not one hundred percent sure if this is needed- if it aint broke, don't fix it
     enable = true;
     openFirewall = true;
+    nssmdns4 = true;
+
+    publish = {
+      enable = true;
+      addresses = true;
+      workstation = true;
+      userServices = true;
+    };
   };
+
+  systemd.tmpfiles.rules = [
+    "d /data/share 0775 joonas smbusers - -"
+  ];
 }

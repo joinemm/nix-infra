@@ -35,6 +35,7 @@
     ./mealie.nix
     ./monitoring.nix
     ./backup.nix
+    ./webos-devmode.nix
   ];
 
   networking.hostName = "nickel";
@@ -50,7 +51,9 @@
   };
 
   networking.useDHCP = true;
+
   boot.kernelModules = [ "kvm-intel" ];
+
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "ahci"
@@ -59,6 +62,23 @@
     "usb_storage"
     "sd_mod"
   ];
+
+  # Intel hardware acceleration
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      libva-vdpau-driver
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      vpl-gpu-rt # QSV on 11th gen or newer
+    ];
+  };
+
+  # enable vaapi on OS-level
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
 
   fileSystems = {
     # Storage drives are formatted by hand
@@ -84,8 +104,6 @@
       ];
     };
   };
-
-  services.vnstat.enable = true;
 
   services.scrutiny = {
     enable = true;
@@ -135,18 +153,6 @@
       9999
       2283
     ];
-  };
-
-  systemd.services."rclone-webdav" = {
-    after = [ "network.target" ];
-    unitConfig = {
-      RequiresMountsFor = "/data";
-    };
-    serviceConfig = {
-      Restart = "on-failure";
-      RestartSec = 5;
-      ExecStart = "${lib.getExe pkgs.rclone} serve webdav /data/share/ --addr 0.0.0.0:9999";
-    };
   };
 
   services.kimai.sites."kimai.lab.joinemm.dev" = {

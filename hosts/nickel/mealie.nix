@@ -1,7 +1,7 @@
 { config, ... }:
 {
   services.mealie = {
-    enable = true; # TODO: fails to build right now
+    enable = true;
 
     listenAddress = "127.0.0.1";
     port = 9000;

@@ -3,8 +3,6 @@
   ...
 }:
 {
-  services.prometheus.exporters.node.enable = true;
-
   services.prometheus = {
     enable = true;
     port = 9090;
@@ -24,22 +22,24 @@
         ];
       }
       {
-        job_name = "rpi";
-        static_configs = [
-          {
-            targets = [
-              "192.0.1.3:9110"
-              "192.0.1.3:9100"
-            ];
-          }
-        ];
-      }
-      {
         job_name = "immich";
         static_configs = [
           {
             targets = [
               "127.0.0.1:8081"
+            ];
+          }
+        ];
+      }
+      {
+        job_name = "nixarr";
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:${toString config.nixarr.radarr.exporter.port}"
+              "127.0.0.1:${toString config.nixarr.sonarr.exporter.port}"
+              "127.0.0.1:${toString config.nixarr.prowlarr.exporter.port}"
+              "127.0.0.1:${toString config.nixarr.wireguard.exporter.port}"
             ];
           }
         ];
