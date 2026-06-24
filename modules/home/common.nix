@@ -1,11 +1,12 @@
 {
+  osConfig,
   pkgs,
   inputs,
   self,
   ...
 }:
 {
-  home.stateVersion = "23.11";
+  home.stateVersion = osConfig.system.stateVersion;
   programs.home-manager.enable = true;
 
   imports = [ inputs.nix-index-database.homeModules.nix-index ];
@@ -29,15 +30,6 @@
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 14d";
-  };
-
-  programs.chawan = {
-    enable = true;
-    settings = {
-      buffer = {
-        images = true;
-      };
-    };
   };
 
   home.packages =
@@ -100,5 +92,8 @@
       geekbench
       ripgrep
     ])
-    ++ [ self.packages.${pkgs.stdenv.hostPlatform.system}.hypruler ];
+    ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
+      hypruler
+      dev-manager-desktop
+    ]);
 }
