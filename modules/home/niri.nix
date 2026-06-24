@@ -8,6 +8,10 @@
     wlogout
   ];
 
+  programs.niri.extraConfig = ''
+    include optional=true "noctalia.kdl"
+  '';
+
   programs.niri.settings = {
     input = {
       keyboard = {
@@ -93,16 +97,6 @@
     # The shell backdrop already has depth, so the overview workspace shadow
     # just adds visual noise.
     overview.workspace-shadow.enable = false;
-
-    # All terminal binds use footclient, which expects a long-running foot server.
-    spawn-at-startup = [
-      {
-        argv = [
-          "foot"
-          "--server"
-        ];
-      }
-    ];
 
     hotkey-overlay.skip-at-startup = true;
     # Prefer server-side decorations so niri can draw borders and rounded

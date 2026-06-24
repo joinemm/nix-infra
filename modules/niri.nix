@@ -7,6 +7,7 @@
   imports = [
     inputs.niri.nixosModules.niri
   ];
+
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;
@@ -30,6 +31,7 @@
       pkgs.xdg-desktop-portal-gtk
     ];
   };
+
   systemd.user.services = {
     xdg-desktop-portal = {
       after = [ "xdg-desktop-autostart.target" ];
@@ -48,10 +50,9 @@
     };
   };
 
-  nixpkgs.overlays = [ inputs.niri.overlays.niri ];
   programs.niri = {
     enable = true;
-    package = pkgs.niri-unstable;
+    package = pkgs.niri;
   };
 
   environment.systemPackages = with pkgs; [

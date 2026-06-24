@@ -1,53 +1,75 @@
-{ pkgs, ... }:
 {
-  programs.foot = {
-    enable = true;
-    settings = {
-      main = {
-        term = "xterm-256color";
-        font = "monospace:size=12";
-        pad = "12x8";
-      };
-
-      colors-dark = {
-        alpha = 0.85;
-        # dracula theme with custom bg color
-        cursor = "282a36 f8f8f2";
-        background = "101116";
-        foreground = "f8f8f2";
-        regular0 = "000000"; # black
-        regular1 = "ff5555"; # red
-        regular2 = "50fa7b"; # green
-        regular3 = "f1fa8c"; # yellow
-        regular4 = "bd93f9"; # blue
-        regular5 = "ff79c6"; # magenta
-        regular6 = "8be9fd"; # cyan
-        regular7 = "bfbfbf"; # white
-        bright0 = "4d4d4d"; # bright black
-        bright1 = "ff6e67"; # bright red
-        bright2 = "5af78e"; # bright green
-        bright3 = "f4f99d"; # bright yellow
-        bright4 = "caa9fa"; # bright blue
-        bright5 = "ff92d0"; # bright magenta
-        bright6 = "9aedfe"; # bright cyan
-        bright7 = "e6e6e6"; # bright white
-      };
-      scrollback = {
-        lines = 10000;
-        multiplier = 6;
-      };
-      mouse = {
-        alternate-scroll-mode = false;
-      };
-      key-bindings = {
-        show-urls-launch = "Alt_L";
-      };
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
+  options = {
+    programs.foot.fontSize = lib.mkOption {
+      type = lib.types.int;
+      default = 11;
     };
   };
+  config = {
+    programs.foot = {
+      enable = true;
+      server.enable = true;
+    };
 
-  home.sessionVariables = {
-    TERMINAL = "footclient";
-    TERM = "footclient";
-    LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
+    # don't kill all of my terminals with nixos-rebuild
+    systemd.user.services.foot.Unit.X-RestartIfChanged = "false";
+
+    # use background and foreground from noctalia but override ANSI colors with dracula
+    # because the noctalia themes don't have recognizable color difference
+    xdg.configFile."foot/foot.ini".text = ''
+      include=~/.config/foot/themes/noctalia
+      include=~/.config/foot/themes/dracula
+
+      [main]
+      term=xterm-256color
+      font=monospace:size=${toString config.programs.foot.fontSize}
+      pad=12x8
+
+      [colors-dark]
+      alpha=0.85
+
+      [scrollback]
+      lines=10000
+      multiplier=6
+
+      [mouse]
+      alternate-scroll-mode=false
+
+      [key-bindings]
+      show-urls-launch=Alt_L
+    '';
+
+    xdg.configFile."foot/themes/dracula".text = ''
+      [colors-dark]
+      regular0=000000 
+      regular1=ff5555 
+      regular2=50fa7b 
+      regular3=f1fa8c 
+      regular4=bd93f9 
+      regular5=ff79c6 
+      regular6=8be9fd 
+      regular7=bfbfbf 
+
+      bright0=4d4d4d 
+      bright1=ff6e67 
+      bright2=5af78e 
+      bright3=f4f99d 
+      bright4=caa9fa 
+      bright5=ff92d0 
+      bright6=9aedfe 
+      bright7=e6e6e6 
+    '';
+
+    home.sessionVariables = {
+      TERMINAL = "footclient";
+      TERM = "foot";
+      LS_COLORS = "$(${pkgs.vivid}/bin/vivid generate dracula)";
+    };
   };
 }
