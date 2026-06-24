@@ -24,7 +24,10 @@
     poppler # thumbnails for .pdf
 
     # smb
+    gvfs
+    glib
     smbclient-ng
     cifs-utils
+    avahi
   ];
 }

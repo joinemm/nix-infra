@@ -42,12 +42,43 @@
     enable = true;
     openFirewall = true;
     nssmdns4 = true;
+    nssmdns6 = false;
 
     publish = {
       enable = true;
       addresses = true;
       workstation = true;
       userServices = true;
+    };
+
+    extraServiceFiles = {
+      smb = ''
+        <?xml version="1.0" standalone='no'?>
+        <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+        <service-group>
+          <name replace-wildcards="yes">%h</name>
+          <service>
+            <type>_smb._tcp</type>
+            <port>445</port>
+          </service>
+        </service-group>
+      '';
+
+      ssh = ''
+        <?xml version="1.0" standalone='no'?>
+        <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+        <service-group>
+          <name replace-wildcards="yes">%h SSH</name>
+          <service>
+            <type>_ssh._tcp</type>
+            <port>22</port>
+          </service>
+          <service>
+            <type>_sftp-ssh._tcp</type>
+            <port>22</port>
+          </service>
+        </service-group>
+      '';
     };
   };
 

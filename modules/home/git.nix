@@ -63,6 +63,9 @@ in
       fetch.prune = true;
       pull.rebase = true;
       push.autoSetupRemote = true;
+
+      # always use ssh remote
+      url."ssh://git@github.com".insteadOf = "https://github.com";
     };
 
     includes = [

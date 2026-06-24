@@ -50,6 +50,12 @@
     firewall.enable = true;
   };
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = false;
+  };
+
   services.resolved.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
