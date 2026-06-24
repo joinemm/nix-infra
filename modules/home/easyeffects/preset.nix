@@ -28,7 +28,7 @@ in
       );
     };
   };
-  config = {
+  config = lib.mkIf config.services.easyeffects.enable {
     home.file = lib.mergeAttrsList (
       map (
         {
@@ -39,7 +39,7 @@ in
           description,
         }:
         let
-          name = builtins.head (lib.splitString "." (builtins.baseNameOf file));
+          name = builtins.head (lib.splitString "." (baseNameOf file));
         in
         {
           "${cfgdir}/${type}/${name}.json".source = file;

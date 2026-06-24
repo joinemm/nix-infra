@@ -1,9 +1,14 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    prismlauncher # Minecraft launcher
-    kdePackages.kdenlive # for editing obs clips
+    prismlauncher
     mangohud
+    vulkan-tools
+    protontricks
+    winetricks
+    unigine-heaven
+    (bottles.override { removeWarningPopup = true; })
+    ludusavi
   ];
 
   # makes steam download a lot faster

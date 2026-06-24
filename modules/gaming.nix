@@ -1,18 +1,12 @@
 {
+  config,
   pkgs,
   inputs,
   lib,
   ...
 }:
 let
-  # Usage in steam launch options: game-wrapper %command%
-  game-wrapper = pkgs.writeShellScriptBin "game-wrapper" ''
-    # save LD_PRELOAD value.
-    # It is set to empty for gamescope, but reset back to it's original value for the game process.
-    # This fixes stuttering after 30 minutes of gameplay, but doesn't break steam overlay.
-    LD_PRELOAD_SAVED="$LD_PRELOAD"
-    export LD_PRELOAD=""
-
+  with-gpu-record = pkgs.writeShellScriptBin "with-gpu-record" ''
     APPID="''${SteamGameId:-''${STEAM_COMPAT_APP_ID:-unknown}}"
     REPLAY_DIR="$HOME/videos/replay/$APPID"
     mkdir -p "$REPLAY_DIR"
@@ -42,8 +36,26 @@ let
     }
     trap cleanup EXIT INT TERM
 
+    exec "$@"
+  '';
+
+  with-gamemode = pkgs.writeShellScriptBin "with-gamemode" ''
+    # save LD_PRELOAD value.
+    # It is set to empty for gamescope, but reset back to it's original value for the game process.
+    # This fixes stuttering after 30 minutes of gameplay, but doesn't break steam overlay.
+    LD_PRELOAD_SAVED="$LD_PRELOAD"
+    export LD_PRELOAD=""
+
+    # detect resolution
+    res="$(wlr-randr | awk '/current/ {print $1; exit}')"
+    width=''${res%x*}
+    height=''${res#*x}
+
+    # detect refresh rate
+    refresh="$(wlr-randr | awk '/current/ {print $3}' | xargs printf "%.0f")"
+
     exec gamemoderun \
-      gamescope -r 144 -w 3440 -h 1440 -f -F pixel \
+      gamescope -r $refresh -w $width -h $height -f -F pixel \
       --mangoapp \
       --force-grab-cursor \
       -- \
@@ -51,13 +63,20 @@ let
       "$@"
   '';
 
-  # amdvlk is deprecated, but it's the only driver that runs cs2 well for me
-  oldPkgs = import inputs.nixpkgs-stable { inherit (pkgs.stdenv.hostPlatform) system; };
-
-  amdvlk-run = pkgs.writeShellScriptBin "amdvlk-run" ''
-    export VK_DRIVER_FILES="${oldPkgs.amdvlk}/share/vulkan/icd.d/amd_icd64.json:${oldPkgs.pkgsi686Linux.amdvlk}/share/vulkan/icd.d/amd_icd32.json"
-    exec "$@"
+  # Usage in steam launch options: game-wrapper %command%
+  game-wrapper = pkgs.writeShellScriptBin "game-wrapper" ''
+    with-gpu-record with-gamemode "$@"
   '';
+
+  # amdvlk is deprecated upstream, but it's the only driver that runs cs2 with good fps
+  amdvlk-run =
+    let
+      oldPkgs = import inputs.nixpkgs-stable { inherit (pkgs.stdenv.hostPlatform) system; };
+    in
+    pkgs.writeShellScriptBin "amdvlk-run" ''
+      export VK_DRIVER_FILES="${oldPkgs.amdvlk}/share/vulkan/icd.d/amd_icd64.json:${oldPkgs.pkgsi686Linux.amdvlk}/share/vulkan/icd.d/amd_icd32.json"
+      exec "$@"
+    '';
 
   save-replay = pkgs.writeShellScriptBin "save-replay" ''
     if pkill -USR1 -f gpu-screen-recorder; then
@@ -70,6 +89,15 @@ in
 {
   imports = [
     inputs.nix-gaming.nixosModules.platformOptimizations
+    inputs.nix-gaming.nixosModules.wine
+  ];
+
+  environment.systemPackages = [
+    with-gpu-record
+    with-gamemode
+    game-wrapper
+    amdvlk-run
+    save-replay
   ];
 
   programs = {
@@ -124,36 +152,10 @@ in
 
   programs.gpu-screen-recorder.enable = true;
 
-  # fix for https://github.com/NixOS/nixpkgs/issues/513245
-  nixpkgs.overlays = [
-    (_: prev: {
-      openldap = prev.openldap.overrideAttrs {
-        doCheck = !prev.stdenv.hostPlatform.isi686;
-      };
-    })
-  ];
-
-  environment.systemPackages =
-    with pkgs;
-    [
-      vulkan-tools
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-extension-layer
-      protontricks
-      winetricks
-      libva-utils
-      unigine-heaven
-      (bottles.override { removeWarningPopup = true; })
-      (wineWow64Packages.full.override {
-        wineRelease = "staging";
-        mingwSupport = true;
-      })
-      ludusavi
-    ]
-    ++ [
-      game-wrapper
-      amdvlk-run
-      save-replay
-    ];
+  programs.wine = {
+    enable = true;
+    package = inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system}.wine-ge;
+    binfmt = true;
+    ntsync = true;
+  };
 }

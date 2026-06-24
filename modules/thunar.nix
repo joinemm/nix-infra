@@ -1,9 +1,13 @@
 { pkgs, ... }:
 {
-  services.gvfs.enable = true;
-  services.udisks2.mountOnMedia = true;
-  services.tumbler.enable = true;
-  programs.xfconf.enable = true;
+  services = {
+    # smb
+    gvfs.enable = true;
+    avahi.enable = true;
+
+    udisks2.mountOnMedia = true;
+    tumbler.enable = true;
+  };
 
   programs.thunar = {
     enable = true;
@@ -18,5 +22,9 @@
     webp-pixbuf-loader # thumbnails for .webp
     ffmpegthumbnailer # thumbnails for video files
     poppler # thumbnails for .pdf
+
+    # smb
+    smbclient-ng
+    cifs-utils
   ];
 }

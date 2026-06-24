@@ -18,7 +18,7 @@
     powertop.enable = true;
   };
 
-  # turn off wifi without sudo
+  # airplane mode button has to work without sudo
   security.sudo.extraRules = [
     {
       groups = [ "wheel" ];

@@ -55,6 +55,4 @@
   systemd.services.NetworkManager-wait-online.enable = false;
 
   environment.systemPackages = with pkgs; [ wirelesstools ];
-
-  networking.firewall.allowedTCPPorts = [ 4321 ];
 }

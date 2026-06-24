@@ -16,14 +16,13 @@ let
           ./nginx.nix
           ./sound.nix
           ./common.nix
-          ./dms.nix
+          ./accounts.nix
           ./gaming.nix
           ./laptop.nix
           ./locale.nix
           ./hetzner.nix
           ./yubikey.nix
           ./headless.nix
-          ./hibernate.nix
           ./bluetooth.nix
           ./secure-boot.nix
           ./syncthing.nix
@@ -65,7 +64,6 @@ in
       ];
       server = with nixosModules; [
         headless
-        node-exporter
         ssh-access
         gc
       ];
@@ -89,7 +87,7 @@ in
         thunar
         virtualization
         niri
-        dms
+        accounts
       ];
     };
   };

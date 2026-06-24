@@ -103,7 +103,6 @@
       };
     };
 
-    programs.foot.settings.main.font = lib.mkForce "monospace:size=11";
     sops.defaultSopsFile = ./secrets.yaml;
   };
 }

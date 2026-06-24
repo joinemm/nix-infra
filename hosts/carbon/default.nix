@@ -17,7 +17,7 @@
       wayland
       secure-boot
       tpm
-      hibernate
+      keyd
     ])
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
@@ -112,6 +112,8 @@
         y = 0;
       };
     };
+
+    programs.foot.fontSize = 12;
 
     sops.defaultSopsFile = ./secrets.yaml;
 

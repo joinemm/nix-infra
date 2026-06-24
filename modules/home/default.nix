@@ -9,10 +9,7 @@ let
       [
         ./discord
         ./easyeffects
-        ./waybar
-        ./dms
         ./common.nix
-        ./chromium.nix
         ./thunderbird.nix
         ./firefox.nix
         ./fish.nix
@@ -22,12 +19,11 @@ let
         ./git.nix
         ./gpg.nix
         ./gtk.nix
-        ./screenlocker.nix
+        ./idle.nix
         ./imv.nix
         ./laptop.nix
         ./mpv.nix
         ./neovim.nix
-        ./river.nix
         ./sioyek.nix
         ./ssh.nix
         ./starship.nix
@@ -40,14 +36,14 @@ let
         ./zen.nix
         ./zsh.nix
         ./sops.nix
-        ./swww.nix
-        ./glide.nix
+        ./awww.nix
         ./niri.nix
         ./dsearch.nix
         ./gammastep.nix
         ./mako.nix
         ./tofi.nix
         ./swayimg.nix
+        ./noctalia.nix
       ]
   );
 
@@ -76,12 +72,13 @@ let
       wayland
       foot
       niri
-      dms
       dsearch
       gammastep
-      mako
       tofi
       swayimg
+      idle
+      # awww
+      noctalia
       ;
   };
 in

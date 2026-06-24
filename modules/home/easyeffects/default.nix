@@ -3,7 +3,7 @@
   imports = [ ./preset.nix ];
 
   services.easyeffects = {
-    enable = true;
+    enable = false;
     package = pkgs.easyeffects.overrideAttrs rec {
       version = "8.2.1";
       src = pkgs.fetchFromGitHub {

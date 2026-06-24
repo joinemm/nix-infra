@@ -9,7 +9,7 @@
     supportedLocales = [
       "en_US.UTF-8/UTF-8"
       "fi_FI.UTF-8/UTF-8"
-      "ja_JP.UTF-8/UTF-8"
+      "ja_JP.UTF-8/UTF-8" # required by some japanese games
     ];
   };
 

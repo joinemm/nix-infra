@@ -20,4 +20,7 @@
     enableOnBoot = false;
     autoPrune.enable = true;
   };
+
+  # visit astro dev instance from another device such as phone
+  networking.firewall.allowedTCPPorts = [ 4321 ];
 }
