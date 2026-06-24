@@ -30,6 +30,19 @@
         "create mask" = "0664";
         "directory mask" = "0775";
       };
+
+      paperless = {
+        path = "/data/paperless/consume";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+
+        "valid users" = "@smbusers";
+        "force user" = "paperless";
+        "force group" = "paperless";
+        "create mask" = "0664";
+        "directory mask" = "0775";
+      };
     };
   };
 

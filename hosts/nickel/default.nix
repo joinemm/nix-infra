@@ -34,6 +34,7 @@
     ./nginx.nix
     ./mealie.nix
     ./monitoring.nix
+    ./paperless.nix
     ./backup.nix
     ./webos-devmode.nix
   ];
