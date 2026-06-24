@@ -42,18 +42,17 @@
       "usb_storage"
       "sd_mod"
     ];
-    initrd.kernelModules = [
-      # "i915"
-      "xe"
-    ];
-    kernelModules = [ "kvm-intel" ];
-    # graphics chip's id: lspci -nn | grep VGA
-    kernelParams = [
-      # "i915.force_probe=a7a1" # use i915
 
-      # use experimental Xe driver
+    kernelModules = [ "kvm-intel" ];
+
+    # use experimental Xe driver
+    kernelParams = [
+      # graphics chip's id: lspci -nn | grep VGA
       "i915.force_probe=!a7a1"
       "xe.force_probe=a7a1"
+    ];
+    initrd.kernelModules = [
+      "xe"
     ];
   };
 

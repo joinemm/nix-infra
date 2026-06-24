@@ -40,16 +40,6 @@
     hostId = "c5a9072d";
   };
 
-  fileSystems."/mnt/nas" = {
-    device = "192.168.1.4:/";
-    fsType = "nfs";
-    options = [
-      # "x-systemd.automount"
-      "noauto"
-      "users"
-    ];
-  };
-
   # allow launcher.keychron.com to access my M5 mouse
   services.udev.extraRules = ''
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="d028", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
@@ -94,7 +84,7 @@
       mode = {
         width = 3440;
         height = 1440;
-        refresh = 144.001;
+        refresh = 144;
       };
       scale = 1;
       position = {
