@@ -14,7 +14,6 @@
     settings = {
       bigclock = "en";
       allow_empty_password = false;
-      animation = "gameoflife";
       clear_password = true;
     };
   };

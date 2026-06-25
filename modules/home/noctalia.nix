@@ -122,6 +122,20 @@
         };
         tray.capsule = true;
       };
+
+      # disable notification sound on apps that already have sounds built in
+      notification.filter = {
+        slack = {
+          enabled = true;
+          match = "slack";
+          play_sound = false;
+        };
+        discord = {
+          enabled = true;
+          match = "vesktop";
+          play_sound = false;
+        };
+      };
     };
   };
 }
