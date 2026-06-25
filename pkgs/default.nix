@@ -9,6 +9,7 @@
         idlehack = pkgs.callPackage ./idlehack { };
         hypruler = pkgs.callPackage ./hypruler { };
         dev-manager-desktop = pkgs.callPackage ./dev-manager-desktop { };
+        rishot = pkgs.callPackage ./rishot { };
       };
     };
 }
