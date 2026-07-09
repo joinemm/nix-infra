@@ -36,6 +36,7 @@
     ./monitoring.nix
     ./paperless.nix
     ./backup.nix
+    ./dawarich.nix
     ./webos-devmode.nix
   ];
 
