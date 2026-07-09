@@ -22,6 +22,7 @@
       common-cpu-amd-pstate
       common-pc-ssd
       common-pc
+      gigabyte-b550 # fixes suspend
     ])
     inputs.sops-nix.nixosModules.sops
     ./hardware-configuration.nix
