@@ -98,6 +98,18 @@
           open_near_click_session = true;
           open_near_click_wallpaper = true;
         };
+
+        session.actions = [
+          {
+            action = "command";
+            command = "systemctl reboot --firmware-setup";
+            enabled = true;
+            glyph = "settings-filled";
+            label = "BIOS";
+            shortcut = "6";
+            variant = "destructive";
+          }
+        ];
       };
 
       theme = {

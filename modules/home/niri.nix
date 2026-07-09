@@ -89,7 +89,7 @@
     # and visible in the overview instead of treating it like a regular panel.
     layer-rules = [
       {
-        matches = [ { namespace = "^quickshell$"; } ];
+        matches = [ { namespace = "^noctalia-wallpaper"; } ];
         place-within-backdrop = true;
       }
     ];
@@ -112,12 +112,16 @@
         open-floating = true;
       }
       {
-        geometry-corner-radius = {
-          top-left = 10.0;
-          top-right = 10.0;
-          bottom-right = 10.0;
-          bottom-left = 10.0;
-        };
+        geometry-corner-radius =
+          let
+            radius = 20.0;
+          in
+          {
+            top-left = radius;
+            top-right = radius;
+            bottom-right = radius;
+            bottom-left = radius;
+          };
         clip-to-geometry = true;
       }
       {
@@ -210,18 +214,22 @@
       };
       "XF86AudioPrev".action.spawn = [
         "playerctl"
+        "--player=spotify,%any"
         "previous"
       ];
       "XF86AudioNext".action.spawn = [
         "playerctl"
+        "--player=spotify,%any"
         "next"
       ];
       "XF86AudioPlay".action.spawn = [
         "playerctl"
+        "--player=spotify,%any"
         "play-pause"
       ];
       "XF86AudioMedia".action.spawn = [
         "playerctl"
+        "--player=spotify,%any"
         "play-pause"
       ];
 
@@ -377,11 +385,18 @@
 
       "Mod+Comma".action.spawn = [
         "playerctl"
+        "--player=spotify,%any"
         "previous"
       ];
       "Mod+Period".action.spawn = [
         "playerctl"
+        "--player=spotify,%any"
         "next"
+      ];
+      "Mod+Slash".action.spawn = [
+        "playerctl"
+        "--player=spotify,%any"
+        "play-pause"
       ];
 
       "Mod+R".action.switch-preset-column-width = [ ];
@@ -410,10 +425,6 @@
       "Print".action.screenshot-screen = [ ];
       "Shift+Print".action.screenshot-window = [ ];
       "F8".action.spawn = "save-replay";
-      "Mod+Slash".action.spawn = [
-        "playerctl"
-        "play-pause"
-      ];
 
       "Mod+Escape" = {
         allow-inhibiting = false;

@@ -12,7 +12,6 @@
     enable = true;
     x11Support = false;
     settings = {
-      bigclock = "en";
       allow_empty_password = false;
       clear_password = true;
     };
