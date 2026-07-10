@@ -37,4 +37,8 @@ in
     systemd.enable = true;
     availableKernelModules = [ "tpm_tis" ];
   };
+
+  # real-root TPM2 support, after initrd
+  # disabled for faster boot times. enable if something doesn't work
+  systemd.tpm2.enable = false;
 }

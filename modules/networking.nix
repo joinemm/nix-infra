@@ -54,9 +54,15 @@
     enable = true;
     nssmdns4 = true;
     nssmdns6 = false;
+    openFirewall = true;
   };
 
-  services.resolved.enable = true;
+  services.resolved = {
+    enable = true;
+    settings.Resolve.MulticastDNS = !config.services.avahi.enable;
+  };
+
+  networking.networkmanager.connectionConfig.mdns = 0;
 
   systemd.services.NetworkManager-wait-online.enable = false;
 

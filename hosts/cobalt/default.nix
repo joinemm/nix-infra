@@ -47,6 +47,7 @@
   '';
 
   services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
 
   # Sample rates for Topping D10 USB DAC
   services.pipewire.extraConfig = {
@@ -63,6 +64,18 @@
       ];
     };
   };
+
+  # disable TPM2 to boot faster
+  boot.initrd.systemd.tpm2.enable = false;
+
+  boot.initrd.availableKernelModules = lib.mkForce [
+    "nvme"
+    "xhci_hcd"
+    "xhci_pci"
+    "usbhid"
+    "hid_generic"
+  ];
+  boot.blacklistedKernelModules = [ "ahci" ];
 
   # don’t shutdown when power button is short-pressed
   services.logind.settings.Login.HandlePowerKey = "ignore";

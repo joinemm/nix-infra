@@ -94,6 +94,8 @@
 
   services.niks3-auto-upload.enable = true;
 
+  systemd.services.syncthing-init.wantedBy = lib.mkForce [ "syncthing.service" ];
+
   # extra home-manager configuration
   home-manager.users."${config.owner}" = {
     imports = [

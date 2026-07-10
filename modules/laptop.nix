@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   ...
 }:
@@ -7,16 +8,14 @@
     brightnessctl
     mons
     acpi
+    powertop
   ];
 
   # use S3 sleep mode
   boot.kernelParams = [ "mem_sleep_default=deep" ];
 
-  # battery life improvements
-  powerManagement = {
-    enable = true;
-    powertop.enable = true;
-  };
+  # Enablees UPower and power hooks
+  powerManagement.enable = true;
 
   # airplane mode button has to work without sudo
   security.sudo.extraRules = [
@@ -50,18 +49,27 @@
       percentageAction = 2;
     };
 
-    # Enable the auto-cpufreq daemon
-    auto-cpufreq.enable = true;
-
-    # Enable thermald, the temperature management daemon
-    thermald.enable = true;
-
     tlp = {
       enable = true;
       pd.enable = true;
       settings = {
+        TLP_AUTO_SWITCH = 1;
+        TLP_PERSISTENT_DEFAULT = 0;
+        TLP_DEFAULT_MODE = "BAL";
+
+        CPU_BOOST_ON_BAT = 1;
+
+        WIFI_PWR_ON_BAT = "on";
+        SOUND_POWER_SAVE_ON_BAT = 1;
+        RUNTIME_PM_ON_BAT = "auto";
+
+        START_CHARGE_THRESH_BAT0 = 90;
+        STOP_CHARGE_THRESH_BAT0 = 100;
+
         DEVICES_TO_DISABLE_ON_STARTUP = "nfc";
       };
     };
   };
+
+  systemd.services.tlp-pd.wantedBy = lib.mkForce [ ];
 }

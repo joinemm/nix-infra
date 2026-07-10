@@ -21,7 +21,7 @@
   boot.kernelModules = [ "kvm-amd" ];
 
   hardware.amdgpu = {
-    initrd.enable = true;
+    initrd.enable = false;
     opencl.enable = true;
     zluda.enable = true;
     overdrive.enable = true;

@@ -1,6 +1,17 @@
-{ inputs, config, ... }:
+{
+  lib,
+  inputs,
+  config,
+  ...
+}:
 {
   imports = [ inputs.danksearch.homeModules.default ];
+
+  systemd.user.services.dsearch = {
+    Unit.After = lib.mkForce [ "graphical-session.target" ];
+    Install.WantedBy = lib.mkForce [ "graphical-session.target" ];
+  };
+
   programs.dsearch = {
     enable = true;
     config = {
