@@ -8,6 +8,8 @@
     inputs.niri.nixosModules.niri
   ];
 
+  security.pam.services.swaylock = { };
+
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;
@@ -55,8 +57,12 @@
     package = pkgs.niri;
   };
 
+  # just undoing weird things that niri flake enables by default
+  systemd.user.services.niri-flake-polkit.enable = false;
+  niri-flake.cache.enable = false;
+  fonts.enableDefaultPackages = false;
+
   environment.systemPackages = with pkgs; [
     xwayland-satellite # XWayland compatibility for apps/games
-    nautilus
   ];
 }

@@ -73,11 +73,8 @@ let
       foot
       niri
       dsearch
-      gammastep
       tofi
       swayimg
-      idle
-      # awww
       noctalia
       ;
   };

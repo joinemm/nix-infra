@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-{
+{ pkgs, ... }: {
   home.packages = with pkgs; [
     brightnessctl
     wlogout
@@ -178,14 +174,8 @@
         action.spawn = "thunar";
       };
       "Super+Alt+L" = {
-        hotkey-overlay.title = "Lock the Screen: dms";
-        action.spawn = [
-          "dms"
-          "ipc"
-          "call"
-          "lock"
-          "lock"
-        ];
+        hotkey-overlay.title = "Lock the Screen";
+        action.spawn-sh = "loginctl lock-session";
       };
       "Mod+Shift+S" = {
         hotkey-overlay.title = "Open Screenshot UI";
@@ -239,7 +229,7 @@
           "brightnessctl"
           "--class=backlight"
           "set"
-          "+10%"
+          "10%+"
         ];
       };
       "XF86MonBrightnessDown" = {
@@ -251,10 +241,21 @@
           "10%-"
         ];
       };
+      "Shift+XF86MonBrightnessUp".action.spawn = [
+        "sunsetr"
+        "set"
+        "current_temp+=500"
+      ];
+      "Shift+XF86MonBrightnessDown".action.spawn = [
+        "sunsetr"
+        "set"
+        "current_temp-=500"
+      ];
       "XF86Display".action.spawn = [
-        "wlopm"
-        "--toggle"
-        "*"
+        "niri"
+        "msg"
+        "action"
+        "power-off-monitors"
       ];
 
       "Mod+O" = {
