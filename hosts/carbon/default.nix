@@ -50,6 +50,8 @@
       # graphics chip's id: lspci -nn | grep VGA
       "i915.force_probe=!a7a1"
       "xe.force_probe=a7a1"
+      # s2idle is best we got, no deep/s3 available
+      "mem_sleep_default=s2idle"
     ];
     initrd.kernelModules = [
       "xe"

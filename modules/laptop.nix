@@ -11,9 +11,6 @@
     powertop
   ];
 
-  # use S3 sleep mode
-  boot.kernelParams = [ "mem_sleep_default=deep" ];
-
   # Enablees UPower and power hooks
   powerManagement.enable = true;
 
@@ -35,6 +32,12 @@
   };
 
   services = {
+    logind.settings.Login = {
+      HandleLidSwitch = "suspend";
+      HandleLidSwitchExternalPower = "suspend";
+      HandleLidSwitchDocked = "ignore";
+    };
+
     xserver.xkb.options = "caps:super";
 
     libinput.touchpad = {
