@@ -8,17 +8,6 @@
 let
   domain = "dawarich.lab.joinemm.dev";
 
-  # Drop override when nixpkgs#530697 lands in unstable
-  # https://nixpkgs-tracker.ocfox.me/?pr=530697
-  dawarichNixpkgs = pkgs.fetchFromGitHub {
-    owner = "NixOS";
-    repo = "nixpkgs";
-    rev = "51112299a9d0dfd771cbd1bc81a475245ccc6979";
-    hash = "sha256-gnPebfMpdqngjhk9TX27ASnvxuqSOlE5nDK7C6YEsbg=";
-  };
-
-  dawarichPackage = pkgs.callPackage (dawarichNixpkgs + "/pkgs/by-name/da/dawarich/package.nix") { };
-
   databaseBackup = pkgs.writeShellApplication {
     name = "dawarich-database-backup";
     text = ''
@@ -36,7 +25,6 @@ in
 {
   services.dawarich = {
     enable = true;
-    package = dawarichPackage;
     localDomain = domain;
     webPort = 3456;
     environment.APPLICATION_PROTOCOL = "https";

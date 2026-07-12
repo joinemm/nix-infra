@@ -27,7 +27,6 @@
       fixYoutubeEmbeds.enable = true;
       youtubeAdblock.enable = true;
       forceOwnerCrown.enable = true;
-      friendsSince.enable = true;
       memberCount.enable = true;
       webScreenShareFixes.enable = true;
       volumeBooster.enable = true;

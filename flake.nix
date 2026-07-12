@@ -35,6 +35,7 @@
       inputs = {
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "";
       };
     };
 
@@ -156,7 +157,6 @@
       url = "github:feel-co/hjem";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nix-darwin.follows = "";
       };
     };
 
@@ -172,6 +172,11 @@
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # sunsetr = {
+    #   url = "github:psi4j/sunsetr";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =

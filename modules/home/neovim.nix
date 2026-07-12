@@ -255,7 +255,7 @@
         enable = true;
         format.type = [
           "ruff"
-          "ruff-check"
+          "ruff-fix"
         ];
       };
 
