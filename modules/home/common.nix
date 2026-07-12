@@ -32,6 +32,10 @@
     options = "--delete-older-than 14d";
   };
 
+  systemd.user.tmpfiles.rules = [
+    "L %h/.flake - - - - %h/code/nix-infra"
+  ];
+
   services.kdeconnect = {
     enable = true;
     indicator = true;
