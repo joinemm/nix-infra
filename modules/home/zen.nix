@@ -112,6 +112,7 @@ in
           sponsorblock
           multi-account-containers
           csgo-trader-steam-trading
+          refined-github
         ];
       };
     };
