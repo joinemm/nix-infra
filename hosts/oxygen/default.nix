@@ -93,14 +93,6 @@ in
 
   services.radicale = {
     enable = true;
-    package = pkgs.radicale.overrideAttrs (_: {
-      src = pkgs.fetchFromGitHub {
-        owner = "Kozea";
-        repo = "Radicale";
-        rev = "d83e9b90dc691a0c3c3df68e0ab8f9f9d13314fd";
-        hash = "sha256-KXFxxplb5Rwk+z5oSCHfnhThaJU06IT5xC/aVm13LDc=";
-      };
-    });
     settings = {
       server = {
         hosts = "127.0.0.1:5232";
@@ -120,6 +112,9 @@ in
         permit_create_token = true;
         permit_create_map = true;
         permit_properties_overlay = true;
+        conversion_bday_summary_template = "Syntymäpäivä {fn}";
+        conversion_bday_description_template = "{day}.{month}.{year}";
+        conversion_bday_alarm_trigger_template = "-12H;Syntymäpäivä huomenna";
       };
     };
     rights = {

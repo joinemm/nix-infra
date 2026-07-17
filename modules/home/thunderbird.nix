@@ -77,7 +77,7 @@ in
       };
     };
     birthdays = {
-      remote = mkDavRemote "caldav" "91e4a928-cd53-c315-d8fb-f702f9066170";
+      remote = mkDavRemote "caldav" "5375e20e-9d5f-0df2-e863-2892a3a22ad1";
       thunderbird = {
         enable = true;
         color = "#00ff00";
