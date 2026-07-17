@@ -2,9 +2,6 @@ name: Nix Build
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
 
 permissions:
   contents: read
@@ -19,21 +16,34 @@ jobs:
         with:
           hatchet-protocol: 'holster'
 
-      - uses: canidae-solutions/lix-quick-install-action@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            builders = @/etc/nix/machines
 
       - uses: Mic92/niks3-action@v1
         with:
           server-url: https://niks3.joinemm.dev
 
-      - uses: webfactory/ssh-agent@v0.10.0
-        with:
-          ssh-private-key: 
-            ${{ secrets.BUILDER_SSH_KEY }}
-
-      - name: Build ${{ matrix.host }}
+      - name: Configure remote builders
         run: |
-          sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >>/etc/ssh/ssh_known_hosts"
+          sudo sh -c "umask 377; echo '${{ secrets.BUILDER_SSH_KEY }}' >/etc/nix/id_builder_key"
+
+          sudo sh -c "echo 'ssh-ng://jrautiola@builder.vedenemo.dev x86_64-linux,i686-linux /etc/nix/id_builder_key 48 1 kvm,benchmark,big-parallel,nixos-test - -' >/etc/nix/machines"
+          sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >/etc/ssh/ssh_known_hosts"
+
+      # - uses: webfactory/ssh-agent@v0.10.0
+      #   with:
+      #     ssh-private-key: 
+      #       ${{ secrets.BUILDER_SSH_KEY }}
+      #
+      # - name: Set up known hosts
+      #   run: |
+      #     sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >>/etc/ssh/ssh_known_hosts"
+      #
+      - name: nix fast build
+        run: |
           nix run github:Mic92/nix-fast-build -- \
-            --remote jrautiola@builder.vedenemo.dev --no-download --no-nom \
+            --no-download --no-nom \
             --skip-cached --option accept-flake-config true --niks3-server https://niks3.joinemm.dev \
             --flake .#ci-targets

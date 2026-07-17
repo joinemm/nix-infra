@@ -1,12 +1,12 @@
-name: nix flake check
+name: Nix Flake check
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-    branches:
-      - master
+
+permissions:
+  contents: read
+  id-token: write # Required for nixs3 OIDC
 
 jobs:
   check:
@@ -17,27 +17,11 @@ jobs:
         with:
           hatchet-protocol: 'holster'
 
-      - uses: DeterminateSystems/determinate-nix-action@v3 
-        with:
-          extra-conf: |
-            max-jobs = auto
-            max-substitution-jobs = 64
-            http-connections = 64
-            builders = @/etc/nix/machines
+      - uses: cachix/install-nix-action@v31
             
       - uses: Mic92/niks3-action@v1
         with:
           server-url: https://niks3.joinemm.dev
           
-      - name: Configure remote builders
-        run: |
-          sudo sh -c "umask 377; echo '${{ secrets.BUILDER_SSH_KEY }}' >/etc/nix/id_builder_key"
-
-          sudo sh -c "echo 'ssh://github@hetzarm.vedenemo.dev aarch64-linux /etc/nix/id_builder_key 40 1 nixos-test,benchmark,big-parallel,kvm - -' >/etc/nix/machines"
-          sudo sh -c "echo 'hetzarm.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILx4zU4gIkTY/1oKEOkf9gTJChdx/jR3lDgZ7p/c7LEK' >>/etc/ssh/ssh_known_hosts"
-          
-          sudo sh -c "echo 'ssh://github@builder.vedenemo.dev x86_64-linux,i686-linux /etc/nix/id_builder_key 48 1 kvm,benchmark,big-parallel,nixos-test - -' >>/etc/nix/machines"
-          sudo sh -c "echo 'builder.vedenemo.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG68NdmOw3mhiBZwDv81dXitePoc1w//p/LpsHHA8QRp' >>/etc/ssh/ssh_known_hosts"
-
       - name: Run nix flake check 
-        run: nix flake check --accept-flake-config -v
+        run: nix flake check --accept-flake-config --no-build
