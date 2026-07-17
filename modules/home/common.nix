@@ -109,5 +109,6 @@
     ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
       hypruler
       dev-manager-desktop
+      rishot
     ]);
 }

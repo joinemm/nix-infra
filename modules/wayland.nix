@@ -26,4 +26,10 @@
       setup_cmd = ""; # Don't use xsession-wrapper; fixes shell sessions
     };
   };
+
+  boot.kernelModules = [
+    "i2c_dev"
+  ];
+
+  users.users.joonas.extraGroups = [ "i2c" ];
 }

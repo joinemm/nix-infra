@@ -179,7 +179,7 @@
       };
       "Mod+Shift+S" = {
         hotkey-overlay.title = "Open Screenshot UI";
-        action.screenshot = [ ];
+        action.spawn = "rishot";
       };
       "Mod+Backspace" = {
         hotkey-overlay.title = "Open Session Menu";
