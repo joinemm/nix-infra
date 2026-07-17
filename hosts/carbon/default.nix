@@ -18,6 +18,7 @@
       secure-boot
       tpm
       keyd
+      ssh-access
     ])
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
@@ -33,6 +34,11 @@
   };
 
   networking.hostName = "carbon";
+
+  # Use key-based OpenSSH over Tailscale without exposing port 22 on
+  # physical network interfaces. localhost remains accessible.
+  services.openssh.openFirewall = false;
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
 
   boot = {
     initrd.availableKernelModules = [

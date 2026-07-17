@@ -2,7 +2,7 @@
 {
   services.openssh = {
     enable = true;
-    openFirewall = true;
+    openFirewall = lib.mkDefault true;
     settings = {
       PermitRootLogin = "no";
       KbdInteractiveAuthentication = false;
