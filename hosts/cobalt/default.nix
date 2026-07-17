@@ -16,6 +16,7 @@
       wayland
       secure-boot
       cache
+      ssh-access
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd

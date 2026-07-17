@@ -18,12 +18,26 @@ let
       };
     };
     nickel = {
-      hostname = "192.168.1.4";
+      hostname = "100.115.135.74";
       profiles.system = {
         user = "root";
         path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.nickel;
       };
       fastConnection = true;
+    };
+    carbon = {
+      hostname = "100.94.138.87";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.carbon;
+      };
+    };
+    cobalt = {
+      hostname = "100.71.79.103";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cobalt;
+      };
     };
   };
 

@@ -44,11 +44,15 @@
 
           while IFS=$'\t' read -r name hostname; do
             printf '\n%s%s=== %s (%s) ===%s\n' "$BOLD" "$CYAN" "$name" "$hostname" "$RESET"
-            if ! version="$(ssh -o BatchMode=yes "$hostname" nix-show-deployment \
-              </dev/null 2>/dev/null)"; then
+            ssh_error_file="$(mktemp)"
+            if ! version="$(ssh -o BatchMode=yes -o ConnectTimeout=5 "$hostname" nix-show-deployment \
+              </dev/null 2>"$ssh_error_file")"; then
               printf '  %s%-18s%s %s%s%s\n' "$BOLD" 'Status:' "$RESET" "$RED" 'SSH failed' "$RESET"
+              sed 's/^/  /' "$ssh_error_file"
+              rm -f "$ssh_error_file"
               continue
             fi
+            rm -f "$ssh_error_file"
 
             revision="$(jq -r '.configurationRevision' <<< "$version")"
             modified="$(jq -r '.modified' <<< "$version")"
@@ -81,7 +85,7 @@
             printf '  %s%-18s%s %s\n' "$BOLD" 'Last modified:' "$RESET" "$modified"
             printf '  %s%-18s%s %s\n' "$BOLD" 'NixOS version:' "$RESET" "$nixos_version"
             printf '  %s%-18s%s %s%s%s\n' "$BOLD" 'Kernel version:' "$RESET" "$kernel_color" "$kernel_display" "$RESET"
-            printf '  %s%-18s%s %s\n' "$BOLD" 'Uptime:' "$RESET" "$uptime"
+            printf '  %s%-18s%s %s\n' "$BOLD" 'Current uptime:' "$RESET" "$uptime"
             printf '  %s%-18s%s %s%s%s %s%s%s\n' "$BOLD" 'Commit revision:' "$RESET" "$CYAN" "$revision_display" "$RESET" "$behind_color" "$behind_display" "$RESET"
             if commit_info="$(git show -s --format='%cI%x09%s' "$commit" 2>/dev/null)"; then
               IFS=$'\t' read -r commit_timestamp commit_message <<< "$commit_info"
