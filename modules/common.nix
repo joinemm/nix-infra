@@ -170,7 +170,10 @@
     # uninstall all default packages that I don't need
     defaultPackages = lib.mkForce [ ];
 
-    systemPackages = with pkgs; [
+    systemPackages = [
+      self.packages.${pkgs.stdenv.hostPlatform.system}.nix-show-deployment
+    ]
+    ++ (with pkgs; [
       git
       vim
       wget
@@ -183,7 +186,7 @@
       jq
       efibootmgr
       e2fsprogs
-    ];
+    ]);
 
     variables = {
       DO_NOT_TRACK = 1;

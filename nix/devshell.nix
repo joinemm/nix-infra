@@ -21,6 +21,9 @@
           ])
           ++ [
             inputs.deploy-rs.packages.${system}.default
+          ]
+          ++ [
+            self.packages.${system}.show-hosts
           ];
       };
     };
