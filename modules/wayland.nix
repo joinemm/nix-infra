@@ -5,6 +5,10 @@
       u2fAuth = false;
       enableGnomeKeyring = true;
     };
+    swaylock = {
+      fprintAuth = false;
+      u2fAuth = false;
+    };
   };
 
   services.gnome.gnome-keyring.enable = true;

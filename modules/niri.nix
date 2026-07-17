@@ -8,8 +8,6 @@
     inputs.niri.nixosModules.niri
   ];
 
-  security.pam.services.swaylock = { };
-
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;

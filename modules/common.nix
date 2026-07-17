@@ -109,6 +109,8 @@
     });
   };
 
+  systemd.services.fwupd-refresh.enable = false;
+
   nixpkgs.config.allowUnfree = true;
 
   # revision of the flake the configuration was built from.

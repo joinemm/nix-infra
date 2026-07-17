@@ -52,7 +52,7 @@ in
   };
 
   accounts.calendar.accounts = {
-    "Primary" = {
+    primary = {
       remote = mkDavRemote "caldav" "2a465ca7-ebea-45ff-db4d-61eb39cf6631";
       thunderbird = {
         enable = true;
@@ -60,7 +60,7 @@ in
       };
       primary = true;
     };
-    "Pyhät" = {
+    holidays = {
       remote = mkWebcalRemote 52;
       thunderbird = {
         enable = true;
@@ -68,7 +68,7 @@ in
         color = "#FF5555";
       };
     };
-    "Hyvä Tietää" = {
+    notable = {
       remote = mkWebcalRemote 180;
       thunderbird = {
         enable = true;
@@ -76,7 +76,7 @@ in
         color = "#F1FA8C";
       };
     };
-    "Birthdays" = {
+    birthdays = {
       remote = mkDavRemote "caldav" "91e4a928-cd53-c315-d8fb-f702f9066170";
       thunderbird = {
         enable = true;

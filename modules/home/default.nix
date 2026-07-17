@@ -27,7 +27,6 @@ let
         ./sioyek.nix
         ./ssh.nix
         ./starship.nix
-        ./swaybg.nix
         ./wayland.nix
         ./wezterm.nix
         ./xdg.nix

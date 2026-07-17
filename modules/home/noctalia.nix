@@ -2,6 +2,7 @@
   inputs,
   lib,
   pkgs,
+  config,
   ...
 }:
 let
@@ -99,17 +100,13 @@ in
   };
 
   systemd.user.services.sunsetr = {
-    Unit = {
-      Description = "Sunsetr Wayland night light";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
+    Unit.After = [ "graphical-session.target" ];
+    Install.WantedBy = [ "graphical-session.target" ];
     Service = {
       ExecStart = "${sunsetr}/bin/sunsetr";
       Restart = "on-failure";
       RestartSec = 2;
     };
-    Install.WantedBy = [ "graphical-session.target" ];
   };
 
   programs.noctalia = {
@@ -151,18 +148,40 @@ in
         widget_spacing = 10;
       };
 
-      calendar = {
-        enabled = true;
-        account.primary = {
-          name = "Personal";
-          provider = "custom";
-          type = "caldav";
-          server_url = "https://dav.joinemm.dev/joonas/2a465ca7-ebea-45ff-db4d-61eb39cf6631";
-          username = "joonas";
-        };
+      brightness = {
+        enable_ddcutil = true;
+        minimum_brightness = 0.10;
       };
 
-      control_center.sidebar = "full";
+      calendar = {
+        enabled = true;
+        # Noctalia currently cannot use webcal accounts: https://github.com/noctalia-dev/noctalia/issues/3294
+        account = lib.mapAttrs (
+          name: acc:
+          {
+            inherit name;
+            provider = "custom";
+            type = "caldav";
+            color = if acc.primary or false then "primary" else "tertiary";
+            server_url = acc.remote.url;
+          }
+          // lib.optionalAttrs (acc.remote.userName != null) {
+            username = acc.remote.userName;
+          }
+        ) (lib.filterAttrs (_: acc: acc.remote.type == "caldav") config.accounts.calendar.accounts);
+      };
+
+      control_center = {
+        sidebar = "full";
+        shortcuts = [
+          { type = "caffeine"; }
+          { type = "wifi"; }
+          { type = "notification"; }
+          { type = "power_profile"; }
+          { type = "bluetooth"; }
+          { type = "wallpaper"; }
+        ];
+      };
 
       desktop_widgets.enabled = false;
 

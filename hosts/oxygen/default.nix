@@ -55,6 +55,12 @@ in
     };
   };
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+    autoPrune.enable = true;
+  };
+
   nebula = {
     enable = true;
     cert = ./nebula.crt;

@@ -36,6 +36,10 @@
     "L %h/.flake - - - - %h/code/nix-infra"
   ];
 
+  home.sessionVariables = {
+    NH_OS_FLAKE = "$HOME/code/nix-infra";
+  };
+
   services.kdeconnect = {
     enable = true;
     indicator = true;
@@ -58,6 +62,7 @@
       nix-init
       nh
       oras
+      gh
 
       # gui apps
       spotify
