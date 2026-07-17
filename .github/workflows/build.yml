@@ -44,6 +44,6 @@ jobs:
       - name: nix fast build
         run: |
           nix run github:Mic92/nix-fast-build -- \
-            --no-download --no-nom \
-            --skip-cached --option accept-flake-config true --niks3-server https://niks3.joinemm.dev \
+            --no-nom \
+            --skip-cached --option accept-flake-config true \
             --flake .#ci-targets
