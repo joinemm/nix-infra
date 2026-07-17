@@ -23,11 +23,18 @@ let
   };
 in
 {
+  sops.secrets.dawarich-geocoding-env.owner = "dawarich";
+
   services.dawarich = {
     enable = true;
     localDomain = domain;
     webPort = 3456;
-    environment.APPLICATION_PROTOCOL = "https";
+    environment = {
+      APPLICATION_PROTOCOL = "https";
+    };
+    extraEnvFiles = [
+      config.sops.secrets.dawarich-geocoding-env.path
+    ];
   };
 
   services.nginx.virtualHosts.${domain} = {
