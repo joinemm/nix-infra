@@ -153,7 +153,6 @@ in
 
   programs.wine = {
     enable = true;
-    package = inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system}.wine-ge;
     binfmt = true;
     ntsync = true;
   };
