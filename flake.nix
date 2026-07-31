@@ -177,6 +177,15 @@
       url = "github:psi4j/sunsetr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-auth = {
+      url = "github:numtide/nix-auth";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
   };
 
   outputs =

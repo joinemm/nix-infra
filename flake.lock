@@ -230,11 +230,11 @@
     "ghaf-infra": {
       "flake": false,
       "locked": {
-        "lastModified": 1783678499,
-        "narHash": "sha256-sK2UZxuEI18BSGG6MZ0EtnjK3EXBX5Y1KS77rQqY7iM=",
+        "lastModified": 1785242382,
+        "narHash": "sha256-O3g5xCL7eYgVSDCR4pKmHnaW6p6WLytNQMzHY4J0EHw=",
         "owner": "tiiuae",
         "repo": "ghaf-infra",
-        "rev": "75e3b426ecf6cf39fcaf91e4aea5d87fd0f96144",
+        "rev": "57a66928b0895b66623e046eceb2675800349843",
         "type": "github"
       },
       "original": {
@@ -425,6 +425,32 @@
       "original": {
         "owner": "YaLTeR",
         "repo": "niri",
+        "type": "github"
+      }
+    },
+    "nix-auth": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784439141,
+        "narHash": "sha256-vRs+cWjVgvPdn9mjFIUd0IwlcoMhGBGrEw7zTGZrMro=",
+        "owner": "numtide",
+        "repo": "nix-auth",
+        "rev": "47b39a56d7ef5ca7db5320aa4aac90435e07bda3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nix-auth",
         "type": "github"
       }
     },
@@ -650,11 +676,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1783279667,
-        "narHash": "sha256-/NAkDSsve+GNM0Bt6tleJdCGfsTlK89nPjkVOzZMo0s=",
+        "lastModified": 1784555310,
+        "narHash": "sha256-/FCliTPgiuV1owejZFNx3Ch9irdvkOfOFl+HHZ+DrtM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f205b5574fd0cb7da5b702a2da51507b7f4fdd1b",
+        "rev": "421eebfd0ec7bccd4abe826ce62d7e6e83129493",
         "type": "github"
       },
       "original": {
@@ -693,11 +719,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783679527,
-        "narHash": "sha256-K6zi7ZTiHghYG7s+fheYWWKCNdg9OxI2cO8+ozaE5Xs=",
+        "lastModified": 1784580101,
+        "narHash": "sha256-bjXMyQJiDtFftBMJxHQXIXUz3ZOdS48kKaSnkyoOB0c=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "a9d578460ea71cd7ae853ab091e106f7e773069e",
+        "rev": "424ac2bb417e0e5cb4f7be19dfb661668cbbf638",
         "type": "github"
       },
       "original": {
@@ -744,6 +770,7 @@
         "lanzaboote": "lanzaboote",
         "niks3": "niks3",
         "niri": "niri",
+        "nix-auth": "nix-auth",
         "nix-gaming": "nix-gaming",
         "nix-github-actions": "nix-github-actions",
         "nix-index-database": "nix-index-database",
