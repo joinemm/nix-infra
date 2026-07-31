@@ -52,7 +52,9 @@
 
   programs.niri = {
     enable = true;
-    package = pkgs.niri;
+    package = pkgs.niri.overrideAttrs (old: {
+      patches = (old.patches or [ ]) ++ [ ./niri-session-import-environment.patch ];
+    });
   };
 
   # just undoing weird things that niri flake enables by default

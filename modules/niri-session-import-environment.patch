@@ -1,0 +1,6 @@
+diff --git a/resources/niri-session b/resources/niri-session
+--- a/resources/niri-session
++++ b/resources/niri-session
+@@ -36 +36 @@ if hash systemctl >/dev/null 2>&1; then
+-    systemctl --user import-environment
++    systemctl --user import-environment $(printenv | cut -d'=' -f1 | tr '\n' ' ')
