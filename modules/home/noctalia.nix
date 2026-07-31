@@ -7,9 +7,9 @@
 }:
 let
   idleFadeSeconds = 5;
-  screenOffTimeout = 5 * 60;
-  lockTimeout = 5 * 60 + 10;
-  suspendTimeout = 15 * 60;
+  screenOffTimeout = 10 * 60;
+  lockTimeout = 10 * 60 + 10;
+  suspendTimeout = 20 * 60;
 
   sunsetr = inputs.sunsetr.packages.${pkgs.stdenv.hostPlatform.system}.sunsetr;
 in
@@ -36,7 +36,7 @@ in
 
     inside-color=00000000
     ring-color={{ colors.primary.default.hex_stripped }}
-    line-color=00000000
+    line-color={{ colors.on_tertiary.default.hex_stripped }}
     separator-color=00000000
     text-color={{ colors.primary.default.hex_stripped }}
     key-hl-color={{ colors.on_tertiary.default.hex_stripped }}
@@ -45,17 +45,17 @@ in
     inside-ver-color=00000000
     ring-ver-color={{ colors.tertiary.default.hex_stripped }}
     text-ver-color={{ colors.tertiary.default.hex_stripped }}
-    line-ver-color=00000000
+    line-ver-color={{ colors.on_tertiary.default.hex_stripped }}
 
     inside-wrong-color=00000000
     ring-wrong-color={{ colors.error.default.hex_stripped }}
     text-wrong-color={{ colors.error.default.hex_stripped }}
-    line-wrong-color=00000000
+    line-wrong-color={{ colors.on_tertiary.default.hex_stripped }}
 
     inside-clear-color=00000000
     ring-clear-color={{ colors.outline.default.hex_stripped }}
     text-clear-color={{ colors.outline.default.hex_stripped }}
-    line-clear-color=00000000
+    line-clear-color={{ colors.on_tertiary.default.hex_stripped }}
   '';
 
   # swayidle used for its events, not idling
@@ -79,7 +79,7 @@ in
       shutdown_duration = 0.5
 
       day_temp = 6500
-      night_temp = 2500
+      night_temp = 2000
       day_gamma = 100
       night_gamma = 100
 
@@ -299,7 +299,9 @@ in
           type = "custom_button";
           glyph = "moon";
           tooltip = "Toggle night light schedule";
-          command = "${sunsetr}/bin/sunsetr preset toggle";
+          command = ''
+            sunsetr preset "$(sunsetr preset list | head -2 | grep -v "$(sunsetr preset active)")"
+          '';
         };
         date.format = "{:%A %d.%m.}";
         control-center.glyph = "layout-filled";

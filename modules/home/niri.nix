@@ -173,7 +173,7 @@
         hotkey-overlay.title = "Open File Manager: thunar";
         action.spawn = "thunar";
       };
-      "Super+Alt+L" = {
+      "Super+Shift+L" = {
         hotkey-overlay.title = "Lock the Screen";
         action.spawn-sh = "loginctl lock-session";
       };
