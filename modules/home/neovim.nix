@@ -178,7 +178,7 @@
         mode = [
           "v"
         ];
-        action = ''"_dP'';
+        action = "P";
       }
       {
         # copy to system clipboard
@@ -241,15 +241,16 @@
       rust = {
         enable = true;
         format.enable = true;
-        lsp.opts = ''
-          ['rust-analyzer'] = {
-            cargo = {allFeature = true},
-            checkOnSave = true,
-            procMacro = {
-              enable = true,
-            },
-          },
-        '';
+        # TODO: vim.lsp.servers.<server_name>.init_options
+        # lsp.opts = ''
+        #   ['rust-analyzer'] = {
+        #     cargo = {allFeature = true},
+        #     checkOnSave = true,
+        #     procMacro = {
+        #       enable = true,
+        #     },
+        #   },
+        # '';
       };
       python = {
         enable = true;
