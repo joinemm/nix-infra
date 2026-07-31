@@ -9,7 +9,6 @@
         ControllerMode = "dual";
         Experimental = true;
         KernelExperimental = true;
-        Privacy = "device";
       };
     };
   };
@@ -18,5 +17,13 @@
     "wireplumber.settings" = {
       "bluetooth.autoswitch-to-headset-profile" = true;
     };
+
+    "monitor.bluez.properties" = {
+      "bluez5.disable-dummy-call" = true;
+    };
   };
+
+  boot.extraModprobeConfig = ''
+    options btusb force_scofix=1
+  '';
 }
