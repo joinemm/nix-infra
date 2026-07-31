@@ -45,6 +45,7 @@ let
           ./niri.nix
           ./users.nix
           ./cache.nix
+          ./fwupd.nix
         ]
     )
     // {
@@ -68,6 +69,7 @@ in
         gc
       ];
       workstation = with nixosModules; [
+        fwupd
         bluetooth
         fonts
         gaming
