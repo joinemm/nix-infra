@@ -186,6 +186,14 @@
         treefmt-nix.follows = "treefmt-nix";
       };
     };
+
+    sparkyfitness = {
+      url = "github:CodeWithCJ/SparkyFitness";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
   outputs =

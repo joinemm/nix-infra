@@ -784,6 +784,7 @@
         "nvf": "nvf",
         "rycee-nur-expressions": "rycee-nur-expressions",
         "sops-nix": "sops-nix",
+        "sparkyfitness": "sparkyfitness",
         "sunsetr": "sunsetr",
         "treefmt-nix": "treefmt-nix",
         "zen-browser": "zen-browser",
@@ -865,6 +866,29 @@
       "original": {
         "owner": "mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "sparkyfitness": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787276734,
+        "narHash": "sha256-JQVbcyjDlTXqK3NLHLWQ2hjpZNTu6r3QHTPFPJK8wqc=",
+        "owner": "CodeWithCJ",
+        "repo": "SparkyFitness",
+        "rev": "2eeed8b180436ddc4bb3c1c892b0acbbc34e3748",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CodeWithCJ",
+        "repo": "SparkyFitness",
         "type": "github"
       }
     },
