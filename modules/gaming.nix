@@ -173,6 +173,7 @@ in
   programs.gpu-screen-recorder.enable = true;
 
   programs.wine = {
+    package = inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system}.wine-tkg;
     enable = true;
     binfmt = true;
     ntsync = true;
