@@ -6,6 +6,10 @@ let
       ''
         MAIN="''${1:-main}"
         BRANCH="$(git branch | grep '\* ' | sed 's/\* //g')"
+        if [[ -n "$(git status --porcelain)" ]]; then
+          echo "Refusing to rebase with uncommitted changes" >&2
+          exit 1
+        fi
         git checkout "$MAIN"
         git pull upstream "$MAIN"
         git push
