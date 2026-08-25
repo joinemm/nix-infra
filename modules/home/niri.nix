@@ -170,8 +170,8 @@
         ];
       };
       "Mod+T" = {
-        hotkey-overlay.title = "Open File Manager: thunar";
-        action.spawn = "thunar";
+        hotkey-overlay.title = "Open File Manager: nautilus";
+        action.spawn = "nautilus";
       };
       "Super+Shift+L" = {
         hotkey-overlay.title = "Lock the Screen";

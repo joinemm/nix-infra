@@ -11,43 +11,18 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = false;
-    wlr.enable = true;
-    config = {
-      common = {
-        default = [
-          "gtk"
-          "gnome"
-        ];
-      };
-      niri = {
-        default = [
-          "gtk"
-          "gnome"
-        ];
-      };
+    config.niri = {
+      default = [
+        "gnome"
+        "gtk"
+      ];
+      "org.freedesktop.impl.portal.Access" = "gtk";
+      "org.freedesktop.impl.portal.Notification" = "gtk";
+      "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
     };
     extraPortals = [
-      pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gtk
     ];
-  };
-
-  systemd.user.services = {
-    xdg-desktop-portal = {
-      after = [ "xdg-desktop-autostart.target" ];
-    };
-
-    xdg-desktop-portal-gtk = {
-      after = [ "xdg-desktop-autostart.target" ];
-    };
-
-    xdg-desktop-portal-gnome = {
-      after = [ "xdg-desktop-autostart.target" ];
-    };
-
-    niri-flake-polkit = {
-      after = [ "xdg-desktop-autostart.target" ];
-    };
   };
 
   programs.niri = {

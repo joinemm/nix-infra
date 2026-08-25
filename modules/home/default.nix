@@ -59,7 +59,6 @@ let
       mpv
       neovim
       ssh
-      wezterm
       xdg
       yazi
       fish

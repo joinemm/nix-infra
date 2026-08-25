@@ -30,7 +30,8 @@
 
     mimeApps =
       let
-        file-manager = "thunar.desktop";
+        file-manager = "org.gnome.Nautilus.desktop";
+        archive-manager = "org.gnome.FileRoller.desktop";
         editor = "nvim.desktop";
         browser = "zen-beta.desktop";
         video-player = "mpv.desktop";
@@ -73,6 +74,24 @@
           "x-scheme-handler/webcals" = [ email ];
           # other
           "inode/directory" = [ file-manager ];
+          "application/zip" = [ archive-manager ];
+          "application/x-zip" = [ archive-manager ];
+          "application/x-zip-compressed" = [ archive-manager ];
+          "application/x-tar" = [ archive-manager ];
+          "application/gzip" = [ archive-manager ];
+          "application/x-gzip" = [ archive-manager ];
+          "application/x-compressed-tar" = [ archive-manager ];
+          "application/bzip2" = [ archive-manager ];
+          "application/x-bzip" = [ archive-manager ];
+          "application/x-bzip-compressed-tar" = [ archive-manager ];
+          "application/x-xz" = [ archive-manager ];
+          "application/x-xz-compressed-tar" = [ archive-manager ];
+          "application/zstd" = [ archive-manager ];
+          "application/x-zstd-compressed-tar" = [ archive-manager ];
+          "application/x-7z-compressed" = [ archive-manager ];
+          "application/vnd.rar" = [ archive-manager ];
+          "application/x-rar" = [ archive-manager ];
+          "application/x-rar-compressed" = [ archive-manager ];
           "text/csv" = [ editor ];
           "text/plain" = [ editor ];
           "application/pdf" = [ "sioyek.desktop" ];

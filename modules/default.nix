@@ -38,7 +38,7 @@ let
           ./gc.nix
           ./zfs.nix
           ./graphical.nix
-          ./thunar.nix
+          ./nautilus.nix
           ./hardening.nix
           ./tpm.nix
           ./nebula
@@ -86,7 +86,7 @@ in
         home-manager
         gc
         graphical
-        thunar
+        nautilus
         virtualization
         niri
         accounts

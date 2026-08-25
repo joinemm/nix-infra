@@ -1,4 +1,9 @@
+{ config, lib, ... }:
 {
+  home.activation.clearTofiDrunCache = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    rm -f -- ${lib.escapeShellArg "${config.xdg.cacheHome}/tofi-drun"}
+  '';
+
   programs.tofi = {
     enable = true;
     settings = {
