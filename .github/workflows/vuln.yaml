@@ -1,0 +1,32 @@
+name: flakevuln
+on:
+  workflow_dispatch:
+  schedule:
+    # 02:33 EET every day, expressed as UTC
+    - cron: "33 0 * * *"
+concurrency:
+  group: ${{ github.workflow }}.${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  scan:
+    name: Vulnerability scan 
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Flakevuln
+        uses: tiiuae/flakevuln@main
+        with:
+          targets: |
+            nixosConfigurations.carbon.config.system.build.toplevel
+          unstable-ref: github:NixOS/nixpkgs/nixos-unstable
+          # whitelist: .github/flakevuln/manual_analysis.csv
+          nixprs: true
+          nixprs-exclude-packages: linux
+          nixtracker: true
+
