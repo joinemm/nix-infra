@@ -39,6 +39,12 @@
         };
       };
       "kimai.${labDomain}" = labCert;
+      "shelf.${labDomain}" = labCert // {
+        locations."/" = {
+          proxyPass = "http://${config.services.audiobookshelf.host}:${toString config.services.audiobookshelf.port}";
+          proxyWebsockets = true;
+        };
+      };
     };
 
   users.users.nginx.extraGroups = [ "acme" ];

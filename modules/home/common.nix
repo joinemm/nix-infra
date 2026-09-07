@@ -84,6 +84,7 @@
       arduino-ide
       chromium
       karere
+      sone
 
       # cli apps
       glow # render markdown on the cli

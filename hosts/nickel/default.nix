@@ -168,6 +168,11 @@
     openFirewall = true;
   };
 
+  services.audiobookshelf = {
+    enable = true;
+    group = "media";
+  };
+
   environment.systemPackages = with pkgs; [
     mergerfs
     lm_sensors
