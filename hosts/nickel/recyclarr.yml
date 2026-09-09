@@ -1,158 +1,84 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
 
 sonarr:
-  series:
+  shows:
     base_url: http://localhost:8989
     api_key: !env_var SONARR_API_KEY
 
-    replace_existing_custom_formats: true
-
     quality_definition:
-        type: series
-    include:
-        - template: sonarr-quality-definition-series
-        - template: sonarr-v4-quality-profile-anime
-        - template: sonarr-v4-custom-formats-anime
-        - template: sonarr-v4-quality-profile-web-2160p
-        - template: sonarr-v4-custom-formats-web-2160p
+      type: series
+
+    media_management:
+      propers_and_repacks: do_not_prefer
+
+    media_naming:
+      series: jellyfin-tvdb
+      season: default
+      episodes:
+        rename: true
+        standard: default
+        daily: default
+        anime: default
+
     quality_profiles:
-        - name: Remux-1080p - Anime
-        - name: WEB-2160p
-          qualities:
-            - name: WEB 2160p
-              qualities:
-                - WEBDL-2160p
-                - WEBRip-2160p
-            - name: WEB 1080p
-              qualities:
-                - WEBDL-1080p
-                - WEBRip-1080p
-    custom_formats:
-        # =================================
-        # Remux-1080p - Anime
-        # =================================
-        - trash_ids:
-            # Uncensored
-            - 026d5aadd1a6b4e550b134cb6c72b3ca
-            # 10bit
-            - b2550eb333d27b75833e25b8c2557b38
-            # Anime Dual Audio
-            - 418f50b10f1907201b6cfdf881f467b7
-          assign_scores_to:
-            - name: Remux-1080p - Anime
-        # =================================
-        # WEB-2160p
-        # =================================
-        # Optional
-        - trash_ids:
-            # Bad Dual Groups
-            - 32b367365729d530ca1c124a0b180c64
-            # DV (WEBDL)
-            - 9b27ab6498ec0f31a3353992e19434ca
-          assign_scores_to:
-            - name: WEB-2160p
+      - trash_id: c4cadd6b35b95f62c3d47a408e53e2f7  # WEB-2160p (Combined)
+        name: 4K
+        reset_unmatched_scores:
+          enabled: true
+
+      - trash_id: 20e0fc959f1f1704bed501f23bdae76f  # [Anime] Remux-1080p
+        name: Anime
+        reset_unmatched_scores:
+          enabled: true
+
+    custom_format_groups:
+      add:
+        - trash_id: e3f37512790f00d0e89e54fe5e790d1c  # [Optional] Golden Rule UHD
+        - trash_id: 74aff4168620ed49dcc67e92b2c2a5b4  # [Optional] Language Profiles
+        - trash_id: 85fae4a2294965b75710ef2989c850eb  # [Streaming Services] HD/UHD boost
+        - trash_id: 59c3af66780d08332fdc64e68297098f  # [Unwanted] Unwanted Formats
+        - trash_id: d776a1ea912a117d66d83b880ff2055d  # [HDR Formats] DV (w/o HDR fallback)
+        - trash_id: e0b2774083df4265f25c9e5bc6c80940  # [HDR Formats] DV Boost
+        # - trash_id: 7d366c213e5c23a052b157356fac1921  # [HDR Formats] HDR10+ Boost
+        - trash_id: d920fd959d220306888f40b6f38e1578  # [Optional] Season Packs
+        - trash_id: e1053c0ef622df3749fa43c22865663a  # [HDR Formats] SDR
+          select:
+            - 83304f261cf516bb208c18c54c0adf97  # SDR (no WEBDL)
 
 radarr:
   movies:
     base_url: http://localhost:7878
     api_key: !env_var RADARR_API_KEY
 
-    replace_existing_custom_formats: true
+    quality_definition:
+      type: movie
+
+    media_management:
+      propers_and_repacks: do_not_prefer
+
+    media_naming:
+      folder: jellyfin-imdb
+      movie:
+        rename: true
+        standard: jellyfin-imdb
 
     quality_profiles:
-      - name: SQP-1 (1080p)
-        min_format_score: 10
-      - name: SQP-1 (2160p)
-      # Uncomment the below line if you don't have access to top-tier indexers
-        min_format_score: 10
+      - trash_id: 64fb5f9858489bdac2af690e27c8f42f  # UHD Bluray + WEB
+        name: 4K
+        reset_unmatched_scores:
+          enabled: true
+      - trash_id: 722b624f9af1e492284c4bc842153a38  # [Anime] Remux-1080p
+        name: Anime
+        reset_unmatched_scores:
+          enabled: true
 
-    include:
-      # Comment out any of the following includes to disable them
-      - template: radarr-quality-definition-sqp-streaming
-
-      - template: radarr-quality-profile-sqp-1-1080p
-      - template: radarr-custom-formats-sqp-1-1080p
-
-      - template: radarr-quality-profile-sqp-1-2160p-default
-      - template: radarr-custom-formats-sqp-1-2160p
-
-    custom_formats:
-    # 1080p
-      - trash_ids:
-      # Uncomment any of the next six lines to prefer these movie versions
-          # - 570bc9ebecd92723d2d21500f4be314c # Remaster
-          # - eca37840c13c6ef2dd0262b141a5482f # 4K Remaster
-          # - e0c07d59beb37348e975a930d5e50319 # Criterion Collection
-          # - 9d27d9d2181838f76dee150882bdc58c # Masters of Cinema
-          # - db9b4c4b53d312a3ca5f1378f6440fc9 # Vinegar Syndrome
-          # - 957d0f44b592285f26449575e8b1167e # Special Edition
-      # Uncomment the next line if you prefer WEBDL with IMAX Enhanced to BHDStudio
-          # - 9f6cbff8cfe4ebbc1bde14c7b7bec0de # IMAX Enhanced
-
-      # Optional - uncomment any of the following if you want them added to your profile
-          # - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
-          # - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
-          # - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
-          # - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated
-          # - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
-          # - f537cf427b64c38c8e36298f657e4828 # Scene
-        assign_scores_to:
-          - name: SQP-1 (1080p)
-      - trash_ids:
-          - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
-        assign_scores_to:
-          - name: SQP-1 (1080p)
-
-
-    # 4K
-      - trash_ids:
-      # Uncomment any of the next six lines to prefer these movie versions
-          # - 570bc9ebecd92723d2d21500f4be314c # Remaster
-          # - eca37840c13c6ef2dd0262b141a5482f # 4K Remaster
-          # - e0c07d59beb37348e975a930d5e50319 # Criterion Collection
-          # - 9d27d9d2181838f76dee150882bdc58c # Masters of Cinema
-          # - db9b4c4b53d312a3ca5f1378f6440fc9 # Vinegar Syndrome
-          # - 957d0f44b592285f26449575e8b1167e # Special Edition
-      # Uncomment the next line if you prefer 1080p/2160p WEBDL with IMAX Enhanced
-          # - 9f6cbff8cfe4ebbc1bde14c7b7bec0de # IMAX Enhanced
-        assign_scores_to:
-          - name: SQP-1 (2160p)
-
-      # Unwanted
-      - trash_ids:
-      # Uncomment the next six lines to block all x265 HD releases
-          # - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
-        # assign_scores_to:
-          # - name: SQP-1 (2160p)
-            # score: 0
-      # - trash_ids:
-          # - dc98083864ea246d05a42df0d05f81cc # x265 (HD)
-        assign_scores_to:
-          - name: SQP-1 (2160p)
-
-      # Optional
-      - trash_ids:
-          # Uncomment the next two lines if you have a setup that supports HDR10+
-          - b17886cb4158d9fea189859409975758 # HDR10+ Boost
-          - 55a5b50cb416dea5a50c4955896217ab # DV HDR10+ Boost
-
-          # Uncomment any of the following optional custom formats if you want them to be added to
-          # the quality profile
-          # - b6832f586342ef70d9c128d40c07b872 # Bad Dual Groups
-          # - 90cedc1fea7ea5d11298bebd3d1d3223 # EVO (no WEBDL)
-          # - ae9b7c9ebde1f3bd336a8cbd1ec4c5e5 # No-RlsGroup
-          # - 7357cf5161efbf8c4d5d0c30b4815ee2 # Obfuscated
-          # - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
-          # - f537cf427b64c38c8e36298f657e4828 # Scene
-        assign_scores_to:
-          - name: SQP-1 (2160p)
-
-      # Optional SDR
-      # Only ever use ONE of the following custom formats:
-      # SDR - block ALL SDR releases
-      # SDR (no WEBDL) - block UHD/4k Remux and Bluray encode SDR releases, but allow SDR WEB
-      - trash_ids:
-          # - 9c38ebb7384dada637be8899efa68e6f # SDR
-          # - 25c12f78430a3a23413652cbd1d48d77 # SDR (no WEBDL)
-        assign_scores_to:
-          - name: SQP-1 (2160p)
+    custom_format_groups:
+      add:
+        - trash_id: ff204bbcecdd487d1cefcefdbf0c278d  # [Optional] Golden Rule UHD
+        - trash_id: a3ac6af01d78e4f21fcb75f601ac96df  # [Unwanted] Unwanted Formats
+        - trash_id: 7fc2751eef7e6bdc70b74136e5e35c76  # [HDR Formats] DV (w/o HDR fallback)
+        - trash_id: 1616617ab3a14397a2b2321bcbda44d1  # [HDR Formats] DV Boost
+        # - trash_id: b29413a7487478fe98228ce79e5689e4  # [HDR Formats] HDR10+ Boost
+        - trash_id: 47f0d69750de9e16855915fa73bb7b08  # [HDR Formats] SDR
+          select:
+            - 25c12f78430a3a23413652cbd1d48d77  # SDR (no WEBDL)
