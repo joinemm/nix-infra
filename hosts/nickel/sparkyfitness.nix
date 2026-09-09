@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   mkBackup,
   pkgs,
@@ -7,6 +8,7 @@
 }:
 let
   domain = "fitness.lab.joinemm.dev";
+  sparkyfitnessPackages = inputs.sparkyfitness.packages.${pkgs.stdenv.hostPlatform.system};
 
   databaseBackup = pkgs.writeShellApplication {
     name = "sparkyfitness-database-backup";
@@ -25,13 +27,20 @@ let
   databaseDump = "/run/restic-backups-sparkyfitness/sparkyfitness.sql.gz";
 in
 {
+  imports = [
+    inputs.sparkyfitness.nixosModules.default
+  ];
+
   sops.secrets.sparkyfitness-env.owner = "root";
 
   services.sparkyfitness = {
     enable = true;
+    backendPackage = sparkyfitnessPackages.sparkyfitness-server;
+    frontendPackage = sparkyfitnessPackages.sparkyfitness-frontend;
     frontendUrl = "https://${domain}";
     environmentFile = config.sops.secrets.sparkyfitness-env.path;
 
+    garmin.package = sparkyfitnessPackages.sparkyfitness-garmin;
     nginx.virtualHost = domain;
   };
 

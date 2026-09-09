@@ -1,5 +1,5 @@
 {
-  services.journald.extraConfig = "SystemMaxUse=1G";
+  services.journald.settings.Journal.SystemMaxUse = "1G";
 
   nix.optimise.automatic = true;
   nix.gc = {

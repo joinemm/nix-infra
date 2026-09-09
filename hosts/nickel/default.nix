@@ -24,7 +24,6 @@
     inputs.sops-nix.nixosModules.sops
     inputs.nix-topology.nixosModules.default
     inputs.hjem.nixosModules.default
-    inputs.sparkyfitness.nixosModules.sparkyfitness
     ./arr.nix
     ./disk-config.nix
     ./gatus.nix

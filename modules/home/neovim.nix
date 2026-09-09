@@ -300,7 +300,7 @@
 
     statusline.lualine = {
       enable = true;
-      globalStatus = false;
+      setupOpts.options.globalstatus = false;
     };
 
     theme = {

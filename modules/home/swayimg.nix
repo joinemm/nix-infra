@@ -1,36 +1,46 @@
 {
   programs.swayimg = {
     enable = true;
-    settings = {
-      general = {
-        overlay = "no";
-      };
-      viewer = {
-        window = "#000000";
-      };
-      list = {
-        order = "mtime";
-        reverse = "yes";
-        all = "yes";
-      };
-      info = {
-        info_timeout = 1;
-      };
-      "keys.viewer" = {
-        ScrollUp = "zoom +5";
-        ScrollDown = "zoom -5";
-        j = "prev_file";
-        k = "next_file";
-        Left = "prev_file";
-        Right = "next_file";
-        b = "exec setbg \"%\"";
-      };
-      "keys.gallery" = {
-        ScrollUp = "thumb +20";
-        ScrollDown = "thumb -20";
-        j = "page_down";
-        k = "page_up";
-      };
-    };
+    initLua = ''
+      swayimg.overlay = false
+      swayimg.imagelist.order = "mtime"
+      swayimg.imagelist.reverse = true
+      swayimg.imagelist.adjacent = true
+      swayimg.text.timeout = 1
+
+      swayimg.viewer.set_window_background(0xff000000)
+
+      swayimg.viewer.on_mouse("ScrollUp", function()
+        swayimg.viewer.scale = swayimg.viewer.scale + 0.05
+      end)
+      swayimg.viewer.on_mouse("ScrollDown", function()
+        swayimg.viewer.scale = swayimg.viewer.scale - 0.05
+      end)
+      swayimg.viewer.on_key({ "j", "left" }, function()
+        swayimg.viewer.open("prev")
+      end)
+      swayimg.viewer.on_key({ "k", "right" }, function()
+        swayimg.viewer.open("next")
+      end)
+      swayimg.viewer.on_key("b", function()
+        local image = swayimg.viewer.get_image()
+        if image then
+          os.execute("setbg " .. string.format("%q", image.path))
+        end
+      end)
+
+      swayimg.gallery.on_mouse("ScrollUp", function()
+        swayimg.gallery.thumb_size = swayimg.gallery.thumb_size + 20
+      end)
+      swayimg.gallery.on_mouse("ScrollDown", function()
+        swayimg.gallery.thumb_size = swayimg.gallery.thumb_size - 20
+      end)
+      swayimg.gallery.on_key("j", function()
+        swayimg.gallery.select("pgdown")
+      end)
+      swayimg.gallery.on_key("k", function()
+        swayimg.gallery.select("pgup")
+      end)
+    '';
   };
 }
