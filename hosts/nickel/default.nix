@@ -26,7 +26,6 @@
     inputs.hjem.nixosModules.default
     ./arr.nix
     ./disk-config.nix
-    ./gatus.nix
     ./home-assistant.nix
     ./immich.nix
     ./homepage.nix
