@@ -34,7 +34,19 @@ in
     enable = true;
     inherit peerPort;
     vpn.enable = true;
-    extraConfig = { };
+    extraConfig = {
+      BitTorrent = {
+        "Session\\MaxActiveDownloads" = 10;
+        "Session\\MaxActiveTorrents" = 20;
+      };
+    };
+  };
+
+  # only accessible from local network
+  # TODO: OIDC
+  systemd.services.qui.environment = {
+    QUI__AUTH_DISABLED = "true";
+    QUI__I_ACKNOWLEDGE_THIS_IS_A_BAD_IDEA = "true";
   };
 
   nixarr = {
