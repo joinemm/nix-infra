@@ -24,6 +24,11 @@
   ];
 
   nixpkgs.hostPlatform = "aarch64-linux";
+  boot.kernelPackages = lib.mkForce (
+    pkgs.linuxPackagesFor (
+      pkgs.callPackage "${inputs.nixos-hardware}/raspberry-pi/common/kernel.nix" { rpiVersion = 4; }
+    )
+  );
   networking.hostName = "zinc";
   system.stateVersion = "24.05";
 
