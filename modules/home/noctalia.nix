@@ -19,7 +19,6 @@ in
   ];
 
   home.packages = [
-    pkgs.ddcutil
     sunsetr
   ];
 
@@ -149,7 +148,6 @@ in
       };
 
       brightness = {
-        enable_ddcutil = true;
         minimum_brightness = 0.10;
       };
 
@@ -299,7 +297,7 @@ in
           type = "custom_button";
           glyph = "moon";
           tooltip = "Toggle night light schedule";
-          command = ''
+          actions.left = ''
             sunsetr preset "$(sunsetr preset list | head -2 | grep -v "$(sunsetr preset active)")"
           '';
         };

@@ -47,6 +47,7 @@ in
   systemd.services.qui.environment = {
     QUI__AUTH_DISABLED = "true";
     QUI__I_ACKNOWLEDGE_THIS_IS_A_BAD_IDEA = "true";
+    QUI__AUTH_DISABLED_ALLOWED_CIDRS = "127.0.0.1/32,192.168.1.0/24";
   };
 
   nixarr = {
