@@ -15,10 +15,9 @@
     GOPATH = "/home/${config.owner}/.local/share/go";
   };
 
-  virtualisation.docker = {
+  virtualisation.podman = {
     enable = true;
-    enableOnBoot = false;
-    autoPrune.enable = true;
+    dockerCompat = true;
   };
 
   # visit astro dev instance from another device such as phone

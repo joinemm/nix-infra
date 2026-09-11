@@ -48,6 +48,7 @@
     };
 
     firewall.enable = true;
+    nftables.enable = true;
   };
 
   services.avahi = {

@@ -22,9 +22,9 @@
         "input"
         "dialout"
         "networkmanager"
-        "docker"
         "adbusers"
-      ];
+      ]
+      ++ lib.optional config.virtualisation.docker.enable "docker";
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGlFqSQFoSSuAS1IjmWBFXie329I5Aqf71QhVOnLTBG+ joonas@athens" # Laptop
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB3h/Aj66ndKFtqpQ8H53tE9KbbO0obThC0qbQQKFQRr joonas@rome" # Desktop
