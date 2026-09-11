@@ -175,7 +175,7 @@
     };
 
     hjem = {
-      url = "github:feel-co/hjem";
+      url = "github:feel-co/hjem/c97ed6999e1190ed69aa4047dc7f530487525920";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
