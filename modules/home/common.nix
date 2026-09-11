@@ -85,6 +85,7 @@
       chromium
       karere
       sone
+      monero-gui
 
       # cli apps
       glow # render markdown on the cli

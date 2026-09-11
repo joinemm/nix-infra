@@ -3,9 +3,42 @@
   config,
   ...
 }:
+let
+  airvpnProfile =
+    { id, remote }:
+    {
+      connection = {
+        inherit id;
+        type = "vpn";
+        autoconnect = false;
+      };
+
+      vpn = {
+        service-type = "org.freedesktop.NetworkManager.openvpn";
+        connection-type = "tls";
+        inherit remote;
+        dev = "tun";
+        ca = "${./airvpn-ca.pem}";
+        cert = "${./airvpn-client.pem}";
+        key = config.sops.secrets.airvpn-client-key.path;
+        tls-crypt = config.sops.secrets.airvpn-tls-crypt.path;
+        auth = "SHA512";
+        remote-cert-tls = "server";
+        push-peer-info = "yes";
+        comp-lzo = "no-by-default";
+        data-ciphers = "AES-256-GCM:AES-256-CBC:AES-192-GCM:AES-192-CBC:AES-128-GCM:AES-128-CBC";
+        data-ciphers-fallback = "AES-256-CBC";
+      };
+
+      ipv4.method = "auto";
+      ipv6.method = "disabled";
+    };
+in
 {
   sops.secrets = {
     vpn-secrets.owner = "root";
+    airvpn-client-key.owner = "root";
+    airvpn-tls-crypt.owner = "root";
   };
 
   networking.hosts = {
@@ -16,6 +49,7 @@
     plugins = with pkgs; [
       networkmanager-openconnect
       networkmanager-fortisslvpn
+      networkmanager-openvpn
     ];
     ensureProfiles = {
       environmentFiles = [
@@ -81,37 +115,14 @@
           };
         };
 
-        AirVPN = {
-          connection = {
-            id = "AirVPN";
-            type = "wireguard";
-            autoconnect = false;
-            interface-name = "airvpn";
-          };
+        AirVPNEurope = airvpnProfile {
+          id = "AirVPN Europe";
+          remote = "europe3.vpn.airdns.org:443";
+        };
 
-          wireguard = {
-            private-key = "$AIRVPN_PRIVATE_KEY";
-            mtu = 1320;
-          };
-
-          # One peer
-          "wireguard-peer.PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=" = {
-            preshared-key = "$AIRVPN_PRESHARED_KEY";
-            endpoint = "europe3.vpn.airdns.org:1637";
-            allowed-ips = "0.0.0.0/0;::/0;";
-          };
-
-          ipv4 = {
-            method = "manual";
-            address1 = "10.138.209.189/32";
-            dns = "10.128.0.1;";
-          };
-
-          ipv6 = {
-            method = "manual";
-            address1 = "fd7d:76ee:e68f:a993:36:bd75:6ac8:7c65/128";
-            dns = "fd7d:76ee:e68f:a993::1;";
-          };
+        AirVPNAmerica = airvpnProfile {
+          id = "AirVPN America";
+          remote = "us3.vpn.airdns.org:443";
         };
       };
     };

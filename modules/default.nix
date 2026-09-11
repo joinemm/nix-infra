@@ -11,7 +11,7 @@ let
         })
         [
           ./keyd.nix
-          ./vpn.nix
+          ./vpn
           ./fonts.nix
           ./nginx.nix
           ./sound.nix
