@@ -31,8 +31,7 @@ in
 
       miso.HostName = "5.161.235.21";
       oxygen.HostName = "65.21.249.145";
-      zinc.HostName = "192.168.1.3";
-      nickel.HostName = "192.168.1.4";
+      nickel.HostName = "192.168.1.20";
 
       oracle = {
         HostName = "129.151.193.22";
