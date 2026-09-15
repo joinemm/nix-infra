@@ -26,6 +26,14 @@ in
       owner = "authelia-${instance}";
       restartUnits = [ service ];
     };
+    authelia_mealie_client_secret_digest = {
+      owner = "authelia-${instance}";
+      restartUnits = [ service ];
+    };
+    authelia_paperless_client_secret_digest = {
+      owner = "authelia-${instance}";
+      restartUnits = [ service ];
+    };
   };
 
   services.authelia.instances.${instance} = {
@@ -115,7 +123,7 @@ in
               policy = "one_factor";
               subject = [
                 "group:admin"
-                "group:wife"
+                "group:family"
               ];
             }
           ];
@@ -152,6 +160,27 @@ in
                   - profile
                   - email
                   - immich
+                consent_mode: implicit
+              - client_id: mealie
+                client_name: Mealie
+                client_secret: {{ secret "${config.sops.secrets.authelia_mealie_client_secret_digest.path}" | squote }}
+                authorization_policy: family
+                pkce_challenge_method: S256
+                redirect_uris:
+                  - https://mealie.lab.joinemm.dev/login
+                scopes:
+                  - openid
+                  - profile
+                  - email
+                  - groups
+                consent_mode: implicit
+              - client_id: paperless
+                client_name: Paperless
+                client_secret: {{ secret "${config.sops.secrets.authelia_paperless_client_secret_digest.path}" | squote }}
+                authorization_policy: family
+                pkce_challenge_method: S256
+                redirect_uris:
+                  - https://paperless.lab.joinemm.dev/accounts/oidc/authelia/login/callback/
                 consent_mode: implicit
       '')
     ];
