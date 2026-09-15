@@ -52,7 +52,26 @@ in
         };
       };
 
-      access_control.default_policy = "two_factor";
+      access_control = {
+        default_policy = "two_factor";
+        rules = [
+          {
+            domain = [
+              "radarr.lab.joinemm.dev"
+              "sonarr.lab.joinemm.dev"
+            ];
+            subject = "group:admin";
+            policy = "one_factor";
+          }
+          {
+            domain = [
+              "radarr.lab.joinemm.dev"
+              "sonarr.lab.joinemm.dev"
+            ];
+            policy = "deny";
+          }
+        ];
+      };
 
       session.cookies = [
         {

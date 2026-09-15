@@ -9,6 +9,23 @@
 let
   peerPort = 49035;
   jellyfinPort = 8096;
+  autheliaAuth = ''
+    auth_request /internal/authelia/authz;
+    auth_request_set $redirection_url $upstream_http_location;
+    error_page 401 =302 $redirection_url;
+  '';
+  autheliaLocation = {
+    proxyPass = "http://127.0.0.1:9091/api/authz/auth-request";
+    extraConfig = ''
+      internal;
+      proxy_pass_request_body off;
+      proxy_set_header Content-Length "";
+      proxy_set_header Connection "";
+      proxy_set_header X-Original-Method $request_method;
+      proxy_set_header X-Original-URL $scheme://$host$request_uri;
+      proxy_set_header X-Forwarded-For $remote_addr;
+    '';
+  };
 in
 {
   imports = [
@@ -62,6 +79,9 @@ in
     UMask = lib.mkForce "0002"; # make jellyfin write files with group write access
   };
 
+  systemd.services.sonarr.environment.SONARR__AUTH__METHOD = "External";
+  systemd.services.radarr.environment.RADARR__AUTH__METHOD = "External";
+
   nixarr = {
     jellyfin.enable = true; # 8096
     prowlarr.enable = true; # 9696
@@ -107,18 +127,22 @@ in
     "radarr.lab.joinemm.dev" = {
       useACMEHost = "lab.joinemm.dev";
       forceSSL = true;
+      locations."/internal/authelia/authz" = autheliaLocation;
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString config.nixarr.radarr.port}";
         proxyWebsockets = true;
+        extraConfig = autheliaAuth;
       };
     };
 
     "sonarr.lab.joinemm.dev" = {
       useACMEHost = "lab.joinemm.dev";
       forceSSL = true;
+      locations."/internal/authelia/authz" = autheliaLocation;
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString config.nixarr.sonarr.port}";
         proxyWebsockets = true;
+        extraConfig = autheliaAuth;
       };
     };
 
