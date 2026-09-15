@@ -3,6 +3,11 @@
   ...
 }:
 {
+  sops.secrets.grafana_oidc_client_secret = {
+    owner = "grafana";
+    restartUnits = [ "grafana.service" ];
+  };
+
   services.prometheus = {
     enable = true;
     port = 9090;
@@ -64,6 +69,27 @@
       analytics = {
         reporting_enabled = false;
         feedback_links_enabled = false;
+      };
+
+      auth.disable_login_form = true;
+      "auth.basic".enabled = false;
+
+      "auth.generic_oauth" = {
+        enabled = true;
+        name = "Authelia";
+        client_id = "grafana";
+        client_secret = "$__file{${config.sops.secrets.grafana_oidc_client_secret.path}}";
+        scopes = "openid profile email groups";
+        auth_url = "https://auth.lab.joinemm.dev/api/oidc/authorization";
+        token_url = "https://auth.lab.joinemm.dev/api/oidc/token";
+        api_url = "https://auth.lab.joinemm.dev/api/oidc/userinfo";
+        use_pkce = true;
+        auth_style = "InHeader";
+        login_attribute_path = "preferred_username";
+        groups_attribute_path = "groups";
+        name_attribute_path = "name";
+        allow_assign_grafana_admin = true;
+        role_attribute_path = "contains(groups[*], 'admins') && 'GrafanaAdmin' || 'Viewer'";
       };
 
       security.secret_key = "6e181acc464d46c15a3e4f905fd566c876bb9d32d7e6055289251b184c356bf5";

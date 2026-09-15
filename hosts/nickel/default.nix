@@ -25,6 +25,7 @@
     inputs.nix-topology.nixosModules.default
     inputs.hjem.nixosModules.default
     ./arr.nix
+    ./authelia.nix
     ./disk-config.nix
     ./home-assistant.nix
     ./immich.nix
