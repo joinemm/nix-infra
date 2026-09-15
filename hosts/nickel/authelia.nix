@@ -22,6 +22,10 @@ in
       owner = "authelia-${instance}";
       restartUnits = [ service ];
     };
+    authelia_immich_client_secret_digest = {
+      owner = "authelia-${instance}";
+      restartUnits = [ service ];
+    };
   };
 
   services.authelia.instances.${instance} = {
@@ -65,12 +69,39 @@ in
         # selection_criteria.user_verification = "discouraged";
       };
 
+      definitions.user_attributes.immich_role.expression = ''"admin" in groups ? "admin" : "user"'';
+
       identity_providers.oidc.claims_policies.grafana.id_token = [
         "email"
         "name"
         "groups"
         "preferred_username"
       ];
+      identity_providers.oidc.claims_policies.immich.custom_claims.immich_role = { };
+      identity_providers.oidc.scopes.immich.claims = [ "immich_role" ];
+      identity_providers.oidc.authorization_policies = {
+        admin_only = {
+          default_policy = "deny";
+          rules = [
+            {
+              policy = "one_factor";
+              subject = "group:admin";
+            }
+          ];
+        };
+        family = {
+          default_policy = "deny";
+          rules = [
+            {
+              policy = "one_factor";
+              subject = [
+                "group:admin"
+                "group:wife"
+              ];
+            }
+          ];
+        };
+      };
     };
 
     settingsFiles = [
@@ -82,10 +113,26 @@ in
                 client_name: Grafana
                 client_secret: {{ secret "${config.sops.secrets.authelia_grafana_client_secret_digest.path}" | squote }}
                 claims_policy: grafana
-                authorization_policy: one_factor
+                authorization_policy: admin_only
                 pkce_challenge_method: S256
                 redirect_uris:
                   - https://grafana.lab.joinemm.dev/login/generic_oauth
+                consent_mode: implicit
+              - client_id: immich
+                client_name: Immich
+                client_secret: {{ secret "${config.sops.secrets.authelia_immich_client_secret_digest.path}" | squote }}
+                authorization_policy: family
+                claims_policy: immich
+                pkce_challenge_method: S256
+                redirect_uris:
+                  - https://immich.lab.joinemm.dev/auth/login
+                  - https://immich.lab.joinemm.dev/user-settings
+                  - app.immich:///oauth-callback
+                scopes:
+                  - openid
+                  - profile
+                  - email
+                  - immich
                 consent_mode: implicit
       '')
     ];

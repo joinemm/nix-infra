@@ -89,7 +89,7 @@
         groups_attribute_path = "groups";
         name_attribute_path = "name";
         allow_assign_grafana_admin = true;
-        role_attribute_path = "contains(groups[*], 'admins') && 'GrafanaAdmin' || 'Viewer'";
+        role_attribute_path = "contains(groups[*], 'admin') && 'GrafanaAdmin' || 'Viewer'";
       };
 
       security.secret_key = "6e181acc464d46c15a3e4f905fd566c876bb9d32d7e6055289251b184c356bf5";
