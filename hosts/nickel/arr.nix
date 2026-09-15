@@ -79,6 +79,43 @@ in
     UMask = lib.mkForce "0002"; # make jellyfin write files with group write access
   };
 
+  services.jellyfin = {
+    forceEncodingConfig = true;
+
+    hardwareAcceleration = {
+      enable = true;
+      type = "qsv";
+      device = "/dev/dri/renderD128";
+    };
+
+    transcoding = {
+      enableHardwareEncoding = true;
+      enableIntelLowPowerEncoding = true;
+      enableSubtitleExtraction = true;
+      enableToneMapping = true;
+      throttleTranscoding = false;
+
+      # Match the codec profiles exposed by the UHD 770's iHD driver.
+      hardwareDecodingCodecs = {
+        h264 = true;
+        hevc = true;
+        hevc10bit = true;
+        hevcRExt10bit = true;
+        hevcRExt12bit = true;
+        mpeg2 = true;
+        vc1 = true;
+        vp8 = false;
+        vp9 = true;
+        av1 = true;
+      };
+
+      hardwareEncodingCodecs = {
+        hevc = true;
+        av1 = false; # AV1 hardware encoding requires a newer Intel GPU.
+      };
+    };
+  };
+
   systemd.services.sonarr.environment.SONARR__AUTH__METHOD = "External";
   systemd.services.radarr.environment.RADARR__AUTH__METHOD = "External";
 
