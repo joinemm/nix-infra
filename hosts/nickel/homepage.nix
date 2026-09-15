@@ -26,7 +26,7 @@
           {
             audiobookshelf = {
               icon = "audiobookshelf.png";
-              href = "https://audio.lab.joinemm.dev";
+              href = "https://shelf.lab.joinemm.dev";
               widget = {
                 type = "audiobookshelf";
                 url = "http://127.0.0.1:${toString config.services.audiobookshelf.port}";

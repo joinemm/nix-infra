@@ -34,6 +34,10 @@ in
       owner = "authelia-${instance}";
       restartUnits = [ service ];
     };
+    authelia_audiobookshelf_client_secret_digest = {
+      owner = "authelia-${instance}";
+      restartUnits = [ service ];
+    };
   };
 
   services.authelia.instances.${instance} = {
@@ -181,6 +185,17 @@ in
                 pkce_challenge_method: S256
                 redirect_uris:
                   - https://paperless.lab.joinemm.dev/accounts/oidc/authelia/login/callback/
+                consent_mode: implicit
+              - client_id: audiobookshelf
+                client_name: Audiobookshelf
+                client_secret: {{ secret "${config.sops.secrets.authelia_audiobookshelf_client_secret_digest.path}" | squote }}
+                authorization_policy: family
+                pkce_challenge_method: S256
+                redirect_uris:
+                  - https://shelf.lab.joinemm.dev/auth/openid/callback
+                  - https://shelf.lab.joinemm.dev/auth/openid/mobile-redirect
+                  - https://shelf.lab.joinemm.dev/audiobookshelf/auth/openid/callback
+                  - https://shelf.lab.joinemm.dev/audiobookshelf/auth/openid/mobile-redirect
                 consent_mode: implicit
       '')
     ];
