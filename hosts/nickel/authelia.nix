@@ -38,6 +38,10 @@ in
       owner = "authelia-${instance}";
       restartUnits = [ service ];
     };
+    authelia_qui_client_secret_digest = {
+      owner = "authelia-${instance}";
+      restartUnits = [ service ];
+    };
   };
 
   services.authelia.instances.${instance} = {
@@ -196,6 +200,14 @@ in
                   - https://shelf.lab.joinemm.dev/auth/openid/mobile-redirect
                   - https://shelf.lab.joinemm.dev/audiobookshelf/auth/openid/callback
                   - https://shelf.lab.joinemm.dev/audiobookshelf/auth/openid/mobile-redirect
+                consent_mode: implicit
+              - client_id: qui
+                client_name: Qui
+                client_secret: {{ secret "${config.sops.secrets.authelia_qui_client_secret_digest.path}" | squote }}
+                authorization_policy: admin_only
+                pkce_challenge_method: S256
+                redirect_uris:
+                  - https://qbit.lab.joinemm.dev/api/auth/oidc/callback
                 consent_mode: implicit
       '')
     ];

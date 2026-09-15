@@ -34,6 +34,10 @@ in
 
   sops.secrets = {
     "wireguard.conf".owner = "root";
+    qui_oidc_client_secret = {
+      owner = "qbittorrent";
+      restartUnits = [ "qui.service" ];
+    };
   };
 
   networking.firewall = {
@@ -59,12 +63,13 @@ in
     };
   };
 
-  # only accessible from local network
-  # TODO: OIDC
   systemd.services.qui.environment = {
-    QUI__AUTH_DISABLED = "true";
-    QUI__I_ACKNOWLEDGE_THIS_IS_A_BAD_IDEA = "true";
-    QUI__AUTH_DISABLED_ALLOWED_CIDRS = "127.0.0.1/32,192.168.1.0/24";
+    QUI__OIDC_ENABLED = "true";
+    QUI__OIDC_ISSUER = "https://auth.lab.joinemm.dev";
+    QUI__OIDC_CLIENT_ID = "qui";
+    QUI__OIDC_CLIENT_SECRET_FILE = config.sops.secrets.qui_oidc_client_secret.path;
+    QUI__OIDC_REDIRECT_URL = "https://qbit.lab.joinemm.dev/api/auth/oidc/callback";
+    QUI__OIDC_DISABLE_BUILT_IN_LOGIN = "true";
   };
 
   nixarr = {
