@@ -224,6 +224,21 @@ in
       }
       // ssl;
 
+      "auth.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://10.6.9.2:9091";
+        };
+      }
+      // ssl;
+
+      "users.joinemm.dev" = {
+        locations."/" = {
+          proxyPass = "http://10.6.9.2:17170";
+          proxyWebsockets = true;
+        };
+      }
+      // ssl;
+
       "photos.joinemm.dev" = {
         locations."/" = {
           proxyPass = "http://10.6.9.2:2284";

@@ -69,7 +69,11 @@
           "ap.lan" = "192.168.1.2";
           "pi.lan" = "192.168.1.3";
           "nas.lan" = "192.168.1.4";
-          "lab.joinemm.dev" = "192.168.1.4";
+          "lab.joinemm.dev" = "192.168.1.20";
+          "auth.joinemm.dev" = "192.168.1.20";
+          "request.joinemm.dev" = "192.168.1.20";
+          "stream.joinemm.dev" = "192.168.1.20";
+          "users.joinemm.dev" = "192.168.1.20";
           "pi.lab.joinemm.dev" = "192.168.1.3";
         };
       };

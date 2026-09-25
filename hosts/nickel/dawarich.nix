@@ -23,7 +23,14 @@ let
   };
 in
 {
-  sops.secrets.dawarich-geocoding-env.owner = "dawarich";
+  sops.secrets = {
+    dawarich-geocoding-env.owner = "dawarich";
+    dawarich_oidc_client_secret = { };
+  };
+  sops.templates."dawarich-oidc.env" = {
+    owner = "dawarich";
+    content = "OIDC_CLIENT_SECRET=${config.sops.placeholder.dawarich_oidc_client_secret}";
+  };
 
   services.dawarich = {
     enable = true;
@@ -31,9 +38,15 @@ in
     webPort = 3456;
     environment = {
       APPLICATION_PROTOCOL = "https";
+      OIDC_CLIENT_ID = "dawarich";
+      OIDC_ISSUER = "https://auth.lab.joinemm.dev";
+      OIDC_PKCE_ENABLED = "true";
+      OIDC_PROVIDER_NAME = "Authelia";
+      OIDC_REDIRECT_URI = "https://${domain}/users/auth/openid_connect/callback";
     };
     extraEnvFiles = [
       config.sops.secrets.dawarich-geocoding-env.path
+      config.sops.templates."dawarich-oidc.env".path
     ];
   };
 

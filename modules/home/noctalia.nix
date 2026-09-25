@@ -11,7 +11,21 @@ let
   lockTimeout = 10 * 60 + 10;
   suspendTimeout = 20 * 60;
 
-  sunsetr = inputs.sunsetr.packages.${pkgs.stdenv.hostPlatform.system}.sunsetr;
+  # sunsetr polls both Wayland hotplug and its IPC socket every 10 ms, even
+  # while the temperature is stable and its next transition is hours away.
+  # Keep both features responsive without continuously waking the CPU.
+  sunsetr = inputs.sunsetr.packages.${pkgs.stdenv.hostPlatform.system}.sunsetr.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      substituteInPlace src/core/mod.rs \
+        --replace-fail \
+          'let mut poll_interval = Duration::from_millis(10);' \
+          'let mut poll_interval = Duration::from_secs(60);'
+      substituteInPlace src/state/ipc/server.rs \
+        --replace-fail \
+          'event_receiver.recv_timeout(Duration::from_millis(10))' \
+          'event_receiver.recv_timeout(Duration::from_secs(1))'
+    '';
+  });
 in
 {
   imports = [
@@ -115,7 +129,8 @@ in
 
     settings = {
       audio = {
-        enable_sounds = true;
+        # Avoid keeping the audio codec awake for Noctalia's UI feedback.
+        enable_sounds = false;
       };
 
       bar.default = {

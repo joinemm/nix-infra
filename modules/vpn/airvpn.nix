@@ -1,4 +1,3 @@
-{ }:
 let
   airvpnProfile =
     { id, remote }:

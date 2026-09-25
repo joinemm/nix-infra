@@ -29,6 +29,7 @@
     ./disk-config.nix
     ./home-assistant.nix
     ./immich.nix
+    ./lldap.nix
     ./homepage.nix
     ./network-share.nix
     ./nginx.nix
@@ -54,6 +55,7 @@
   };
 
   networking.useDHCP = true;
+  networking.enableIPv6 = false;
 
   boot.kernelModules = [ "kvm-intel" ];
 
@@ -135,6 +137,16 @@
         }
         {
           port = "5055";
+          proto = "tcp";
+          group = "funnel";
+        }
+        {
+          port = "9091";
+          proto = "tcp";
+          group = "funnel";
+        }
+        {
+          port = "17170";
           proto = "tcp";
           group = "funnel";
         }

@@ -29,8 +29,16 @@ in
     profiles."default" = {
       isDefault = true;
       extensions = with addons.thunderbird-addons; [
-        tbsync
-        eas-4-tbsync
+        (tbsync.override {
+          version = "5.3.8";
+          url = "https://github.com/jobisoft/TbSync/releases/download/v5.3.8/tbsync_5_3_8_beta.xpi";
+          sha256 = "a6e59db46deb7ee096c1b2bbbca7b75cdbc2b4a216c0fa0bbd90ae8a243f9a0b";
+        })
+        (eas-4-tbsync.override {
+          version = "5.3.11";
+          url = "https://github.com/jobisoft/EAS-4-TbSync/releases/download/v5.3.11/eas-4-tbsync_5_3_11_beta.xpi";
+          sha256 = "6d464761d934209f26e76e615edc2914bc54a10e6b132a0dfc3bd031540098c2";
+        })
       ];
       settings = {
         "extensions.autoDisableScopes" = 0;

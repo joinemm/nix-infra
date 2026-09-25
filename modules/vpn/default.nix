@@ -4,6 +4,9 @@
   ...
 }:
 {
+  imports = [
+    ./mullvad.nix
+  ];
   sops.secrets = {
     vpn-secrets.owner = "root";
   };

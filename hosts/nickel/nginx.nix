@@ -57,5 +57,17 @@
       dnsPropagationCheck = true;
       environmentFile = config.sops.secrets.cloudflare_env.path;
     };
+    certs."public-services" = {
+      domain = "auth.joinemm.dev";
+      extraDomainNames = [
+        "request.joinemm.dev"
+        "stream.joinemm.dev"
+        "users.joinemm.dev"
+      ];
+      dnsProvider = "cloudflare";
+      dnsPropagationCheck = true;
+      extraLegoFlags = [ "--dns.propagation-wait=120s" ];
+      environmentFile = config.sops.secrets.cloudflare_env.path;
+    };
   };
 }
