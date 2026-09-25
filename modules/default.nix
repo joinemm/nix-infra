@@ -46,6 +46,7 @@ let
           ./users.nix
           ./cache.nix
           ./fwupd.nix
+          ./floppy.nix
         ]
     )
     // {

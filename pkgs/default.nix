@@ -1,4 +1,4 @@
-{ self, ... }:
+{ inputs, self, ... }:
 {
   perSystem =
     { pkgs, ... }:
@@ -11,6 +11,14 @@
         hypruler = pkgs.callPackage ./hypruler { };
         dev-manager-desktop = pkgs.callPackage ./dev-manager-desktop { };
         rishot = pkgs.callPackage ./rishot { };
+        floppy = pkgs.callPackage ./floppy {
+          inherit (inputs)
+            floppy-src
+            pyproject-build-systems
+            pyproject-nix
+            uv2nix
+            ;
+        };
 
         nix-show-deployment = pkgs.writeShellScriptBin "nix-show-deployment" ''
           MODIFIED="$(${pkgs.coreutils}/bin/stat -c %y /run/current-system)"
