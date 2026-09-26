@@ -18,7 +18,6 @@
   networking.networkmanager = {
     plugins = with pkgs; [
       networkmanager-openconnect
-      networkmanager-fortisslvpn
       networkmanager-openvpn
     ];
     ensureProfiles = {
