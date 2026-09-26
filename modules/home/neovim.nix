@@ -23,6 +23,7 @@
             PULLREQ_EDITMSG$
             MERGE_MSG$
             TAG_EDITMSG$
+        api_url = https://wakapi.dev/api
         api_key=${config.sops.placeholder.wakatime-api-key}
       '';
     path = "${config.home.homeDirectory}/.wakatime.cfg";
@@ -241,16 +242,6 @@
       rust = {
         enable = true;
         format.enable = true;
-        # TODO: vim.lsp.servers.<server_name>.init_options
-        # lsp.opts = ''
-        #   ['rust-analyzer'] = {
-        #     cargo = {allFeature = true},
-        #     checkOnSave = true,
-        #     procMacro = {
-        #       enable = true,
-        #     },
-        #   },
-        # '';
       };
       python = {
         enable = true;
@@ -263,7 +254,6 @@
       # web dev
       typescript = {
         enable = true;
-        # format.type = [ "prettier" ];
       };
       css.enable = true;
       html.enable = true;
