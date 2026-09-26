@@ -1,8 +1,74 @@
-{ pkgs, ... }: {
+{ lib, pkgs, ... }:
+let
+  mirrorIntegratedDisplay = pkgs.writeShellApplication {
+    name = "mirror-integrated-display";
+    runtimeInputs = with pkgs; [
+      jq
+      libnotify
+      niri
+      tofi
+      wl-mirror
+    ];
+    text = ''
+      outputs="$(niri msg --json outputs)"
+
+      source_output="$(
+        jq -r '
+          to_entries[]
+          | select((.key | startswith("eDP-")) and .value.logical != null)
+          | .key
+        ' <<< "$outputs" | head -n1
+      )"
+
+      if [[ -z "$source_output" ]]; then
+        notify-send "Screen mirroring" "No active integrated display found"
+        exit 1
+      fi
+
+      mapfile -t target_outputs < <(
+        jq -r '
+          to_entries[]
+          | select((.key | startswith("eDP-") | not) and .value.logical != null)
+          | .key
+        ' <<< "$outputs"
+      )
+
+      case "''${#target_outputs[@]}" in
+        0)
+          notify-send "Screen mirroring" "No active external display found"
+          exit 1
+          ;;
+        1)
+          target_output="''${target_outputs[0]}"
+          ;;
+        *)
+          target_output="$(
+            printf '%s\n' "''${target_outputs[@]}" \
+              | tofi --prompt-text="Mirror to: "
+          )" || exit 0
+          [[ -n "$target_output" ]] || exit 0
+          ;;
+      esac
+
+      exec wl-mirror --fullscreen-output "$target_output" "$source_output"
+    '';
+  };
+in
+{
   home.packages = with pkgs; [
     brightnessctl
     wlogout
   ];
+
+  xdg.desktopEntries.mirror-integrated-display = {
+    name = "Mirror Integrated Display";
+    genericName = "Screen Mirror";
+    comment = "Mirror the integrated display to an external monitor";
+    icon = "video-display";
+    exec = lib.getExe mirrorIntegratedDisplay;
+    terminal = false;
+    categories = [ "Utility" ];
+  };
 
   programs.niri.extraConfig = ''
     include optional=true "noctalia.kdl"
