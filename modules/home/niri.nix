@@ -245,7 +245,11 @@ in
       };
       "Mod+Shift+S" = {
         hotkey-overlay.title = "Open Screenshot UI";
-        action.spawn = "rishot";
+        action.spawn = [
+          "noctalia"
+          "msg"
+          "screenshot-region"
+        ];
       };
       "Mod+Backspace" = {
         hotkey-overlay.title = "Open Session Menu";

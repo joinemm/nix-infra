@@ -228,6 +228,13 @@ in
         screen_corners.enabled = true;
         polkit_agent = true;
 
+        screenshot = {
+          annotate = true;
+          confirm_region = true;
+          directory = "/home/joonas/pictures/screenshots";
+          skip_annotate_on_copy_save = true;
+        };
+
         panel = {
           clipboard_placement = "attached";
           open_near_click_clipboard = true;
