@@ -42,6 +42,10 @@ in
       owner = "authelia-${instance}";
       restartUnits = [ service ];
     };
+    authelia_dawarich_client_secret_digest = {
+      owner = "authelia-${instance}";
+      restartUnits = [ service ];
+    };
   };
 
   services.authelia.instances.${instance} = {
@@ -208,6 +212,18 @@ in
                 pkce_challenge_method: S256
                 redirect_uris:
                   - https://qbit.lab.joinemm.dev/api/auth/oidc/callback
+                consent_mode: implicit
+              - client_id: dawarich
+                client_name: Dawarich
+                client_secret: {{ secret "${config.sops.secrets.authelia_dawarich_client_secret_digest.path}" | squote }}
+                authorization_policy: family
+                pkce_challenge_method: S256
+                redirect_uris:
+                  - https://dawarich.lab.joinemm.dev/users/auth/openid_connect/callback
+                scopes:
+                  - openid
+                  - profile
+                  - email
                 consent_mode: implicit
       '')
     ];
