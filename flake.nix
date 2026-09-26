@@ -246,6 +246,13 @@
         uv2nix.follows = "uv2nix";
       };
     };
+
+    determinate = {
+      url = "github:DeterminateSystems/determinate";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
   outputs =

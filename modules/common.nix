@@ -7,6 +7,10 @@
   ...
 }:
 {
+  imports = [
+    inputs.determinate.nixosModules.default
+  ];
+
   # disable beeping motherboard speaker
   boot.blacklistedKernelModules = [ "pcspkr" ];
 
@@ -92,11 +96,13 @@
     self.rev or self.dirtyRev or self.lastModified or "unknown"
   );
 
+  documentation.nixos.enable = false;
+
   nix = {
     registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
 
-    package = pkgs.lix;
+    # package = pkgs.lix;
 
     settings = {
       trusted-users = [
@@ -107,8 +113,6 @@
         "nix-command"
         "flakes"
       ];
-
-      extra-deprecated-features = [ "broken-string-escape" ];
 
       accept-flake-config = true;
       allow-import-from-derivation = true;
