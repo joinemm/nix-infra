@@ -10,7 +10,6 @@
         idlehack = pkgs.callPackage ./idlehack { };
         hypruler = pkgs.callPackage ./hypruler { };
         dev-manager-desktop = pkgs.callPackage ./dev-manager-desktop { };
-        rishot = pkgs.callPackage ./rishot { };
         floppy = pkgs.callPackage ./floppy {
           inherit (inputs)
             floppy-src

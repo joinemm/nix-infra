@@ -6,6 +6,7 @@
 {
   imports = [
     ./mullvad.nix
+    ./airvpn.nix
   ];
   sops.secrets = {
     vpn-secrets.owner = "root";

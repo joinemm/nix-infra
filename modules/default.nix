@@ -31,7 +31,6 @@ let
           ./ssh-access.nix
           ./remotebuild.nix
           ./systemd-boot.nix
-          ./node-exporter.nix
           ./virtualization.nix
           ./wayland.nix
           ./dev.nix
