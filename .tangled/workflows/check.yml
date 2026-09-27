@@ -5,7 +5,7 @@ when:
 engine: microvm
 image: nixos
 
-caches:
+substituters:
   cache.joinemm.dev: "cache.joinemm.dev:/xB27CZPB5kZqhM265ExqoHKW3Cltn2R3OZaerATqo4="
 
 steps:
