@@ -46,6 +46,8 @@ let
           ./cache.nix
           ./fwupd.nix
           ./floppy.nix
+          ./fish.nix
+          ./kdeconnect.nix
         ]
     )
     // {
@@ -90,6 +92,8 @@ in
         virtualization
         niri
         accounts
+        fish
+        kdeconnect
       ];
     };
   };

@@ -269,6 +269,10 @@
         mermaid-src.follows = "";
       };
     };
+
+    direnv-instant = {
+      url = "github:Mic92/direnv-instant";
+    };
   };
 
   outputs =

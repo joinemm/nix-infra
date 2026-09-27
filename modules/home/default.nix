@@ -83,7 +83,6 @@ in
   nixosModule =
     {
       inputs,
-      pkgs,
       self,
       config,
       ...
@@ -101,20 +100,5 @@ in
         useGlobalPkgs = true;
         useUserPackages = true;
       };
-
-      # KDE connect firewall rules
-      networking.firewall = rec {
-        allowedTCPPortRanges = [
-          {
-            from = 1714;
-            to = 1764;
-          }
-        ];
-        allowedUDPPortRanges = allowedTCPPortRanges;
-      };
-
-      # Set fish as default shell
-      users.defaultUserShell = pkgs.fish;
-      programs.fish.enable = true;
     };
 }

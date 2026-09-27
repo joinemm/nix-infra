@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
   git-branch-rebase = pkgs.writeShellApplication {
     name = "git-branch-rebase";
@@ -19,6 +19,11 @@ let
   };
 in
 {
+
+  imports = [
+    inputs.direnv-instant.homeModules.direnv-instant
+  ];
+
   home.packages = [
     git-branch-rebase
   ];
@@ -66,4 +71,14 @@ in
           "bass"
         ];
   };
+
+  programs.direnv-instant.enable = true;
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    silent = true;
+  };
+
+  programs.zellij.enable = true;
 }
