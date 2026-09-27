@@ -253,6 +253,22 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    tangled = {
+      url = "git+https://tangled.org/tangled.org/core?ref=refs/tags/v1.14.1-alpha";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        # Disable useless monorepo inputs
+        flake-compat.follows = "";
+        actor-typeahead-src.follows = "";
+        fenix.follows = "";
+        htmx-src.follows = "";
+        htmx-ws-src.follows = "";
+        ibm-plex-mono-src.follows = "";
+        inter-fonts-src.follows = "";
+        lucide-src.follows = "";
+        mermaid-src.follows = "";
+      };
+    };
   };
 
   outputs =
