@@ -8,32 +8,20 @@ let
   specialArgs = {
     inherit inputs self;
   };
+
+  mkHost =
+    modules:
+    lib.nixosSystem {
+      inherit specialArgs modules;
+    };
 in
 {
   flake.nixosConfigurations = {
-    carbon = lib.nixosSystem {
-      inherit specialArgs;
-      modules = [ ./carbon ];
-    };
-    cobalt = lib.nixosSystem {
-      inherit specialArgs;
-      modules = [ ./cobalt ];
-    };
-    oxygen = lib.nixosSystem {
-      inherit specialArgs;
-      modules = [ ./oxygen ];
-    };
-    misobot = lib.nixosSystem {
-      inherit specialArgs;
-      modules = [ ./misobot ];
-    };
-    zinc = lib.nixosSystem {
-      inherit specialArgs;
-      modules = [ ./zinc ];
-    };
-    nickel = lib.nixosSystem {
-      inherit specialArgs;
-      modules = [ ./nickel ];
-    };
+    carbon = mkHost [ ./carbon ];
+    cobalt = mkHost [ ./cobalt ];
+    oxygen = mkHost [ ./oxygen ];
+    misobot = mkHost [ ./misobot ];
+    zinc = mkHost [ ./zinc ];
+    nickel = mkHost [ ./nickel ];
   };
 }

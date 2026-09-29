@@ -13,7 +13,6 @@
     ])
     (with self.nixosModules; [
       zfs
-      wayland
       secure-boot
       cache
       ssh-access

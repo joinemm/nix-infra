@@ -6,8 +6,6 @@
     vulkan-tools
     protontricks
     winetricks
-    unigine-heaven
-    (bottles.override { removeWarningPopup = true; })
     ludusavi
   ];
 

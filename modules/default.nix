@@ -32,14 +32,13 @@ let
           ./remotebuild.nix
           ./systemd-boot.nix
           ./virtualization.nix
-          ./wayland.nix
           ./dev.nix
           ./gc.nix
           ./zfs.nix
           ./graphical.nix
           ./nautilus.nix
           ./hardening.nix
-          ./tpm.nix
+          ./tpm2.nix
           ./nebula
           ./niri.nix
           ./users.nix
@@ -48,6 +47,11 @@ let
           ./floppy.nix
           ./fish.nix
           ./kdeconnect.nix
+          ./nix.nix
+          ./zram.nix
+          ./ly.nix
+          ./swaylock.nix
+          ./nix.nix
         ]
     )
     // {
@@ -64,6 +68,8 @@ in
         hardening
         users
         cache
+        nix
+        zram
       ];
       server = with nixosModules; [
         headless
@@ -94,6 +100,8 @@ in
         accounts
         fish
         kdeconnect
+        ly
+        swaylock
       ];
     };
   };

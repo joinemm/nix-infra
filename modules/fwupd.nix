@@ -30,6 +30,7 @@
     });
   };
 
+  # don't need automatic updates
   systemd.services.fwupd-refresh.enable = false;
   systemd.timers.fwupd-refresh.enable = false;
 }

@@ -71,13 +71,6 @@ in
         "zen.welcome-screen.seen" = true;
         "zen.view.use-single-toolbar" = false;
       };
-      # containers = {
-      #   TII = {
-      #     color = "red";
-      #     icon = "briefcase";
-      #     id = 2;
-      #   };
-      # };
       search = {
         force = true;
         default = "search@kagi.comdefault";

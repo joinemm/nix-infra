@@ -14,9 +14,8 @@
     ])
     (with self.nixosModules; [
       laptop
-      wayland
       secure-boot
-      tpm
+      tpm2
       keyd
       ssh-access
     ])
@@ -35,10 +34,7 @@
 
   networking.hostName = "carbon";
 
-  # Use key-based OpenSSH over Tailscale without exposing port 22 on
-  # physical network interfaces. localhost remains accessible.
   services.openssh.openFirewall = false;
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 22 ];
 
   boot = {
     initrd.availableKernelModules = [

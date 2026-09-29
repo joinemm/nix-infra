@@ -33,6 +33,7 @@
 
   services.lact = {
     enable = true;
+    # TODO: over/underclocking
     # settings = {};
   };
 }

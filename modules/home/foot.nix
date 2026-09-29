@@ -21,7 +21,7 @@
     systemd.user.services.foot.Unit.X-RestartIfChanged = "false";
 
     # use background and foreground from noctalia but override ANSI colors with dracula
-    # because the noctalia themes don't have recognizable color difference
+    # because the noctalia themes don't create enough contrast
     xdg.configFile."foot/foot.ini".text = ''
       include=~/.config/foot/themes/noctalia
       include=~/.config/foot/themes/dracula

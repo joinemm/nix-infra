@@ -1,5 +1,8 @@
-{
-  time.timeZone = "Europe/Helsinki";
+{ lib, ... }: {
+  # mkDefault makes it overrideable by automatic-timezoned
+  time.timeZone = lib.mkDefault "Europe/Helsinki";
+
+  services.automatic-timezoned.enable = true;
 
   i18n = {
     defaultLocale = "fi_FI.UTF-8";
@@ -14,5 +17,8 @@
   };
 
   location.provider = "geoclue2";
-  services.geoclue2.enable = true;
+  services.geoclue2 = {
+    enable = true;
+    geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+  };
 }

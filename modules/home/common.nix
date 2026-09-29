@@ -1,14 +1,10 @@
 {
-  osConfig,
   pkgs,
   inputs,
   self,
   ...
 }:
 {
-  home.stateVersion = osConfig.system.stateVersion;
-  programs.home-manager.enable = true;
-
   imports = [ inputs.nix-index-database.homeModules.nix-index ];
 
   dconf = {
@@ -76,12 +72,9 @@
       prusa-slicer
       nsxiv
       via
-      krita
       kepubify
       vlc
       libreoffice
-      blender
-      arduino-ide
       chromium
       karere
       sone

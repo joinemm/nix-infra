@@ -1,9 +1,10 @@
 { inputs, ... }:
 {
-  imports = with inputs; [
-    flake-root.flakeModule
-    treefmt-nix.flakeModule
+  imports = [
+    inputs.flake-root.flakeModule
+    inputs.treefmt-nix.flakeModule
   ];
+
   perSystem =
     { config, ... }:
     {
@@ -15,15 +16,8 @@
           deadnix.enable = true;
           statix.enable = true;
           shellcheck.enable = true;
-          ormolu.enable = true;
+          shellcheck.excludes = [ ".envrc" ];
           jsonfmt.enable = true;
-        };
-
-        settings.formatter.ormolu = {
-          options = [
-            "--ghc-opt"
-            "-XImportQualifiedPost"
-          ];
         };
       };
 

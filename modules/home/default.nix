@@ -7,19 +7,17 @@ let
         value = x;
       })
       [
-        ./discord
+        ./discord.nix
         ./easyeffects
         ./common.nix
+        ./direnv.nix
         ./thunderbird.nix
-        ./firefox.nix
         ./fish.nix
-        ./flameshot.nix
         ./foot.nix
         ./gaming.nix
         ./git.nix
         ./gpg.nix
         ./gtk.nix
-        ./idle.nix
         ./imv.nix
         ./laptop.nix
         ./mpv.nix
@@ -27,22 +25,21 @@ let
         ./sioyek.nix
         ./ssh.nix
         ./starship.nix
+        ./sunsetr.nix
+        ./swaylock.nix
         ./wayland.nix
-        ./wezterm.nix
         ./xdg.nix
         ./yazi.nix
-        ./zathura.nix
         ./zen.nix
+        ./zellij.nix
         ./zsh.nix
         ./sops.nix
-        ./awww.nix
         ./niri.nix
         ./dsearch.nix
-        ./gammastep.nix
-        ./mako.nix
         ./tofi.nix
         ./swayimg.nix
         ./noctalia.nix
+        ./home-manager.nix
       ]
   );
 
@@ -51,6 +48,7 @@ let
       discord
       easyeffects
       common
+      direnv
       gaming
       git
       gpg
@@ -65,8 +63,11 @@ let
       thunderbird
       sioyek
       starship
+      sunsetr
+      swaylock
       sops
       zen
+      zellij
       wayland
       foot
       niri
@@ -74,6 +75,7 @@ let
       tofi
       swayimg
       noctalia
+      home-manager
       ;
   };
 in

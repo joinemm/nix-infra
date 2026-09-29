@@ -2,6 +2,7 @@
   services.journald.settings.Journal.SystemMaxUse = "1G";
 
   nix.optimise.automatic = true;
+
   nix.gc = {
     automatic = true;
     dates = "weekly";

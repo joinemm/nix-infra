@@ -6,12 +6,11 @@
 {
   environment.systemPackages = with pkgs; [
     brightnessctl
-    mons
     acpi
     powertop
   ];
 
-  # Enablees UPower and power hooks
+  # Enables UPower and power hooks
   powerManagement.enable = true;
 
   # airplane mode button has to work without sudo
@@ -37,8 +36,6 @@
       HandleLidSwitchExternalPower = "suspend";
       HandleLidSwitchDocked = "ignore";
     };
-
-    xserver.xkb.options = "caps:super";
 
     libinput.touchpad = {
       tapping = true;
