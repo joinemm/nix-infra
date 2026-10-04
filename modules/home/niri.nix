@@ -3,6 +3,7 @@ let
   mirrorIntegratedDisplay = pkgs.writeShellApplication {
     name = "mirror-integrated-display";
     runtimeInputs = with pkgs; [
+      coreutils
       jq
       libnotify
       niri
@@ -10,6 +11,34 @@ let
       wl-mirror
     ];
     text = ''
+      pid_file="''${XDG_RUNTIME_DIR:?}/mirror-integrated-display.pid"
+      mirror_title="nix-infra-integrated-display-mirror"
+
+      if [[ -r "$pid_file" ]]; then
+        read -r mirror_pid < "$pid_file" || true
+        managed_instance=false
+
+        if [[ "$mirror_pid" =~ ^[0-9]+$ ]] \
+          && kill -0 "$mirror_pid" 2>/dev/null \
+          && [[ -r "/proc/$mirror_pid/cmdline" ]]; then
+          while IFS= read -r -d "" argument; do
+            if [[ "$argument" == "$mirror_title" ]]; then
+              managed_instance=true
+              break
+            fi
+          done < "/proc/$mirror_pid/cmdline"
+        fi
+
+        if [[ "$managed_instance" == true ]]; then
+          kill "$mirror_pid"
+          rm -f -- "$pid_file"
+          notify-send "Screen mirroring" "Mirror stopped"
+          exit 0
+        fi
+
+        rm -f -- "$pid_file"
+      fi
+
       outputs="$(niri msg --json outputs)"
 
       source_output="$(
@@ -50,7 +79,24 @@ let
           ;;
       esac
 
-      exec wl-mirror --fullscreen-output "$target_output" "$source_output"
+      wl-mirror \
+        --title "$mirror_title" \
+        --fullscreen-output "$target_output" \
+        "$source_output" &
+      mirror_pid=$!
+      printf '%s\n' "$mirror_pid" > "$pid_file"
+
+      cleanup() {
+        if [[ -r "$pid_file" ]]; then
+          read -r recorded_pid < "$pid_file" || true
+          if [[ "$recorded_pid" == "$mirror_pid" ]]; then
+            rm -f -- "$pid_file"
+          fi
+        fi
+      }
+      trap cleanup EXIT
+
+      wait "$mirror_pid"
     '';
   };
 in
@@ -61,9 +107,9 @@ in
   ];
 
   xdg.desktopEntries.mirror-integrated-display = {
-    name = "Mirror Integrated Display";
+    name = "Toggle Integrated Display Mirror";
     genericName = "Screen Mirror";
-    comment = "Mirror the integrated display to an external monitor";
+    comment = "Start or stop mirroring the integrated display to an external monitor";
     icon = "video-display";
     exec = lib.getExe mirrorIntegratedDisplay;
     terminal = false;
@@ -337,51 +383,46 @@ in
         action.close-window = [ ];
       };
 
-      "Mod+Left".action.focus-column-left = [ ];
-      "Mod+Down".action.focus-window-down = [ ];
-      "Mod+Up".action.focus-window-up = [ ];
-      "Mod+Right".action.focus-column-right = [ ];
-      "Mod+H".action.focus-column-left = [ ];
-      "Mod+J".action.focus-window-down = [ ];
-      "Mod+K".action.focus-window-up = [ ];
-      "Mod+L".action.focus-column-right = [ ];
+      "Mod+Left".action.focus-column-or-monitor-left = [ ];
+      "Mod+Down".action.focus-window-or-monitor-down = [ ];
+      "Mod+Up".action.focus-window-or-monitor-up = [ ];
+      "Mod+Right".action.focus-column-or-monitor-right = [ ];
+      "Mod+H".action.focus-column-or-monitor-left = [ ];
+      "Mod+J".action.focus-window-or-monitor-down = [ ];
+      "Mod+K".action.focus-window-or-monitor-up = [ ];
+      "Mod+L".action.focus-column-or-monitor-right = [ ];
 
-      "Mod+Ctrl+Left".action.move-column-left = [ ];
-      "Mod+Ctrl+Down".action.move-window-down = [ ];
-      "Mod+Ctrl+Up".action.move-window-up = [ ];
-      "Mod+Ctrl+Right".action.move-column-right = [ ];
-      "Mod+Ctrl+H".action.move-column-left = [ ];
-      "Mod+Ctrl+J".action.move-window-down = [ ];
-      "Mod+Ctrl+K".action.move-window-up = [ ];
-      "Mod+Ctrl+L".action.move-column-right = [ ];
+      "Mod+Alt+Left".action.move-column-left-or-to-monitor-left = [ ];
+      "Mod+Alt+Down".action.move-column-to-monitor-down = [ ];
+      "Mod+Alt+Up".action.move-column-to-monitor-up = [ ];
+      "Mod+Alt+Right".action.move-column-right-or-to-monitor-right = [ ];
+      "Mod+Alt+H".action.move-column-left-or-to-monitor-left = [ ];
+      "Mod+Alt+J".action.move-column-to-monitor-down = [ ];
+      "Mod+Alt+K".action.move-column-to-monitor-up = [ ];
+      "Mod+Alt+L".action.move-column-right-or-to-monitor-right = [ ];
 
       "Mod+Home".action.focus-column-first = [ ];
       "Mod+End".action.focus-column-last = [ ];
-      "Mod+Ctrl+Home".action.move-column-to-first = [ ];
-      "Mod+Ctrl+End".action.move-column-to-last = [ ];
+      "Mod+Alt+Home".action.move-column-to-first = [ ];
+      "Mod+Alt+End".action.move-column-to-last = [ ];
 
       "Mod+Shift+Left".action.focus-monitor-left = [ ];
       "Mod+Shift+Down".action.focus-monitor-down = [ ];
       "Mod+Shift+Up".action.focus-monitor-up = [ ];
       "Mod+Shift+Right".action.focus-monitor-right = [ ];
-
-      "Mod+Shift+Ctrl+Left".action.move-column-to-monitor-left = [ ];
-      "Mod+Shift+Ctrl+Down".action.move-column-to-monitor-down = [ ];
-      "Mod+Shift+Ctrl+Up".action.move-column-to-monitor-up = [ ];
-      "Mod+Shift+Ctrl+Right".action.move-column-to-monitor-right = [ ];
-      "Mod+Shift+Ctrl+H".action.move-column-to-monitor-left = [ ];
-      "Mod+Shift+Ctrl+J".action.move-column-to-monitor-down = [ ];
-      "Mod+Shift+Ctrl+K".action.move-column-to-monitor-up = [ ];
-      "Mod+Shift+Ctrl+L".action.move-column-to-monitor-right = [ ];
+      "Mod+Shift+H".action.focus-monitor-left = [ ];
+      "Mod+Shift+J".action.focus-monitor-down = [ ];
+      "Mod+Shift+K".action.focus-monitor-up = [ ];
+      "Mod+Shift+L".action.focus-monitor-right = [ ];
 
       "Mod+Page_Down".action.focus-workspace-down = [ ];
       "Mod+Page_Up".action.focus-workspace-up = [ ];
       "Mod+U".action.focus-workspace-down = [ ];
       "Mod+I".action.focus-workspace-up = [ ];
-      "Mod+Ctrl+Page_Down".action.move-column-to-workspace-down = [ ];
-      "Mod+Ctrl+Page_Up".action.move-column-to-workspace-up = [ ];
-      "Mod+Ctrl+U".action.move-column-to-workspace-down = [ ];
-      "Mod+Ctrl+I".action.move-column-to-workspace-up = [ ];
+      "Mod+Alt+Page_Down".action.move-column-to-workspace-down = [ ];
+      "Mod+Alt+Page_Up".action.move-column-to-workspace-up = [ ];
+      "Mod+Alt+U".action.move-column-to-workspace-down = [ ];
+      "Mod+Alt+I".action.move-column-to-workspace-up = [ ];
 
       "Mod+Shift+Page_Down".action.move-workspace-down = [ ];
       "Mod+Shift+Page_Up".action.move-workspace-up = [ ];
@@ -396,24 +437,22 @@ in
         cooldown-ms = 150;
         action.focus-workspace-up = [ ];
       };
-      "Mod+Ctrl+WheelScrollDown" = {
+      "Mod+Alt+WheelScrollDown" = {
         cooldown-ms = 150;
         action.move-column-to-workspace-down = [ ];
       };
-      "Mod+Ctrl+WheelScrollUp" = {
+      "Mod+Alt+WheelScrollUp" = {
         cooldown-ms = 150;
         action.move-column-to-workspace-up = [ ];
       };
 
       "Mod+WheelScrollRight".action.focus-column-right = [ ];
       "Mod+WheelScrollLeft".action.focus-column-left = [ ];
-      "Mod+Ctrl+WheelScrollRight".action.move-column-right = [ ];
-      "Mod+Ctrl+WheelScrollLeft".action.move-column-left = [ ];
+      "Mod+Alt+WheelScrollRight".action.move-column-right = [ ];
+      "Mod+Alt+WheelScrollLeft".action.move-column-left = [ ];
 
       "Mod+Shift+WheelScrollDown".action.focus-column-right = [ ];
       "Mod+Shift+WheelScrollUp".action.focus-column-left = [ ];
-      "Mod+Ctrl+Shift+WheelScrollDown".action.move-column-right = [ ];
-      "Mod+Ctrl+Shift+WheelScrollUp".action.move-column-left = [ ];
 
       "Mod+TouchpadScrollDown" = {
         cooldown-ms = 250;
@@ -441,15 +480,15 @@ in
       "Mod+7".action.focus-workspace = 7;
       "Mod+8".action.focus-workspace = 8;
       "Mod+9".action.focus-workspace = 9;
-      "Mod+Ctrl+1".action.move-column-to-workspace = 1;
-      "Mod+Ctrl+2".action.move-column-to-workspace = 2;
-      "Mod+Ctrl+3".action.move-column-to-workspace = 3;
-      "Mod+Ctrl+4".action.move-column-to-workspace = 4;
-      "Mod+Ctrl+5".action.move-column-to-workspace = 5;
-      "Mod+Ctrl+6".action.move-column-to-workspace = 6;
-      "Mod+Ctrl+7".action.move-column-to-workspace = 7;
-      "Mod+Ctrl+8".action.move-column-to-workspace = 8;
-      "Mod+Ctrl+9".action.move-column-to-workspace = 9;
+      "Mod+Alt+1".action.move-column-to-workspace = 1;
+      "Mod+Alt+2".action.move-column-to-workspace = 2;
+      "Mod+Alt+3".action.move-column-to-workspace = 3;
+      "Mod+Alt+4".action.move-column-to-workspace = 4;
+      "Mod+Alt+5".action.move-column-to-workspace = 5;
+      "Mod+Alt+6".action.move-column-to-workspace = 6;
+      "Mod+Alt+7".action.move-column-to-workspace = 7;
+      "Mod+Alt+8".action.move-column-to-workspace = 8;
+      "Mod+Alt+9".action.move-column-to-workspace = 9;
 
       "Mod+BracketLeft".action.consume-or-expel-window-left = [ ];
       "Mod+BracketRight".action.consume-or-expel-window-right = [ ];
@@ -472,17 +511,17 @@ in
 
       "Mod+R".action.switch-preset-column-width = [ ];
       "Mod+Shift+R".action.switch-preset-window-height = [ ];
-      "Mod+Ctrl+R".action.reset-window-height = [ ];
+      "Mod+Alt+R".action.reset-window-height = [ ];
       "Mod+F".action.maximize-column = [ ];
       "Mod+Shift+F".action.fullscreen-window = [ ];
-      "Mod+Ctrl+F".action.expand-column-to-available-width = [ ];
+      "Mod+Alt+F".action.expand-column-to-available-width = [ ];
 
       "Mod+C".action.spawn = [
         "hyprpicker"
         "-a"
       ];
       "Mod+Shift+C".action.center-column = [ ];
-      "Mod+Ctrl+C".action.center-visible-columns = [ ];
+      "Mod+Alt+C".action.center-visible-columns = [ ];
 
       "Mod+Minus".action.set-column-width = "-10%";
       "Mod+Equal".action.set-column-width = "+10%";

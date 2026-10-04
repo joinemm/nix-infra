@@ -91,11 +91,6 @@
 
   services.fprintd.enable = true;
 
-  environment.etc."way-displays/cfg.yaml".text = ''
-    SCALING: FALSE
-    AUTO_SCALE: FALSE
-  '';
-
   services.niks3-auto-upload.enable = true;
 
   systemd.services.syncthing-init.wantedBy = lib.mkForce [ "syncthing.service" ];
@@ -112,9 +107,21 @@
         height = 1200;
       };
       scale = 1;
-      position = {
-        x = 0;
-        y = 0;
+    };
+
+    services.way-displays = {
+      enable = true;
+      settings = {
+        ARRANGE = "COLUMN";
+        ALIGN = "MIDDLE";
+        ORDER = [
+          "!.*$"
+          "eDP-1"
+        ];
+        SCALING = false;
+        AUTO_SCALE = false;
+        VRR_OFF = [ "!.*$" ];
+        CALLBACK_CMD = "true";
       };
     };
 
