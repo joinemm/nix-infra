@@ -267,11 +267,17 @@
         inter-fonts-src.follows = "";
         lucide-src.follows = "";
         mermaid-src.follows = "";
+        gomod2nix.inputs.flake-utils.follows = "flake-utils";
       };
     };
 
     direnv-instant = {
       url = "github:Mic92/direnv-instant";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+        treefmt-nix.follows = "treefmt-nix";
+      };
     };
   };
 
