@@ -16,9 +16,9 @@ jobs:
         with:
           hatchet-protocol: 'holster'
 
-      - uses: cachix/install-nix-action@v31
+      - uses: DeterminateSystems/nix-installer-action@v23
         with:
-          extra_nix_config: |
+          extra-conf: |
             builders = @/etc/nix/machines
 
       - uses: Mic92/niks3-action@v1
