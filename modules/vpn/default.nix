@@ -12,6 +12,9 @@
     vpn-secrets.owner = "root";
   };
 
+  # OpenConnect needs a NetworkManager secret agent to obtain a fresh login cookie.
+  programs.nm-applet.enable = true;
+
   networking.hosts = {
     "10.151.12.79" = [ "confluence.tii.ae" ];
   };
@@ -35,14 +38,18 @@
           };
 
           vpn = {
-            service-type = "org.freedesktop.NetworkManager.fortisslvpn";
+            service-type = "org.freedesktop.NetworkManager.openconnect";
             gateway = "109.204.204.138:10443";
-            user = "joonas.rautiola@ssrc.fi";
-            trusted-cert = "aac5a1e0e81f2e8438a6dba8f705807d47d76ad747e084ae7b3959460f6ed08f";
+            protocol = "fortinet";
+            cookie-flags = "2";
+            gateway-flags = "2";
+            gwcert-flags = "2";
           };
 
           vpn-secrets = {
-            password = "$OFFICE_VPN_PASSWORD";
+            "form:_login:username" = "joonas.rautiola@ssrc.fi";
+            # Derived from the server certificate matching the old trusted-cert.
+            "certificate:109.204.204.138:10443" = "sha256:286e145c0ae0965a7183d5f068909a00612ea2db1c4a2aaa427b79995567b7a6";
           };
 
           ipv4 = {

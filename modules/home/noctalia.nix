@@ -208,7 +208,10 @@ in
           max_length = 350;
           title_scroll = "on_hover";
         };
-        tray.capsule = true;
+        tray = {
+          capsule = true;
+          hidden = [ "nm-applet" ];
+        };
       };
 
       osd.kinds.lock_keys = false;
