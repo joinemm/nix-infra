@@ -37,6 +37,7 @@ in
     # Welcome to fish, the friendly interactive shell!
     shellInit = ''
       set fish_greeting
+      direnv-instant hook fish | source
     '';
 
     shellAliases = {

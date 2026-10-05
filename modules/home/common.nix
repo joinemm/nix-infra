@@ -61,7 +61,6 @@
       gh
 
       # gui apps
-      spotify
       darktable
       slack
       pavucontrol
@@ -71,7 +70,6 @@
       gimp
       prusa-slicer
       nsxiv
-      via
       kepubify
       vlc
       libreoffice
@@ -104,6 +102,5 @@
     ++ [ inputs.nix-auth.packages.${pkgs.stdenv.hostPlatform.system}.nix-auth ]
     ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
       hypruler
-      dev-manager-desktop
     ]);
 }
