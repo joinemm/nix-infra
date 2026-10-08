@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  osConfig ? { },
+  pkgs,
+  ...
+}:
 let
   mirrorIntegratedDisplay = pkgs.writeShellApplication {
     name = "mirror-integrated-display";
@@ -125,7 +130,8 @@ in
       keyboard = {
         xkb = {
           layout = "eu";
-          options = "caps:super";
+          # keyd handles caps to super so we don't need it in niri
+          options = lib.mkIf (!(osConfig.services.keyd.enable or false)) "caps:super";
         };
         numlock = true;
         repeat-delay = 250;
@@ -199,6 +205,10 @@ in
       {
         matches = [ { namespace = "^noctalia-wallpaper"; } ];
         place-within-backdrop = true;
+      }
+      {
+        matches = [ { namespace = "^noctalia-notification$"; } ];
+        block-out-from = "screencast";
       }
     ];
 

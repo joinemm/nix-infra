@@ -42,7 +42,7 @@
       alternate-scroll-mode=false
 
       [key-bindings]
-      show-urls-launch=Alt_L
+      show-urls-launch=XF86Tools
     '';
 
     xdg.configFile."foot/themes/dracula".text = ''

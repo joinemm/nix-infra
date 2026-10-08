@@ -16,6 +16,7 @@
       secure-boot
       cache
       ssh-access
+      keyd
     ])
     (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd
