@@ -19,6 +19,7 @@
       nginx
       bluetooth
       nebula
+      zfs
     ])
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
@@ -58,6 +59,10 @@
   networking.enableIPv6 = false;
 
   boot.kernelModules = [ "kvm-intel" ];
+  boot.supportedFilesystems = [ "zfs" ];
+  networking.hostId = "deab5f10";
+
+  services.zfs.autoScrub.enable = true;
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
