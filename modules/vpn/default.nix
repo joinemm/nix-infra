@@ -49,7 +49,8 @@
           vpn-secrets = {
             "form:_login:username" = "joonas.rautiola@ssrc.fi";
             # Derived from the server certificate matching the old trusted-cert.
-            "certificate:109.204.204.138:10443" = "sha256:286e145c0ae0965a7183d5f068909a00612ea2db1c4a2aaa427b79995567b7a6";
+            "certificate:109.204.204.138:10443" =
+              "sha256:286e145c0ae0965a7183d5f068909a00612ea2db1c4a2aaa427b79995567b7a6";
           };
 
           ipv4 = {
