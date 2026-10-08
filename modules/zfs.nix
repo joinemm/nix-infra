@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_18;
     zfs.package = pkgs.zfs_unstable;
     zfs.forceImportRoot = false;
   };
