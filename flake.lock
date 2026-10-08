@@ -878,6 +878,26 @@
         "type": "github"
       }
     },
+    "prismix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791233781,
+        "narHash": "sha256-8otIVQr8EVDiAaXLxOcO3WDp8outtawnrVsgy9sogWY=",
+        "ref": "refs/heads/main",
+        "rev": "9e6454152bbef81d2726c4be7b62aa7dba46799d",
+        "revCount": 30,
+        "type": "git",
+        "url": "https://codeberg.org/OliMoli/prismix"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/OliMoli/prismix"
+      }
+    },
     "pyproject-build-systems": {
       "inputs": {
         "nixpkgs": [
@@ -954,6 +974,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "noctalia": "noctalia",
         "nvf": "nvf",
+        "prismix": "prismix",
         "pyproject-build-systems": "pyproject-build-systems",
         "pyproject-nix": "pyproject-nix",
         "rust-overlay": "rust-overlay",

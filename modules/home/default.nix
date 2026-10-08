@@ -20,6 +20,7 @@ let
         ./gtk.nix
         ./imv.nix
         ./laptop.nix
+        ./minecraft.nix
         ./mpv.nix
         ./neovim.nix
         ./sioyek.nix
@@ -54,6 +55,7 @@ let
       gpg
       gtk
       imv
+      minecraft
       mpv
       neovim
       ssh
