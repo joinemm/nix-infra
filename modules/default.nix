@@ -52,6 +52,7 @@ let
           ./ly.nix
           ./swaylock.nix
           ./nix.nix
+          ./printing.nix
         ]
     )
     // {
@@ -102,6 +103,7 @@ in
         kdeconnect
         ly
         swaylock
+        printing
       ];
     };
   };
