@@ -12,7 +12,6 @@
       server
     ])
     (with self.nixosModules; [
-      locale
       tailscale
     ])
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
