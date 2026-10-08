@@ -34,6 +34,8 @@
 
   networking.hostName = "carbon";
 
+  services.geoclue2.enableStatic = false;
+
   services.openssh.openFirewall = false;
 
   boot = {
