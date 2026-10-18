@@ -20,23 +20,6 @@
       };
     in
     {
-      "print.${labDomain}" = {
-        # The printer omits the port in returned IPP URIs, so use standard IPP.
-        # Keep nickel.local working for clients added through the old advertisement.
-        serverAliases = [ "nickel.local" ];
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 631;
-          }
-        ];
-        locations."/ipp/print" = {
-          proxyPass = "http://192.168.1.30:631";
-          extraConfig = ''
-            proxy_request_buffering off;
-          '';
-        };
-      };
       "webdav.${labDomain}" = labCert // {
         locations."/".proxyPass = "http://127.0.0.1:9999";
         extraConfig = ''
@@ -62,9 +45,31 @@
           proxyWebsockets = true;
         };
       };
+      "stream.joinemm.dev" = {
+        useACMEHost = "public-services";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8096";
+          proxyWebsockets = true;
+        };
+      };
+      "request.joinemm.dev" = {
+        useACMEHost = "public-services";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.nixarr.seerr.port}";
+          proxyWebsockets = true;
+        };
+      };
+      "auth.joinemm.dev" = {
+        useACMEHost = "public-services";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:9091";
+          proxyWebsockets = true;
+        };
+      };
     };
-
-  networking.firewall.allowedTCPPorts = [ 631 ];
 
   users.users.nginx.extraGroups = [ "acme" ];
 
