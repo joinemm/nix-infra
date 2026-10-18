@@ -29,6 +29,7 @@ in
         Locked = true;
         Cryptomining = true;
         Fingerprinting = true;
+        SuspectedFingerprinting = true;
       };
     };
     profiles.default = {
@@ -38,7 +39,11 @@ in
         "font.minimum-size.x-western" = 14;
         "font.size.monospace.x-western" = 14;
         "media.hardwaremediakeys.enabled" = false;
-        "privacy.donottrackheader.enabled" = true;
+
+        # sites don't respect the header and it only fingerprints you
+        "privacy.donottrackheader.enabled" = false;
+        "privacy.fingerprintingProtection.overrides" = "+WebGLRenderInfo";
+
         "signon.rememberSignons" = false;
         "extensions.autoDisableScopes" = 0;
         "sidebar.new-sidebar.has-used" = true;
@@ -66,10 +71,12 @@ in
         "browser.aboutConfig.showWarning" = false;
         "browser.urlbar.trimURLs" = false;
         "browser.startup.couldRestoreSession.count" = -1;
-        # https://github.com/niri-wm/niri/blob/2dc6f448/docs/wiki/Application-Issues.md#zen-browser
-        "widget.dmabuf.force-enabled" = true;
+        "intl.accept_languages" = "en-US, en";
         "zen.welcome-screen.seen" = true;
         "zen.view.use-single-toolbar" = false;
+
+        # https://github.com/niri-wm/niri/blob/2dc6f448/docs/wiki/Application-Issues.md#zen-browser
+        "widget.dmabuf.force-enabled" = true;
       };
       search = {
         force = true;

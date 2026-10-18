@@ -28,9 +28,9 @@
       nerd-fonts.jetbrains-mono
       twitter-color-emoji
       sarasa-gothic
-      corefonts
       dejavu_fonts
       lato
+      liberation_ttf
     ];
   };
 }
