@@ -10,6 +10,9 @@
     udisks2.mountOnMedia = true;
   };
 
+  # GVfs starts wsdd itself when browsing Windows network shares.
+  systemd.user.services.gvfs-daemon.path = [ pkgs.wsdd ];
+
   programs.nautilus-open-any-terminal = {
     enable = true;
     terminal = "footclient";

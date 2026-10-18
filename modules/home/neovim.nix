@@ -105,14 +105,14 @@
           settings.nixd = {
             options =
               let
-                flake = ''(builtins.getFlake "$HOME/code/nix-infra")'';
+                flake = ''(builtins.getFlake "${config.home.homeDirectory}/code/nix-infra")'';
               in
               {
                 nixos = {
                   expr = "${flake}.nixosConfigurations.${osConfig.networking.hostName}.options";
                 };
                 home_manager = {
-                  expr = "${flake}.nixosConfigurations.${osConfig.networking.hostName}.home-manager.users.type.getSubOptions []";
+                  expr = "${flake}.nixosConfigurations.${osConfig.networking.hostName}.options.home-manager.users.type.getSubOptions []";
                 };
               };
           };

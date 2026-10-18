@@ -108,7 +108,6 @@ in
 {
   home.packages = with pkgs; [
     brightnessctl
-    wlogout
   ];
 
   xdg.desktopEntries.mirror-integrated-display = {
@@ -295,7 +294,7 @@ in
         hotkey-overlay.title = "Open File Manager: nautilus";
         action.spawn = "nautilus";
       };
-      "Super+Shift+L" = {
+      "Mod+Backspace" = {
         hotkey-overlay.title = "Lock the Screen";
         action.spawn-sh = "loginctl lock-session";
       };
@@ -307,11 +306,6 @@ in
           "screenshot-region"
         ];
       };
-      "Mod+Backspace" = {
-        hotkey-overlay.title = "Open Session Menu";
-        action.spawn = "wlogout";
-      };
-
       "XF86AudioRaiseVolume" = {
         allow-when-locked = true;
         action.spawn-sh = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";

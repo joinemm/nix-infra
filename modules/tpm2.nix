@@ -7,7 +7,7 @@ let
 
   # don't use pcr 4 as it breaks on every rebuild
 
-  # pcr 7 enforces secure boot
+  # pcr 7 binds to Secure Boot policy; enable Secure Boot before enrollment
 
   # check pcr 15 (luks volume key) is unset to prevent filesystem confusion attack
   # https://news.ycombinator.com/item?id=42733640
@@ -18,7 +18,7 @@ let
     if [ "$EUID" -ne 0 ]; then echo "Please run as root" >&2; exit 1; fi
 
     systemd-cryptenroll "$1" \
-      --wipe-slot=1 \
+      --wipe-slot=tpm2 \
       --tpm2-device=auto \
       --tpm2-pcrs=0+2+7+15:sha256=0000000000000000000000000000000000000000000000000000000000000000
   '';

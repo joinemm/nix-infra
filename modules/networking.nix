@@ -63,7 +63,7 @@
     settings.Resolve.MulticastDNS = !config.services.avahi.enable;
   };
 
-  networking.networkmanager.connectionConfig.mdns = 0;
+  networking.networkmanager.connectionConfig."connection.mdns" = 0;
 
   systemd.services.NetworkManager-wait-online.enable = false;
 
