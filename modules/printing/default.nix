@@ -1,6 +1,11 @@
 { pkgs, config, ... }: {
   services.printing = {
     enable = true;
+    drivers = [
+      (pkgs.writeTextDir "share/cups/model/brother-dcp-l3510cdw.ppd" (
+        builtins.readFile ./brother-dcp-l3510cdw.ppd
+      ))
+    ];
   };
 
   hardware.printers = {
@@ -8,8 +13,9 @@
       {
         name = "Brother_DCP-L3510CDW_proxy";
         description = "Brother DCP-L3510CDW via NAS";
-        deviceUri = "ipp://print.lab.joinemm.dev/ipp/print";
-        model = "everywhere";
+        deviceUri = "ipp://print.lab.joinemm.dev/printers/brother";
+        # "everywhere" queries the NAS during CUPS startup and fails offline.
+        model = "brother-dcp-l3510cdw.ppd";
       }
     ];
     ensureDefaultPrinter = "Brother_DCP-L3510CDW_proxy";

@@ -32,7 +32,8 @@
       };
 
       paperless = {
-        path = "/data/paperless/consume";
+        # Samba expands %U to the authenticated username, isolating scan inboxes.
+        path = "/data/paperless/consume/%U";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
@@ -40,8 +41,8 @@
         "valid users" = "@smbusers";
         "force user" = "paperless";
         "force group" = "paperless";
-        "create mask" = "0664";
-        "directory mask" = "0775";
+        "create mask" = "0600";
+        "directory mask" = "0700";
       };
     };
   };

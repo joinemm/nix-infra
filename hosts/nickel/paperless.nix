@@ -49,6 +49,7 @@ in
 
     settings = {
       PAPERLESS_ADMIN_USER = "admin";
+      PAPERLESS_CONSUMER_RECURSIVE = true;
       PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
       PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS = true;
       PAPERLESS_SOCIAL_ACCOUNT_SYNC_SUPERUSER_GROUP = "superuser";
@@ -60,6 +61,13 @@ in
       onCalendar = null;
     };
   };
+
+  systemd.tmpfiles.rules =
+    map (user: "d ${config.services.paperless.consumptionDir}/${user} 0700 paperless paperless - -")
+      [
+        "joonas"
+        "julia"
+      ];
 
   services.nginx.virtualHosts."paperless.lab.joinemm.dev" = {
     useACMEHost = "lab.joinemm.dev";

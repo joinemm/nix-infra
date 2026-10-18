@@ -37,6 +37,7 @@
     ./mealie.nix
     ./monitoring.nix
     ./paperless.nix
+    ./printing.nix
     ./sparkyfitness.nix
     ./backup.nix
     ./dawarich.nix

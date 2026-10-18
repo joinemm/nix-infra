@@ -52,7 +52,7 @@ let
           ./ly.nix
           ./swaylock.nix
           ./nix.nix
-          ./printing.nix
+          ./printing
         ]
     )
     // {
