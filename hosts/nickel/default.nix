@@ -40,6 +40,8 @@
     ./printing.nix
     ./sparkyfitness.nix
     ./backup.nix
+    ./boot-recovery.nix
+    ./encrypted-data.nix
     ./dawarich.nix
     ./webos-devmode.nix
   ];
@@ -174,10 +176,6 @@
       9999
       2283
     ];
-  };
-
-  services.kimai.sites."kimai.lab.joinemm.dev" = {
-    settings = { };
   };
 
   services.unifi = {
