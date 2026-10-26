@@ -106,7 +106,8 @@
       url = "github:kaylorben/nixcord";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-nixcord.follows = "nixpkgs";
+        nixpkgs-ci.follows = "nixpkgs";
+        nixpkgs-packages.follows = "nixpkgs";
         treefmt-nix.follows = "treefmt-nix";
         home-manager.follows = "home-manager";
         nix-darwin.follows = "";
