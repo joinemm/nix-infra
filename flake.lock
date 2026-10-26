@@ -759,6 +759,31 @@
         "type": "github"
       }
     },
+    "nixflix": {
+      "inputs": {
+        "mkdocs-catppuccin": [],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ],
+        "vpn-confinement": "vpn-confinement"
+      },
+      "locked": {
+        "lastModified": 1792976253,
+        "narHash": "sha256-W/C6hoiEpQY2VEadHwqLbT9t9j1Gbp10k+2/shm6yaQ=",
+        "owner": "kiriwalawren",
+        "repo": "nixflix",
+        "rev": "b44fbcc9972caaef445d3c99b3d81fb655d192a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kiriwalawren",
+        "repo": "nixflix",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "inputs": {
         "nixpkgs": [
@@ -990,6 +1015,7 @@
         "nix-topology": "nix-topology",
         "nixarr": "nixarr",
         "nixcord": "nixcord",
+        "nixflix": "nixflix",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
@@ -1214,6 +1240,21 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "vpn-confinement": {
+      "locked": {
+        "lastModified": 1791310298,
+        "narHash": "sha256-SpqEEuyrkzTqjIHwHrZE+Rs6ez2tzIeYkSY67zp6fcQ=",
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
+        "rev": "cc37bcf5000e237709e725a9cda010a5cbce3111",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Maroka-chan",
+        "repo": "VPN-Confinement",
         "type": "github"
       }
     },

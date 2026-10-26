@@ -123,6 +123,15 @@
       };
     };
 
+    nixflix = {
+      url = "github:kiriwalawren/nixflix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        mkdocs-catppuccin.follows = "";
+        treefmt-nix.follows = "treefmt-nix";
+      };
+    };
+
     nix-topology = {
       url = "github:oddlama/nix-topology";
       inputs = {
