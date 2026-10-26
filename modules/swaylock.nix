@@ -17,7 +17,7 @@ in
   security.pam.services = {
     swaylock = {
       fprintAuth = config.services.fprintd.enable;
-      u2fAuth = false;
+      u2f.enable = false;
 
       rules.auth = lib.mkIf config.services.fprintd.enable {
         # Only an empty Enter starts fingerprint authentication.

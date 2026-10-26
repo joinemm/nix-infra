@@ -18,7 +18,7 @@
   # there so GNOME Keyring receives it and can unlock the login keyring.
   security.pam.services.login = {
     fprintAuth = false;
-    u2fAuth = false;
+    u2f.enable = false;
     enableGnomeKeyring = config.services.gnome.gnome-keyring.enable;
   };
 }

@@ -33,10 +33,7 @@ in
       tpm-enroll
     ];
 
-  boot.initrd = {
-    systemd.enable = true;
-    availableKernelModules = [ "tpm_tis" ];
-  };
+  boot.initrd.availableKernelModules = [ "tpm_tis" ];
 
   # real-root TPM2 support, after initrd
   # disabled for faster boot times. enable if something doesn't work

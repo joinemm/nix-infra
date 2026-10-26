@@ -31,8 +31,8 @@
     };
 
     services = {
-      sudo.u2fAuth = true;
-      login.u2fAuth = false;
+      sudo.u2f.enable = true;
+      login.u2f.enable = false;
     };
   };
 

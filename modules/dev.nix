@@ -9,6 +9,7 @@
   environment.systemPackages = [
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.bubblewrap # For codex
+    pkgs.crush
   ];
 
   environment.variables = {
