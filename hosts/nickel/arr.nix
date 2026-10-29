@@ -225,4 +225,11 @@ in
       "--exclude='**/log'"
     ];
   };
+
+  # Wait for the media dataset even when nofail allows boot without the pool.
+  systemd.services.jellyfin.unitConfig.RequiresMountsFor = [ config.nixarr.mediaDir ];
+  systemd.services.qbittorrent.unitConfig.RequiresMountsFor = [ config.nixarr.mediaDir ];
+  systemd.services.radarr.unitConfig.RequiresMountsFor = [ config.nixarr.mediaDir ];
+  systemd.services.sonarr.unitConfig.RequiresMountsFor = [ config.nixarr.mediaDir ];
+  systemd.services.bazarr.unitConfig.RequiresMountsFor = [ config.nixarr.mediaDir ];
 }

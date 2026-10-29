@@ -1,5 +1,15 @@
-{ config, mkBackup, ... }:
+{
+  config,
+  mkBackup,
+  pkgs,
+  ...
+}:
 let
+  storagePaths = [
+    config.services.paperless.mediaDir
+    config.services.paperless.consumptionDir
+    "${config.services.paperless.mediaDir}/documents/thumbnails"
+  ];
   oidcProviders = {
     openid_connect = {
       SCOPE = [
@@ -38,9 +48,9 @@ in
 
   services.paperless = {
     enable = true;
-    dataDir = "/data/paperless";
-    mediaDir = "/data/paperless/media";
-    consumptionDir = "/data/paperless/consume";
+    dataDir = "/var/lib/paperless";
+    mediaDir = "/data/documents/media";
+    consumptionDir = "/data/documents/consume";
     database.createLocally = true;
     domain = "paperless.lab.joinemm.dev";
     configureNginx = true;
@@ -59,6 +69,7 @@ in
     exporter = {
       enable = true;
       onCalendar = null;
+      directory = "/data/backups/paperless";
     };
   };
 
@@ -68,6 +79,26 @@ in
         "joonas"
         "julia"
       ];
+
+  systemd.services.paperless-storage-setup = {
+    unitConfig.RequiresMountsFor = [
+      config.services.paperless.mediaDir
+      config.services.paperless.consumptionDir
+    ];
+    after = [ "systemd-tmpfiles-setup.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.coreutils}/bin/install -d -m 0700 -o paperless -g paperless \
+        /var/lib/paperless/thumbnails \
+        ${config.services.paperless.mediaDir}/documents
+      # Keep the documents parent writable; systemd creates the bind target.
+      ${pkgs.coreutils}/bin/chown paperless:paperless ${config.services.paperless.mediaDir}
+      ${pkgs.coreutils}/bin/chmod 0700 ${config.services.paperless.mediaDir}
+    '';
+  };
 
   services.nginx.virtualHosts."paperless.lab.joinemm.dev" = {
     useACMEHost = "lab.joinemm.dev";
@@ -84,4 +115,21 @@ in
     requires = [ "paperless-exporter.service" ];
     after = [ "paperless-exporter.service" ];
   };
+  fileSystems."${config.services.paperless.mediaDir}/documents/thumbnails" = {
+    device = "/var/lib/paperless/thumbnails";
+    fsType = "none";
+    options = [
+      "bind"
+      "noauto"
+      "nofail"
+      "x-systemd.requires=paperless-storage-setup.service"
+    ];
+  };
+  systemd.services.paperless-consumer.unitConfig.RequiresMountsFor = storagePaths;
+  systemd.services.paperless-scheduler.unitConfig.RequiresMountsFor = storagePaths;
+  systemd.services.paperless-task-queue.unitConfig.RequiresMountsFor = storagePaths;
+  systemd.services.paperless-web.unitConfig.RequiresMountsFor = storagePaths;
+  systemd.services.paperless-exporter.unitConfig.RequiresMountsFor = storagePaths ++ [
+    config.services.paperless.exporter.directory
+  ];
 }

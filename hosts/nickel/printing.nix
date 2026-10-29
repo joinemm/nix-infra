@@ -1,7 +1,12 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   services.printing = {
     enable = true;
+    drivers = [
+      (pkgs.writeTextDir "share/cups/model/brother-dcp-l3510cdw.ppd" (
+        builtins.readFile ../../modules/printing/brother-dcp-l3510cdw.ppd
+      ))
+    ];
     startWhenNeeded = false;
     # CUPS rejects non-localhost Host headers on loopback connections.
     # nginx connects via nickel's LAN address; port 8631 stays firewalled.
@@ -25,7 +30,8 @@
         name = "brother";
         description = "Brother DCP-L3510CDW via nickel";
         deviceUri = "ipp://192.168.1.30/ipp/print";
-        model = "everywhere";
+        # Use saved capabilities so CUPS starts even when the printer is offline.
+        model = "brother-dcp-l3510cdw.ppd";
         ppdOptions = {
           PageSize = "A4";
           printer-is-shared = "true";

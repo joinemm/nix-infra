@@ -26,12 +26,14 @@
     inputs.nix-topology.nixosModules.default
     inputs.hjem.nixosModules.default
     ./arr.nix
+    ./audiobookshelf.nix
+    ./scrutiny.nix
+    ./unifi.nix
     ./authelia.nix
     ./disk-config.nix
     ./home-assistant.nix
     ./immich.nix
     ./lldap.nix
-    ./homepage.nix
     ./network-share.nix
     ./nginx.nix
     ./mealie.nix
@@ -40,7 +42,7 @@
     ./printing.nix
     ./sparkyfitness.nix
     ./backup.nix
-    ./boot-recovery.nix
+    # Enable boot-recovery.nix when early-boot SSH recovery is needed.
     ./encrypted-data.nix
     ./dawarich.nix
     ./webos-devmode.nix
@@ -62,10 +64,8 @@
   networking.enableIPv6 = false;
 
   boot.kernelModules = [ "kvm-intel" ];
-  boot.supportedFilesystems = [ "zfs" ];
-  networking.hostId = "deab5f10";
 
-  services.zfs.autoScrub.enable = true;
+  networking.hostId = "deab5f10";
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -91,37 +91,6 @@
   # enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
-
-  fileSystems = {
-    # Storage drives are formatted by hand
-    "/mnt/disk1" = {
-      device = "/dev/disk/by-uuid/f8527518-67e5-45a2-b2d2-f4c197b9d80f";
-      fsType = "xfs";
-    };
-
-    "/mnt/disk2" = {
-      device = "/dev/disk/by-uuid/757bbc28-5fd7-4a46-8be0-3082bb5fd52c";
-      fsType = "xfs";
-    };
-
-    # Merge all disks to a fuse mount at /data
-    "/data" = {
-      device = "/mnt/disk*";
-      fsType = "fuse.mergerfs";
-      options = [
-        "cache.files=full" # required for deluge to work properly
-        "dropcacheonclose=true"
-        "category.create=mfs"
-        "func.getattr=newest" # required for jellyfin to find new files
-      ];
-    };
-  };
-
-  services.scrutiny = {
-    enable = true;
-    collector.enable = true;
-    settings.web.listen.port = 5500;
   };
 
   nebula = {
@@ -178,18 +147,7 @@
     ];
   };
 
-  services.unifi = {
-    enable = true;
-    openFirewall = true;
-  };
-
-  services.audiobookshelf = {
-    enable = true;
-    group = "media";
-  };
-
   environment.systemPackages = with pkgs; [
-    mergerfs
     lm_sensors
     rclone
   ];

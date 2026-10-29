@@ -4,7 +4,6 @@
   boot.initrd = {
     availableKernelModules = [ "e1000e" ];
     systemd = {
-      enable = true;
       network = {
         enable = true;
         networks."10-recovery" = {

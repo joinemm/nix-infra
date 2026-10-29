@@ -1,4 +1,4 @@
-{
+{ config, pkgs, ... }: {
   users.groups.smbusers = { };
 
   users.users = {
@@ -33,7 +33,7 @@
 
       paperless = {
         # Samba expands %U to the authenticated username, isolating scan inboxes.
-        path = "/data/paperless/consume/%U";
+        path = "${config.services.paperless.consumptionDir}/%U";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
@@ -96,7 +96,13 @@
     };
   };
 
-  systemd.tmpfiles.rules = [
-    "d /data/share 0775 joonas smbusers - -"
+  systemd.services.samba-smbd.preStart = ''
+    ${pkgs.coreutils}/bin/install -d -m 0775 -o joonas -g smbusers /data/share
+  '';
+  systemd.services.samba-smbd.requires = [ "paperless-storage-setup.service" ];
+  systemd.services.samba-smbd.after = [ "paperless-storage-setup.service" ];
+  systemd.services.samba-smbd.unitConfig.RequiresMountsFor = [
+    config.services.samba.settings.share.path
+    config.services.paperless.consumptionDir
   ];
 }

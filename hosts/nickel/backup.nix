@@ -42,4 +42,11 @@ in
     restic_repo.owner = "root";
     restic_password.owner = "root";
   };
+
+  systemd.services = lib.mapAttrs' (
+    name: backup:
+    lib.nameValuePair "restic-backups-${name}" {
+      unitConfig.RequiresMountsFor = lib.filter (lib.hasPrefix "/data/") backup.paths;
+    }
+  ) config.services.restic.backups;
 }

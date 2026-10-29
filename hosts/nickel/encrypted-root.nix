@@ -1,6 +1,5 @@
-# Import this module during the NVMe migration, after backing up its contents.
-# The current disk-config.nix remains active until then. A rebuild does not
-# convert an existing ext4 root into LUKS: the NVMe must be recreated/restored.
+# Encrypted NVMe root for the reinstall. Bulk files live on the HDD ZFS pool;
+# /var/lib and /var/cache remain on this fast local filesystem.
 {
   self,
   lib,
@@ -14,10 +13,9 @@
 
   # nickel's firmware exposes its TPM through CRB.
   boot.initrd.availableKernelModules = [ "tpm_crb" ];
-  boot.initrd.systemd.tpm2.enable = true;
 
-  # Keep the existing NVMe identity from disk-config.nix, but replace its
-  # partition layout. An unencrypted ESP holds the signed boot image.
+  # The NVMe identity comes from disk-config.nix. The unencrypted ESP holds
+  # the signed boot image; the rest of the device is LUKS-encrypted ext4.
   disko.devices.disk.root.content.partitions = lib.mkForce {
     ESP = {
       type = "EF00";

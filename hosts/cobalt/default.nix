@@ -3,6 +3,7 @@
   lib,
   self,
   config,
+  pkgs,
   ...
 }:
 {
@@ -45,6 +46,9 @@
   # allow launcher.keychron.com to access my M5 mouse
   services.udev.extraRules = ''
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="d028", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+
+    # Set the Logitech C920 zoom when it connects.
+    ACTION=="add", SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", ATTR{index}=="0", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="082d", RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl --device=$devnode --set-ctrl=zoom_absolute=120"
   '';
 
   services.power-profiles-daemon.enable = true;

@@ -1,4 +1,9 @@
-{ config, mkBackup, ... }:
+{
+  config,
+  mkBackup,
+  pkgs,
+  ...
+}:
 {
   sops.secrets.immich_oidc_client_secret = {
     owner = config.services.immich.user;
@@ -8,6 +13,7 @@
   services.immich = {
     enable = true;
     host = "127.0.0.1";
+    mediaLocation = "/data/photos";
     environment = {
       TZ = "Europe/Helsinki";
       IMMICH_TELEMETRY_INCLUDE = "all"; # expose all prometheus metrics
@@ -76,5 +82,52 @@
 
   services.restic.backups.immich = mkBackup "immich" {
     paths = [ config.services.immich.mediaLocation ];
+    exclude = [
+      "${config.services.immich.mediaLocation}/thumbs"
+      "${config.services.immich.mediaLocation}/encoded-video"
+    ];
   };
+  # Originals stay on the photos dataset. Immich still sees its normal tree,
+  # while generated previews and encoded videos are backed by the NVMe.
+  fileSystems."${config.services.immich.mediaLocation}/thumbs" = {
+    device = "/var/lib/immich/thumbs";
+    fsType = "none";
+    options = [
+      "bind"
+      "noauto"
+      "nofail"
+      "x-systemd.requires=immich-storage-setup.service"
+    ];
+  };
+  fileSystems."${config.services.immich.mediaLocation}/encoded-video" = {
+    device = "/var/lib/immich/encoded-video";
+    fsType = "none";
+    options = [
+      "bind"
+      "noauto"
+      "nofail"
+      "x-systemd.requires=immich-storage-setup.service"
+    ];
+  };
+  # Create bind sources after ZFS mounts; systemd creates the mount targets.
+  systemd.services.immich-storage-setup = {
+    unitConfig.RequiresMountsFor = [ config.services.immich.mediaLocation ];
+    after = [ "systemd-tmpfiles-setup.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      ${pkgs.coreutils}/bin/install -d -m 0700 -o immich -g immich \
+        /var/lib/immich/thumbs /var/lib/immich/encoded-video
+      # The dataset mountpoint already exists but must be writable by Immich.
+      ${pkgs.coreutils}/bin/chown immich:immich ${config.services.immich.mediaLocation}
+      ${pkgs.coreutils}/bin/chmod 0700 ${config.services.immich.mediaLocation}
+    '';
+  };
+  systemd.services.immich-server.unitConfig.RequiresMountsFor = [
+    config.services.immich.mediaLocation
+    "${config.services.immich.mediaLocation}/thumbs"
+    "${config.services.immich.mediaLocation}/encoded-video"
+  ];
 }
