@@ -58,11 +58,11 @@
     nssmdns4 = true;
     nssmdns6 = false;
 
-    publish = {
-      enable = true;
-      addresses = true;
-      workstation = true;
-      userServices = true;
+    settings.publish = {
+      disable-publishing = false;
+      publish-addresses = true;
+      publish-workstation = true;
+      disable-user-service-publishing = false;
     };
 
     extraServiceFiles = {

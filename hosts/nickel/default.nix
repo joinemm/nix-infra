@@ -36,7 +36,6 @@
     ./lldap.nix
     ./network-share.nix
     ./nginx.nix
-    ./mealie.nix
     ./monitoring.nix
     ./paperless.nix
     ./printing.nix
