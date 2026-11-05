@@ -22,6 +22,7 @@
     inputs.sops-nix.nixosModules.sops
     inputs.disko.nixosModules.disko
     ./disk-config.nix
+    ./seclab-nebula.nix
   ];
 
   system.stateVersion = "25.11";
