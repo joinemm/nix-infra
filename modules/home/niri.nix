@@ -225,7 +225,10 @@ in
 
     window-rules = [
       {
-        matches = [ { title = "^Picture-in-Picture$"; } ];
+        matches = [
+          { title = "^Picture-in-Picture$"; }
+          { app-id = "nm-openconnect-auth-dialog"; }
+        ];
         open-floating = true;
       }
       {
@@ -544,8 +547,16 @@ in
         allow-inhibiting = false;
         action.toggle-keyboard-shortcuts-inhibit = [ ];
       };
-      "Mod+Shift+E".action.quit = [ ];
-      "Ctrl+Alt+Delete".action.quit = [ ];
+      "Ctrl+Alt+Delete" = {
+        hotkey-overlay.title = "Open Power Menu";
+        repeat = false;
+        action.spawn = [
+          "noctalia"
+          "msg"
+          "panel-toggle"
+          "session"
+        ];
+      };
       "Mod+Shift+P".action.power-off-monitors = [ ];
 
       "Mod+E" = {
