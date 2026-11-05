@@ -47,6 +47,7 @@
           };
 
           vpn-secrets = {
+            save_passwords = "yes";
             "form:_login:username" = "joonas.rautiola@ssrc.fi";
             # Derived from the server certificate matching the old trusted-cert.
             "certificate:109.204.204.138:10443" =
@@ -65,7 +66,7 @@
 
         TIIVPN = {
           connection = {
-            id = "TII";
+            id = "TIIVPN";
             type = "vpn";
             autoconnect = false;
           };
@@ -74,11 +75,14 @@
             service-type = "org.freedesktop.NetworkManager.openconnect";
             gateway = "access.tii.ae";
             protocol = "gp";
-            user = "joonas.rautiola";
+            cookie-flags = "2";
+            gateway-flags = "2";
+            gwcert-flags = "2";
           };
 
           vpn-secrets = {
-            password = "$TII_VPN_PASSWORD";
+            "form:_login:user" = "joonas.rautiola";
+            save_passwords = "yes";
           };
 
           ipv4 = {
