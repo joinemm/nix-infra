@@ -190,6 +190,11 @@
       };
     };
 
+    mcp-servers-nix = {
+      url = "github:natsukium/mcp-servers-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hjem = {
       url = "github:feel-co/hjem/c97ed6999e1190ed69aa4047dc7f530487525920";
       inputs = {
