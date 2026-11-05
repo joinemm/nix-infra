@@ -10,6 +10,7 @@ let
         ./discord.nix
         ./easyeffects
         ./common.nix
+        ./codex.nix
         ./direnv.nix
         ./thunderbird.nix
         ./fish.nix
@@ -49,6 +50,7 @@ let
       discord
       easyeffects
       common
+      codex
       direnv
       gaming
       git

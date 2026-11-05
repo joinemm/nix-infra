@@ -59,6 +59,7 @@
       nh
       oras
       gh
+      openssl
 
       # gui apps
       darktable
