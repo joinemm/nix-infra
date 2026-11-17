@@ -41,6 +41,7 @@
     ./printing.nix
     ./sparkyfitness.nix
     ./backup.nix
+    ./kodi-backup.nix
     # Enable boot-recovery.nix when early-boot SSH recovery is needed.
     ./encrypted-data.nix
     ./dawarich.nix
