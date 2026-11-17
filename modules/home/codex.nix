@@ -50,6 +50,8 @@ in
       personality = "pragmatic";
 
       tui = {
+        # Match Foot's scrollback multiplier.
+        mouse_scroll_speed = 6;
         status_line = [
           "model-with-reasoning"
           "current-dir"
