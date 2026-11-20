@@ -13,6 +13,8 @@ let
         host = block.data.HostName;
         user = block.data.User or config.home.username;
         port = block.data.Port or 22;
+        # ssh2 uses the agent but does not discover OpenSSH's default key files.
+        key_path = "${config.home.homeDirectory}/.ssh/id_ed25519";
       }
     ) (lib.filterAttrs (_: block: block.data ? HostName) config.programs.ssh.settings);
   };
