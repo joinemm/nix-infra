@@ -78,7 +78,8 @@
       domain = "lab.joinemm.dev";
       extraDomainNames = [ "*.lab.joinemm.dev" ];
       dnsProvider = "cloudflare";
-      dnsPropagationCheck = true;
+      dnsAuthoritativePropagationCheck = true;
+      dnsRecursivePropagationCheck = true;
       environmentFile = config.sops.secrets.cloudflare_env.path;
     };
     certs."public-services" = {
@@ -89,7 +90,8 @@
         "users.joinemm.dev"
       ];
       dnsProvider = "cloudflare";
-      dnsPropagationCheck = true;
+      dnsAuthoritativePropagationCheck = true;
+      dnsRecursivePropagationCheck = true;
       extraLegoFlags = [ "--dns.propagation-wait=120s" ];
       environmentFile = config.sops.secrets.cloudflare_env.path;
     };
