@@ -40,6 +40,7 @@
     ./paperless.nix
     ./printing.nix
     ./sparkyfitness.nix
+    ./syncthing.nix
     ./backup.nix
     ./kodi-backup.nix
     # Enable boot-recovery.nix when early-boot SSH recovery is needed.

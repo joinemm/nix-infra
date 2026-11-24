@@ -80,6 +80,8 @@
       dnsProvider = "cloudflare";
       dnsAuthoritativePropagationCheck = true;
       dnsRecursivePropagationCheck = true;
+      # Home DNS also intercepts public resolvers; wait instead of checking locally.
+      extraLegoFlags = [ "--dns.propagation.wait=120s" ];
       environmentFile = config.sops.secrets.cloudflare_env.path;
     };
     certs."public-services" = {
@@ -92,7 +94,7 @@
       dnsProvider = "cloudflare";
       dnsAuthoritativePropagationCheck = true;
       dnsRecursivePropagationCheck = true;
-      extraLegoFlags = [ "--dns.propagation-wait=120s" ];
+      extraLegoFlags = [ "--dns.propagation.wait=120s" ];
       environmentFile = config.sops.secrets.cloudflare_env.path;
     };
   };

@@ -47,7 +47,10 @@ in
     secrets = {
       radicale_auth.owner = "radicale";
       weddingshare_env.owner = "root";
-      syncthing_password.owner = "root";
+      syncthing_password = {
+        owner = config.services.syncthing.user;
+        restartUnits = [ "syncthing-init.service" ];
+      };
       syncthing_cert.owner = "root";
       syncthing_key.owner = "root";
       nebula_key.owner = config.nebula.user;

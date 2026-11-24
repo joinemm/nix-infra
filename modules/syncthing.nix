@@ -25,6 +25,14 @@
         "cloud" = {
           id = "VUAR7EC-VZ5ASBR-5A7ZLEP-A5ZF2XO-IOVPYO6-ICONR72-6GAZV4N-2F4VVAV";
         };
+        "nickel" = {
+          id = "2Q3IHVZ-44UTRFW-2OOLU2P-J6L4ZAZ-PYAW7YR-T77JOZP-XOC4FG6-GSRAMAK";
+          # Discover local peers normally, with an explicit Tailscale address.
+          addresses = [
+            "dynamic"
+            "tcp://100.115.135.74:22000"
+          ];
+        };
         "cobalt" = {
           id = "75G5FQ2-4573B6V-CIAQYBB-AFBHADB-CAQVWCW-K3FMRP4-DAENIRD-B35BEQA";
         };
@@ -47,6 +55,7 @@
             path = "${dir}/code";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
             ];
@@ -58,6 +67,7 @@
             path = "${dir}/projects";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
             ];
@@ -68,6 +78,7 @@
             path = "${dir}/documents";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
               "pixel"
@@ -79,6 +90,7 @@
             path = "${dir}/notes";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
               "pixel"
@@ -90,6 +102,7 @@
             path = "${dir}/pictures";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
             ];
@@ -100,6 +113,7 @@
             path = "${dir}/videos";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
             ];
@@ -110,6 +124,7 @@
             path = "${dir}/work";
             devices = [
               "cloud"
+              "nickel"
               "cobalt"
               "carbon"
             ];

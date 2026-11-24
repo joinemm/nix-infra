@@ -1,4 +1,9 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 {
   imports = [
     inputs.niks3.nixosModules.default
@@ -19,6 +24,21 @@
       niks3-s3-access-key = niks3Secret;
       niks3-s3-secret-key = niks3Secret;
     };
+
+  # OIDC discovery needs working DNS before niks3 can finish starting.
+  systemd.services.niks3 = {
+    wants = [ "network-online.target" ];
+    after = [
+      "network-online.target"
+      "nss-lookup.target"
+    ];
+    preStart = ''
+      ${pkgs.curl}/bin/curl --fail --silent --show-error \
+        --retry 10 --retry-all-errors --retry-delay 2 --retry-max-time 60 \
+        --connect-timeout 5 --max-time 10 --output /dev/null \
+        "${config.services.niks3.oidc.providers.github.issuer}/.well-known/openid-configuration"
+    '';
+  };
 
   services.niks3 = {
     enable = true;

@@ -73,9 +73,7 @@ in
           "${tmpfiles} --create --remove --boot --exclude-prefix=/dev --exclude-prefix=/data"
         ];
       };
-      systemd-tmpfiles-resetup.serviceConfig.ExecStart = lib.mkForce (
-        "${tmpfiles} --create --remove --exclude-prefix=/dev --exclude-prefix=/data"
-      );
+      systemd-tmpfiles-resetup.serviceConfig.ExecStart = lib.mkForce "${tmpfiles} --create --remove --exclude-prefix=/dev --exclude-prefix=/data";
       data-tmpfiles-setup = {
         description = "Create application directories on mounted ZFS datasets";
         wantedBy = [ "multi-user.target" ];
