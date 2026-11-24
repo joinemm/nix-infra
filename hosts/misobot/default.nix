@@ -15,61 +15,37 @@ let
   backupScript = pkgs.writeShellApplication {
     name = "backup";
     text = ''
-      if [ "$1" = init ]; then
-          echo "Initialising repository and exiting"
-          restic -r "$BUCKET" init
-          exit 0
-      fi
-
-      BACKUP_DIR="$1"
-      DUMP_OPTIONS="--force --quick --single-transaction --extended-insert --order-by-primary"
       BUCKET="s3:s3.us-west-004.backblazeb2.com/misobot"
 
-      # Signal healthcheck.io that the backup run started
-      curl -m 10 --retry 5 "https://hc-ping.com/$HC_PING_KEY/db-backup/start"
+      curl -fsS -m 10 --retry 5 "https://hc-ping.com/$HC_PING_KEY/db-backup/start"
 
-      # Create our backup directory if not already there
-      mkdir -p "$BACKUP_DIR"
-      if [ ! -d "$BACKUP_DIR" ]; then
-          echo "Not a directory: $BACKUP_DIR"
-          exit 1
-      fi
+      echo "Backing up miso-bot-db to B2"
+      # Expand the password inside the container.
+      # shellcheck disable=SC2016
+      restic -r "$BUCKET" backup --tag database \
+          --stdin-filename miso-bot-db.sql --stdin-from-command -- \
+          docker exec miso-bot-db sh -c '
+              MYSQL_PWD="$MARIADB_ROOT_PASSWORD" exec mariadb-dump \
+                  --user=root --quick --single-transaction --extended-insert \
+                  --order-by-primary --hex-blob --triggers --databases misobot shlink
+          '
 
-      # back up the backups because why not
-      echo "Copying old backups to $BACKUP_DIR-yesterday"
-      cp -r "$BACKUP_DIR" "$BACKUP_DIR"-yesterday
+      echo "Backing up miso-shlink-db to B2"
+      # Expand the password inside the container.
+      # shellcheck disable=SC2016
+      restic -r "$BUCKET" backup --tag database \
+          --stdin-filename miso-shlink-db.sql --stdin-from-command -- \
+          docker exec miso-shlink-db sh -c '
+              MYSQL_PWD="$MARIADB_ROOT_PASSWORD" exec mariadb-dump \
+                  --user=root --quick --single-transaction --extended-insert \
+                  --order-by-primary --hex-blob --triggers --databases shlink
+          '
 
-      # Dump our databases
-      DATABASE_NAME=misobot
-      echo "Dumping MySQL Database $DATABASE_NAME"
-      # shellcheck disable=SC2086
-      docker exec miso-bot-db \
-          mariadb-dump --user=bot --password=botpw $DUMP_OPTIONS \
-          --ignore-table="$DATABASE_NAME".sessions \
-          "$DATABASE_NAME" >"$BACKUP_DIR"/"$DATABASE_NAME".sql
-
-      DATABASE_NAME=shlink
-      echo "Dumping MySQL Database $DATABASE_NAME"
-      # shellcheck disable=SC2086
-      docker exec miso-shlink-db \
-          mariadb-dump --user=shlink --password=shlinkpw $DUMP_OPTIONS \
-          --ignore-table="$DATABASE_NAME".sessions \
-          "$DATABASE_NAME" >"$BACKUP_DIR"/"$DATABASE_NAME".sql
-
-      echo "Uploading dumps to B2"
-
-      restic -r "$BUCKET" backup "$BACKUP_DIR"
-
-      echo "Forgetting old backups based on policy"
-      RETENTION_POLICY="--keep-daily 7 --keep-weekly 4"
-      # shellcheck disable=SC2086
-      restic -r "$BUCKET" forget $RETENTION_POLICY
-
-      echo "Pruning the bucket"
+      echo "Applying retention policy to database snapshots"
+      restic -r "$BUCKET" forget --tag database --keep-daily 7 --keep-weekly 4
       restic -r "$BUCKET" prune
 
-      # signal healthcheck.io that the backup ran fine
-      curl -m 10 --retry 5 "https://hc-ping.com/$HC_PING_KEY/db-backup"
+      curl -fsS -m 10 --retry 5 "https://hc-ping.com/$HC_PING_KEY/db-backup"
     '';
   };
 in
@@ -102,6 +78,11 @@ in
       github_client_secret.owner = "grafana";
       gatus_env.owner = "gatus";
       backup_env.owner = "root";
+      mariadb_encryption_key = {
+        uid = 999;
+        gid = 999;
+        mode = "0400";
+      };
     };
   };
 
@@ -114,8 +95,11 @@ in
     startAt = "00:00";
     serviceConfig = {
       Type = "oneshot";
+      CacheDirectory = "miso-backup";
+      CacheDirectoryMode = "0700";
+      Environment = "RESTIC_CACHE_DIR=/var/cache/miso-backup";
       EnvironmentFile = config.sops.secrets.backup_env.path;
-      ExecStart = "${lib.getExe backupScript} /var/lib/miso/backups";
+      ExecStart = lib.getExe backupScript;
     };
   };
 
