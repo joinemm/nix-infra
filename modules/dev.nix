@@ -8,6 +8,8 @@
     GOPATH = "/home/${config.owner}/.local/share/go";
   };
 
+  environment.systemPackages = [ pkgs.docker-compose ];
+
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
