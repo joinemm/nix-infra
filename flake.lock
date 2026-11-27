@@ -484,26 +484,6 @@
         "type": "github"
       }
     },
-    "mcp-servers-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795022423,
-        "narHash": "sha256-ewKedLQffh1/eDyMuoWaAqMvjRWetQo8Mc9RuQobuoU=",
-        "owner": "natsukium",
-        "repo": "mcp-servers-nix",
-        "rev": "056517f2329b35db93b873b96f6c117d9fa2dce0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "natsukium",
-        "repo": "mcp-servers-nix",
-        "type": "github"
-      }
-    },
     "mnw": {
       "locked": {
         "lastModified": 1784154424,
@@ -1027,7 +1007,6 @@
         "hjem": "hjem",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
-        "mcp-servers-nix": "mcp-servers-nix",
         "niks3": "niks3",
         "niri": "niri",
         "nix-auth": "nix-auth",
