@@ -8,7 +8,7 @@
 }:
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
+    inputs.nvf.homeModules.default
   ];
 
   sops.secrets.wakatime-api-key = { };
