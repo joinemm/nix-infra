@@ -5,6 +5,14 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
+    nixos-images = {
+      url = "github:nix-community/nixos-images";
+      inputs = {
+        nixos-unstable.follows = "nixpkgs";
+        nixos-stable.follows = "nixpkgs-stable";
+      };
+    };
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";

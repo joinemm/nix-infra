@@ -4,6 +4,15 @@
     { pkgs, ... }:
     {
       packages = {
+        installer-iso =
+          (inputs.nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs; };
+            modules = [
+              ../modules/installer.nix
+              { nixpkgs.hostPlatform = pkgs.stdenv.hostPlatform.system; }
+            ];
+          }).config.system.build.isoImage;
+
         rpi-export = pkgs.callPackage ./rpi-export { };
         blocky-ui = pkgs.callPackage ./blocky-ui { };
         weddingshare = pkgs.callPackage ./weddingshare { };

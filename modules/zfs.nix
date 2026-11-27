@@ -1,11 +1,14 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
+  imports = [
+    (inputs.nixos-images + "/nix/latest-zfs-kernel.nix")
+  ];
+
   boot = {
     zfs = {
       package = pkgs.zfs_unstable;
       forceImportRoot = false;
     };
-    kernelPackages = pkgs.linuxPackages;
     supportedFilesystems = [ "zfs" ];
   };
 

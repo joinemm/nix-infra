@@ -2,7 +2,8 @@
 
 # Nix Infra
 
-My personal NixOS flake, including configuration for all of my systems and servers.
+My personal NixOS flake, including configuration for all of my systems and
+servers.
 
 The configuration is modular, with modules imported to each host as needed.
 
@@ -27,23 +28,42 @@ nixos-rebuild switch --flake .#$HOST
 
 ## Installing to remote servers
 
-The included script will install the system, and add `ssh_host_ed25519_key` specified in `secrets.yaml`
+The included script will install the system, and add `ssh_host_ed25519_key`
+specified in `secrets.yaml`
 
 ```sh
 ./scripts/install .#$HOST $REMOTE_IP --secrets hosts/$HOST/secrets.yaml
 ```
 
-To update the remote server after changes, run `nixos-rebuild` with remote target:
+To update the remote server after changes, run `nixos-rebuild` with remote
+target:
 
 ```sh
 nixos-rebuild switch --flake .#$HOST --target-host $REMOTE_IP --use-remote-sudo
 ```
 
-Add `--fast` if the target system architecture does not match yours (e.g. it's `aarch64` system)
+Add `--fast` if the target system architecture does not match yours (e.g. it's
+`aarch64` system)
+
+## Installer ISO
+
+Build the [nixos-images](https://github.com/nix-community/nixos-images)
+installer with custom user and SSH public keys from `modules/users.nix` added on
+top:
+
+```sh
+nix build .#installer-iso
+```
+
+The image is written to `result/iso/nixos-installer-x86_64-linux.iso` on x86_64.
+An aarch64 image is also available as `.#packages.aarch64-linux.installer-iso`
+and needs a native machine or a configured builder/emulator for that
+architecture.
 
 ## SD card images
 
-The raspberry pi config can be built as flashable sd card image for initial installation:
+The raspberry pi config can be built as flashable sd card image for initial
+installation:
 
 ```sh
 nix build .#nixosConfigurations.zinc.config.system.build.sdImage
@@ -55,16 +75,20 @@ cd result/sd-image
 sudo dd if=nixos-sd-image-xxx-aarch64-linux.img of=/dev/xxx bs=4M conv=fsync status=progress
 ```
 
-This sd card can now be inserted into a raspberry pi and it will boot the configuration.
+This sd card can now be inserted into a raspberry pi and it will boot the
+configuration.
 
 ## ZMK Firmware
 
-This flake can also build the firmware for my custom Kyria split keyboard, with the keymaps located at `./keyboards/kyria/config`
+This flake can also build the firmware for my custom Kyria split keyboard, with
+the keymaps located at `./keyboards/kyria/config`
 
 ```sh
 nix build .#firmware
 ```
 
-The resulting `.u2f` firmware files for left and right half are located inside `result`.
+The resulting `.u2f` firmware files for left and right half are located inside
+`result`.
 
-The keymap svg can be drawn with `nix run .#draw-keymap` and will create a new file in the current directory.
+The keymap svg can be drawn with `nix run .#draw-keymap` and will create a new
+file in the current directory.
