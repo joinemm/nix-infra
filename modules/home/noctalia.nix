@@ -15,6 +15,13 @@ in
     inputs.noctalia.homeModules.default
   ];
 
+  # Noctalia exits successfully on a lost Wayland connection, including when
+  # an output reconfiguration storm fills its connection buffer.
+  systemd.user.services.noctalia.Service = {
+    Restart = lib.mkForce "always";
+    RestartSec = 2;
+  };
+
   programs.noctalia = {
     enable = true;
     systemd.enable = true;

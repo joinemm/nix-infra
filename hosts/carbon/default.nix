@@ -114,6 +114,18 @@
 
     services.way-displays = {
       enable = true;
+      # Include unchanged monitors in output updates so Niri preserves their
+      # scale and position instead of entering a reconfiguration loop.
+      package = pkgs.way-displays.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ./way-displays-complete-config.patch ];
+        nativeCheckInputs = (old.nativeCheckInputs or [ ]) ++ [ pkgs.cmocka ];
+        doCheck = true;
+        checkPhase = ''
+          runHook preCheck
+          make test-act
+          runHook postCheck
+        '';
+      });
       settings = {
         ARRANGE = "COLUMN";
         ALIGN = "MIDDLE";

@@ -1,0 +1,58 @@
+--- a/src/act.c
++++ b/src/act.c
+@@ -225,6 +225,23 @@
+ 	}
+ 
+ apply:
++	// The protocol requires every head in each configuration. Niri resets
++	// omitted heads to defaults, which can cause an endless layout/scale loop.
++	for (const struct PPmapIt *it = ppmap_it(g_displ->heads); it; it = ppmap_it_next(it)) {
++		head = (struct Head*)it->val;
++		if (g_displ->delta.head ? head == g_displ->delta.head
++				: ppmap_contains_key(heads_changing, it->key)) {
++			continue;
++		}
++
++		// Leave properties unspecified to preserve this head's current config.
++		if (head->cur.enabled) {
++			head->zconfig = _zwlr_output_configuration_v1_enable_head(zconfig, (void*)it->key);
++		} else {
++			_zwlr_output_configuration_v1_disable_head(zconfig, (void*)it->key);
++		}
++	}
++
+ 	_zwlr_output_configuration_v1_apply(zconfig);
+ 
+ 	g_displ->state = OUTSTANDING;
+--- a/tst/tst-act.c
++++ b/tst/tst-act.c
+@@ -104,6 +104,15 @@
+ 	ppmap_put(head->modes, MD, mode_init());
+ 	head->des.zmode = MD;
+ 
++	// A single-head change must still include unchanged enabled and disabled heads.
++	struct Head *unchanged = head_init();
++	unchanged->cur.enabled = true;
++	unchanged->cur.scale = wl_fixed_from_int(2);
++	unchanged->cur.x = 1920;
++	unchanged->des = unchanged->cur;
++	ppmap_put(g_displ->heads, H1, unchanged);
++	ppmap_put(g_displ->heads, H2, head_init());
++
+ 	expect_ptr(__wrap_create_zwlr_output_config_listener, displ, g_displ);
+ 	will_return_ptr_type(__wrap_create_zwlr_output_config_listener, zconfig, struct zwlr_output_configuration_v1*);
+ 
+@@ -117,6 +126,13 @@
+ 
+ 	expect_ptr(__wrap__zwlr_output_configuration_head_v1_set_mode, zwlr_output_configuration_head_v1, zconfig_head);
+ 	expect_ptr(__wrap__zwlr_output_configuration_head_v1_set_mode, mode, MD);
++
++	expect_ptr(__wrap__zwlr_output_configuration_v1_enable_head, zwlr_output_configuration_v1, zconfig);
++	expect_ptr(__wrap__zwlr_output_configuration_v1_enable_head, head, H1);
++	will_return_ptr_type(__wrap__zwlr_output_configuration_v1_enable_head, zconfig_head, struct zwlr_output_configuration_head_v1*);
++
++	expect_ptr(__wrap__zwlr_output_configuration_v1_disable_head, zwlr_output_configuration_v1, zconfig);
++	expect_ptr(__wrap__zwlr_output_configuration_v1_disable_head, head, H2);
+ 
+ 	expect_ptr(__wrap__zwlr_output_configuration_v1_apply, zwlr_output_configuration_v1, zconfig);
+ 
