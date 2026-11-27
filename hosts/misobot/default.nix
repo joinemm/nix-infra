@@ -252,6 +252,10 @@ in
     };
   };
 
+  # Redis forks for background snapshots; allow memory overcommit so fork does
+  # not fail when the kernel cannot reserve memory for a copy of the process.
+  boot.kernel.sysctl."vm.overcommit_memory" = 1;
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
